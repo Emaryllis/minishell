@@ -1,3 +1,2 @@
-*.ds*
-*.o
-*.a
+Minishell
+cmake-build-debug/

@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 1970/01/01 07:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/18 19:13:19 by egoh             ###   ########.fr       */
+/*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
+/*   Updated: 2025/11/19 01:21:40 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "main.h"
 
-t_st	cell_exec(char **args, char **envp)
+t_st	cell_exec(char **args, char **env)
 {
 	if (!ft_strcmp(args[0], "echo"))
 		return ((t_st){cell_echo(args), false});
@@ -24,7 +24,7 @@ t_st	cell_exec(char **args, char **envp)
 	else if (!ft_strcmp(args[0], "unset"))
 		return ((t_st){cell_unset(args), false});
 	else if (!ft_strcmp(args[0], "env"))
-		return ((t_st){cell_env(args, envp), false});
+		return ((t_st){cell_env(args, env), false});
 	else if (!ft_strcmp(args[0], "exit"))
 		return ((t_st){cell_exit(args), true});
 	ft_putstr_fd(args[0], STDERR_FILENO);

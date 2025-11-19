@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 1970/01/01 07:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/18 22:55:13 by egoh             ###   ########.fr       */
+/*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
+/*   Updated: 2025/11/19 19:36:24 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "main.h"
@@ -46,11 +46,11 @@ void	print_prompt(void)
 	if (!getcwd(cwd, sizeof(cwd)))
 		perror(RD"getcwd() error"RST);
 	if (user && home)
-		p(G"%s@%s:"RST, user, name);
+		p(G"%s@%s"W":"RST, user, name);
 	if (home && ft_strstr(cwd, home) == cwd)
-		p(B"~%s$ "RST, cwd + strlen(home));
+		p(B"~%s"W"$ "RST, cwd + strlen(home));
 	else
-		p(B"%s$ "RST, cwd);
+		p(B"%s"W"$ "RST, cwd);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 1970/01/01 07:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/18 18:43:47 by egoh             ###   ########.fr       */
+/*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
+/*   Updated: 2025/11/19 19:29:10 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "main.h"
@@ -25,7 +25,7 @@ static void	cleanup(char *line, char **args)
 	free(line);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int c, char **v, char **env)
 {
 	t_line	line;
 	char	**args;
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 			free(line.line);
 			break ;
 		}
-		ret = cell_exec(args, envp);
+		ret = cell_exec(args, env);
 		cleanup(line.line, args);
 	}
 	return (ret.status);

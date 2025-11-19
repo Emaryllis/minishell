@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/06 01:32:01 by julhong          ###   ########.fr       */
+/*   Updated: 2025/11/19 03:30:03 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 # define MAIN_H
 
 # define RST "\033[0m"
-# define RD "\033[0;31m"
-# define G "\033[0;32m"
-# define Y "\033[0;33m"
-# define B "\033[0;34m"
-# define M "\033[0;35m"
-# define C "\033[0;36m"
-# define W "\033[0;37m"
+# define RD "\033[1;31m"
+# define G "\033[1;32m"
+# define Y "\033[1;33m"
+# define B "\033[1;34m"
+# define M "\033[1;35m"
+# define C "\033[1;36m"
+# define W "\033[1;97m"
 
 #define p(...) printf(__VA_ARGS__)
-#define CNF "127: command not found"
 
-# include <stdbool.h> // bool type
-# include <errno.h> // errno
+# include <stdbool.h>	// bool type
+# include <errno.h>		// errno
 
 //Includes: Allowed External Functions
 # include <unistd.h>	
@@ -66,7 +65,7 @@ typedef struct s_eof
 
 // Parsing Utils
 t_line	cell_read_line(void);
-t_st	cell_exec(char **args, char **envp);
+t_st	cell_exec(char **args, char **env);
 
 // Builtin Commands
 int		cell_echo(char **args);
@@ -74,7 +73,7 @@ int		cell_cd(char **args);
 int		cell_pwd(char **args);
 int		cell_export(char **args);
 int		cell_unset(char **args);
-int		cell_env(char **args, char **envp);
+int		cell_env(char **args, char **env);
 int		cell_exit(char **args);
 
 // Utils

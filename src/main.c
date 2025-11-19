@@ -27,14 +27,16 @@ static void	cleanup(char *line, char **args)
 
 int	main(int c, char **v, char **env)
 {
+	char	*prompt;
 	t_line	line;
 	char	**args;
 	t_st	ret;
 
 	ret = (t_st){EXIT_SUCCESS, false};
+	prompt = get_prompt();
 	while (!ret.exit)
 	{
-		line = cell_read_line();
+		line = cell_read_line(prompt);
 		if (line.eof)
 			break ;
 		if (!line.line)
@@ -48,5 +50,6 @@ int	main(int c, char **v, char **env)
 		ret = cell_exec(args, env);
 		cleanup(line.line, args);
 	}
+	free(prompt);
 	return (ret.status);
 }

@@ -17,12 +17,11 @@
  * before user input. If EOF is reached
  * like with Ctrl+D, it exits the shell.
  */
-t_line	cell_read_line(void)
+t_line	cell_read_line(const char *prompt)
 {
 	char	*buf;
 
-	print_prompt();
-	buf = readline(NULL);
+	buf = readline(prompt);
 	if (!buf)
 	{
 		cell_exit(NULL);

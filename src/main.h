@@ -22,8 +22,6 @@
 # define C "\033[1;36m"
 # define W "\033[1;97m"
 
-#define p(...) printf(__VA_ARGS__)
-
 # include <stdbool.h>	// bool type
 # include <errno.h>		// errno
 
@@ -51,6 +49,14 @@
 # include <readline/readline.h>  // readline, rl_on_nl/replace_line/redisplay
 # include <readline/history.h>   // add_history, rl_clear_history
 
+typedef struct s_prompt
+{
+	char	*user;
+	char	*name;
+	char	*home;
+	char	*cwd;
+}	t_prompt;
+
 typedef struct s_st
 {
 	int		status;
@@ -61,10 +67,10 @@ typedef struct s_eof
 {
 	char	*line;
 	bool	eof;
-} t_line;
+}	t_line;
 
 // Parsing Utils
-t_line	cell_read_line(void);
+t_line	cell_read_line(const char *prompt);
 t_st	cell_exec(char **args, char **env);
 
 // Builtin Commands
@@ -77,8 +83,9 @@ int		cell_env(char **args, char **env);
 int		cell_exit(char **args);
 
 // Utils
-void	print_prompt();
+char	*get_prompt(void);
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 void	ft_putstr_fd(char *s, int fd);
+size_t	ft_strlen(const char *str);
 #endif

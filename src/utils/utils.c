@@ -11,33 +11,14 @@
 /* ************************************************************************** */
 #include "main.h"
 
-size_t	ft_strlen(const char *str)
+// Needs to be atomic safe
+void	set_status(int status)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	g_sig.status = status;
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	debug_print(const char *format, va_list args)
 {
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
+	if (DEBUG)
+		printf(format, args);
 }

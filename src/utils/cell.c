@@ -11,23 +11,26 @@
 /* ************************************************************************** */
 #include "main.h"
 
-t_st	cell_exec(char **args, char **env)
+void	cell_exec(t_ms *ms)
 {
-	if (!ft_strcmp(args[0], "echo"))
-		return ((t_st){cell_echo(args), false});
-	else if (!ft_strcmp(args[0], "cd"))
-		return ((t_st){cell_cd(args), false});
-	else if (!ft_strcmp(args[0], "pwd"))
-		return ((t_st){cell_pwd(args), false});
-	else if (!ft_strcmp(args[0], "export"))
-		return ((t_st){cell_export(args), false});
-	else if (!ft_strcmp(args[0], "unset"))
-		return ((t_st){cell_unset(args), false});
-	else if (!ft_strcmp(args[0], "env"))
-		return ((t_st){cell_env(args, env), false});
-	else if (!ft_strcmp(args[0], "exit"))
-		return ((t_st){cell_exit(args), true});
-	ft_putstr_fd(args[0], STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	return ((t_st){127, false});
+	if (!ft_strcmp(ms->args[0], "echo"))
+		g_sig.status = cell_echo(ms);
+	else if (!ft_strcmp(ms->args[0], "cd"))
+		g_sig.status = cell_cd(ms);
+	else if (!ft_strcmp(ms->args[0], "pwd"))
+		g_sig.status = cell_pwd(ms);
+	else if (!ft_strcmp(ms->args[0], "export"))
+		g_sig.status = cell_export(ms);
+	else if (!ft_strcmp(ms->args[0], "unset"))
+		g_sig.status = cell_unset(ms);
+	else if (!ft_strcmp(ms->args[0], "env"))
+		g_sig.status = cell_env(ms);
+	else if (!ft_strcmp(ms->args[0], "exit"))
+		g_sig.status = cell_exit(ms);
+	else
+	{
+		ft_putstr_fd(ms->args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		g_sig.status = 127;
+	}
 }

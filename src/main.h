@@ -6,12 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/19 03:30:03 by egoh             ###   ########.fr       */
+/*   Updated: 2025/11/23 15:17:58 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef MAIN_H
 # define MAIN_H
+
+# define DEBUG true
 
 # define RST "\033[0m"
 # define RD "\033[1;31m"
@@ -26,7 +27,7 @@
 # include <errno.h>		// errno
 
 //Includes: Allowed External Functions
-# include <unistd.h>	
+# include <unistd.h>
 //read, write, fork, pipe, dup/2, access, execve
 //getcwd, chdir, close, unlink, isatty, ttyname, ttyslot
 
@@ -49,6 +50,15 @@
 # include <readline/readline.h>  // readline, rl_on_nl/replace_line/redisplay
 # include <readline/history.h>   // add_history, rl_clear_history
 
+// sig_atomic_t guarantees atomic read/write operations
+typedef struct s_sig
+{
+	volatile sig_atomic_t	child_pid;
+	volatile sig_atomic_t	status;
+}	t_sig;
+
+extern volatile t_sig	g_sig;
+
 typedef struct s_prompt
 {
 	char	*user;
@@ -57,33 +67,38 @@ typedef struct s_prompt
 	char	*cwd;
 }	t_prompt;
 
-typedef struct s_st
-{
-	int		status;
-	bool	exit;
-}	t_st;
-
 typedef struct s_eof
 {
 	char	*line;
 	bool	eof;
 }	t_line;
 
-// Parsing Utils
+typedef struct s_minishell
+{
+	char	**args;
+	char	**env;
+	bool	exit;
+}	t_ms;
+
+// utils/parse.c, utils/cell.c
 t_line	cell_read_line(const char *prompt);
-t_st	cell_exec(char **args, char **env);
+void	cell_exec(t_ms *ms);
 
-// Builtin Commands
-int		cell_echo(char **args);
-int		cell_cd(char **args);
-int		cell_pwd(char **args);
-int		cell_export(char **args);
-int		cell_unset(char **args);
-int		cell_env(char **args, char **env);
-int		cell_exit(char **args);
+// builtins/
+int		cell_echo(t_ms *ms);
+int		cell_cd(t_ms *ms);
+int		cell_pwd(t_ms *ms);
+int		cell_export(t_ms *ms);
+int		cell_unset(t_ms *ms);
+int		cell_env(t_ms *ms);
+int		cell_exit(t_ms *ms);
 
-// Utils
+// utils/signal.c
+void	setup_signals(void);
+
+// utils/prompt.c, utils/utils.c
 char	*get_prompt(void);
+void	set_status(int status);
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 void	ft_putstr_fd(char *s, int fd);

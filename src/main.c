@@ -25,7 +25,7 @@ static void	cleanup(char *line, t_ms *ms)
 	free(line);
 }
 
-static void	init_ms(t_ms *ms, char *env, const char *prompt)
+static void	init_ms(t_ms *ms, char **env, const char *prompt)
 {
 	t_line	line;
 

@@ -77,10 +77,23 @@ typedef struct s_eof
 	bool	eof;
 }	t_line;
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+}	t_env;
+
+typedef struct s_array
+{
+	t_env	*data;
+	size_t	used_slots;
+	size_t	capacity;
+}	t_array;
+
 typedef struct s_minishell
 {
 	char	**args;
-	char	**env;
+	t_array	*env;
 	bool	exit;
 }	t_ms;
 
@@ -103,8 +116,20 @@ void	setup_signals(void);
 // utils/prompt.c, utils/utils.c
 char	*get_prompt(void);
 void	set_status(int status);
-int		ft_strcmp(const char *s1, const char *s2);
+
+// Dynamic array functions
+bool	init_array(t_array *arr, char **data);
+bool	array_push(t_array *arr, t_env elem, bool lazy);
+bool	array_remove(t_array *arr, char *key);
+void	array_free(t_array *arr);
+
+// Libc functions
+void	*ft_calloc(size_t amt, size_t size);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
-void	ft_putstr_fd(char *s, int fd);
+char	*ft_strchr(const char *s, int c);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *str);
+char	*ft_strndup(const char *s, size_t n);
 #endif

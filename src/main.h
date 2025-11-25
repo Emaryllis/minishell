@@ -124,6 +124,7 @@ bool	array_remove(t_array *arr, char *key);
 void	array_free(t_array *arr);
 
 // Libc functions
+void	ft_bzero(void *s, size_t len);
 void	*ft_calloc(size_t amt, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	**ft_split(char const *s, char c);

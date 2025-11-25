@@ -29,8 +29,7 @@ void	cell_exec(t_ms *ms)
 		g_sig.status = cell_exit(ms);
 	else
 	{
-		ft_putstr_fd(ms->args[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		eprintf("%s: command not found\n", ms->args[0]);
 		g_sig.status = 127;
 	}
 }

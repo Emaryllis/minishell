@@ -11,31 +11,31 @@
 /* ************************************************************************** */
 #include "main.h"
 
-static long long	convert(const char *s, bool *invalid, int sign)
+static long long	convert(const char *s, bool *i, long long r, int sign)
 {
-	long long	r;
-
-	r = 0;
-	while ((*s >= '0' && *s <= '9') || *s == '\\')
+	while (*s)
 	{
 		if (*s == '\\')
 		{
 			s++;
 			continue ;
 		}
-		r = r * 10 + *s++ - '0';
-		if ((sign == 1 && r > (LONG_MAX - (*s - '0')) / 10) || (sign == -1
-				&& r > ((unsigned long long)LONG_MAX + 1 - (*s - '0')) / 10))
+		if (*s < '0' || *s > '9')
+		{
+			*i = true;
+			break ;
+		}
+		if ((sign == 1 && r > (LONG_MAX - *s - '0') / 10) || (sign == -1
+				&& r > ((unsigned long long)LONG_MAX + 1 - *s - '0') / 10))
 		{
 			if (isatty(STDIN_FILENO))
 				printf("exit\n");
-			*invalid = true;
+			*i = true;
 			return (0);
 		}
+		r = r * 10 + *s++ - '0';
 	}
-	if (*s != '\0')
-		*invalid = true;
-	return (r);
+	return (r * sign);
 }
 
 /**
@@ -59,7 +59,7 @@ static long int	ft_atoli(const char *s, bool *invalid)
 	}
 	else if (*s == '+')
 		s++;
-	r = convert(s, invalid, sign);
+	r = convert(s, invalid, 0, sign);
 	if (*invalid)
 		return (0);
 	return (sign * r);
@@ -71,11 +71,7 @@ static int	parse_args(t_ms *ms)
 	bool		invalid;
 
 	if (!ms->args || !ms->args[1])
-	{
-		eprintf(NAME": exit: %s: numeric argument required\n",
-			ms->args[1]);
 		return (INT_MIN);
-	}
 	if (ms->args[2])
 	{
 		eprintf(": exit: too many arguments");
@@ -84,7 +80,11 @@ static int	parse_args(t_ms *ms)
 	invalid = false;
 	code = ft_atoli(ms->args[1], &invalid);
 	if (invalid)
+	{
+		eprintf(NAME": exit: %s: numeric argument required\n",
+			ms->args[1]);
 		return (INT_MIN + 1);
+	}
 	return ((code % 256 + 256) % 256);
 }
 
@@ -110,7 +110,6 @@ int	cell_exit(t_ms *ms)
 		}
 		if (code == INT_MIN + 2)
 		{
-			eprintf(": exit: too many arguments");
 			set_status(1);
 			return (1);
 		}

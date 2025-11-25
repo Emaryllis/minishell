@@ -22,15 +22,37 @@ static void	cleanup(char *line, t_ms *ms)
 			free(*tmp++);
 		free(ms->args);
 	}
+	if (ms->exit && ms->env)
+	{
+		array_free(ms->env);
+		free(ms->env);
+	}
 	free(line);
+}
+
+static bool	init_env(t_ms *ms, char **env)
+{
+	ms->env = malloc(sizeof(t_array));
+	if (!ms->env)
+	{
+		ms->exit = true;
+		return (false);
+	}
+	if (!init_array(ms->env, env))
+	{
+		ms->exit = true;
+		return (false);
+	}
+	return (true);
 }
 
 static void	init_ms(t_ms *ms, char **env, const char *prompt)
 {
 	t_line	line;
 
-	ms->env = env;
 	ms->exit = false;
+	if (!init_env(ms, env))
+		return ;
 	while (!ms->exit)
 	{
 		line = cell_read_line(prompt);

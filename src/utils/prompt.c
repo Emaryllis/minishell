@@ -67,12 +67,12 @@ static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 	if (!prompt)
 		return (NULL);
 	ft_memset(prompt, 0, total_len + 1);
-	if (info.user && info.name)
+	if (info.user && info.hostname)
 	{
 		ft_strcat(prompt, "\033[32m");
 		ft_strcat(prompt, info.user);
 		ft_strcat(prompt, "@");
-		ft_strcat(prompt, info.name);
+		ft_strcat(prompt, info.hostname);
 		ft_strcat(prompt, "\033[0m:");
 	}
 	if (info.home && ft_strstr(info.cwd, info.home) == info.cwd)
@@ -92,7 +92,7 @@ static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 char	*get_prompt(void)
 {
 	char		*prompt;
-	t_prompt	info;
+	t_prompt	p;
 	char		cwd[PATH_MAX];
 	size_t		total_len;
 
@@ -101,13 +101,15 @@ char	*get_prompt(void)
 		perror("getcwd() error");
 		return (NULL);
 	}
-	info = (t_prompt){getenv("USER"), getenv("NAME"), getenv("HOME"), cwd};
+	p = (t_prompt){getenv("USER"), getenv("HOSTNAME"), getenv("HOME"), cwd};
+	if (!p.hostname)
+		p.hostname = "Minishell";
 	total_len = 0;
-	if (info.user && info.name)
-		total_len += ft_strlen(info.user) + ft_strlen(info.name) + 20;
-	if (info.home && ft_strstr(info.cwd, info.home) == info.cwd)
-		total_len += ft_strlen(info.cwd) - ft_strlen(info.home) + 10;
+	if (p.user)
+		total_len += ft_strlen(p.user) + ft_strlen(p.hostname) + 20;
+	if (p.home && ft_strstr(p.cwd, p.home) == p.cwd)
+		total_len += ft_strlen(p.cwd) - ft_strlen(p.home) + 10;
 	else
-		total_len += ft_strlen(info.cwd) + 10;
-	return (build_prompt(info, prompt, total_len));
+		total_len += ft_strlen(p.cwd) + 10;
+	return (build_prompt(p, prompt, total_len));
 }

@@ -13,6 +13,7 @@
 # define MAIN_H
 
 # define DEBUG true
+# define NAME "bash"
 
 # define RST "\033[0m"
 # define RD "\033[1;31m"
@@ -22,9 +23,6 @@
 # define M "\033[1;35m"
 # define C "\033[1;36m"
 # define W "\033[1;97m"
-
-# include <stdbool.h>	// bool type
-# include <errno.h>		// errno
 
 //Includes: Allowed External Functions
 # include <unistd.h>
@@ -50,6 +48,11 @@
 # include <readline/readline.h>  // readline, rl_on_nl/replace_line/redisplay
 # include <readline/history.h>   // add_history, rl_clear_history
 
+# include <stdbool.h>                 // bool type
+# include <errno.h>                   // errno
+# include <limits.h>                  // INT_MAX, INT_MIN
+# include "libc/eprintf/ft_eprintf.h" // eprintf
+
 // sig_atomic_t guarantees atomic read/write operations
 typedef struct s_sig
 {
@@ -62,7 +65,7 @@ extern volatile t_sig	g_sig;
 typedef struct s_prompt
 {
 	char	*user;
-	char	*name;
+	char	*hostname;
 	char	*home;
 	char	*cwd;
 }	t_prompt;

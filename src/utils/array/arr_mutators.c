@@ -43,7 +43,7 @@ static void	*realloc_arr(void *ptr, size_t old_c, size_t new_c, size_t size)
 		free(ptr);
 	}
 	if (new_c > old_c)
-		memset((char *)new_ptr + old_c * size, 0, (new_c - old_c) * size);
+		ft_bzero((char *)new_ptr + old_c * size, (new_c - old_c) * size);
 	return (new_ptr);
 }
 

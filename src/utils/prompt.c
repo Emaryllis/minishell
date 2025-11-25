@@ -78,7 +78,7 @@ static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 	if (info.home && ft_strstr(info.cwd, info.home) == info.cwd)
 	{
 		ft_strcat(prompt, "\033[34m~");
-		ft_strcat(prompt, info.cwd + strlen(info.home));
+		ft_strcat(prompt, info.cwd + ft_strlen(info.home));
 	}
 	else
 	{

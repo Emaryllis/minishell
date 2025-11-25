@@ -48,6 +48,7 @@
 # include <readline/readline.h>  // readline, rl_on_nl/replace_line/redisplay
 # include <readline/history.h>   // add_history, rl_clear_history
 
+# include <stdint.h>                  // uint8_t, uint32_t, etc.
 # include <stdbool.h>                 // bool type
 # include <errno.h>                   // errno
 # include <limits.h>                  // INT_MAX, INT_MIN

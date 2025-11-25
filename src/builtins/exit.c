@@ -11,34 +11,45 @@
 /* ************************************************************************** */
 #include "main.h"
 
-static	int	convert(const char *s, bool *invalid, int sign, int *len)
+static long long	convert(const char *s, bool *invalid, int sign)
 {
-	long	r;
+	long long	r;
 
 	r = 0;
 	while ((*s >= '0' && *s <= '9') || *s == '\\')
 	{
 		if (*s == '\\')
-			s++;
-		r = r * 10 + *s++ - '0';
-		*len++;
-		if (sign * r > INT_MAX || sign * r < INT_MIN)
 		{
+			s++;
+			continue ;
+		}
+		r = r * 10 + *s++ - '0';
+		if ((sign == 1 && r > (LONG_MAX - (*s - '0')) / 10) || (sign == -1
+				&& r > ((unsigned long long)LONG_MAX + 1 - (*s - '0')) / 10))
+		{
+			if (isatty(STDIN_FILENO))
+				printf("exit\n");
 			*invalid = true;
 			return (0);
 		}
 	}
+	if (*s != '\0')
+		*invalid = true;
 	return (r);
 }
 
-static int	ft_atoi(const char *s, bool *invalid)
+/**
+ * Converts a string to a long integer.
+ * Sets the invalid flag to true if
+ * - The string is not a valid number
+ * - The number is out of range (LONG_MIN to LONG_MAX)
+ */
+static long int	ft_atoli(const char *s, bool *invalid)
 {
-	int		len;
-	int		sign;
-	long	r;
+	int			sign;
+	long long	r;
 
 	sign = 1;
-	len = 0;
 	while (*s == 32 || (*s >= 9 && *s <= 13))
 		s++;
 	if (*s == '-')
@@ -48,37 +59,39 @@ static int	ft_atoi(const char *s, bool *invalid)
 	}
 	else if (*s == '+')
 		s++;
-	r = convert(s, invalid, sign, &len);
+	r = convert(s, invalid, sign);
 	if (*invalid)
 		return (0);
-	if ((!(*s >= '0' && *s <= '9') && *s != '\0') || len >= 10)
-	{
-		*invalid = true;
-		return (0);
-	}
-	return (sign * (int)r);
+	return (sign * r);
 }
 
 static int	parse_args(t_ms *ms)
 {
-	int		code;
-	bool	invalid;
+	long int	code;
+	bool		invalid;
 
 	if (!ms->args || !ms->args[1])
+	{
+		eprintf(NAME": exit: %s: numeric argument required\n",
+			ms->args[1]);
 		return (INT_MIN);
+	}
+	if (ms->args[2])
+	{
+		eprintf(": exit: too many arguments");
+		return (INT_MIN + 2);
+	}
 	invalid = false;
-	code = ft_atoi(ms->args[1], &invalid);
+	code = ft_atoli(ms->args[1], &invalid);
 	if (invalid)
 		return (INT_MIN + 1);
-	while (code < 0)
-		code += 256;
-	return (code % 256);
+	return ((code % 256 + 256) % 256);
 }
 
 /**
  * ms check since cell_exit is used in prompt.c as well
  * Functionalities:
- * - Exit code 2 if the argument is not numeric
+ * - Exit code 2 if the argument is not numeric, or out of range
  * - Print "exit" if in interactive mode
  * - Exits with given or last exit code, or 0 by default
  */
@@ -92,10 +105,14 @@ int	cell_exit(t_ms *ms)
 		code = parse_args(ms);
 		if (code == INT_MIN + 1)
 		{
-			eprintf(NAME": exit: %s: numeric argument required\n",
-				ms->args[1]);
 			set_status(2);
 			return (2);
+		}
+		if (code == INT_MIN + 2)
+		{
+			eprintf(": exit: too many arguments");
+			set_status(1);
+			return (1);
 		}
 	}
 	if (isatty(STDIN_FILENO))

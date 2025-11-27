@@ -117,11 +117,15 @@ void	setup_signals(void);
 char	*get_prompt(void);
 void	set_status(int status);
 
-// Dynamic array functions
+// Dynamic array functions (utils/array/)
 bool	init_array(t_array *arr, char **data);
 bool	array_push(t_array *arr, t_env elem, bool lazy);
 bool	array_remove(t_array *arr, char *key);
 void	array_free(t_array *arr);
+char	*get_env(t_array *env, const char *key);
+bool	set_env(t_array *env, const char *key, const char *value);
+bool	convert_all_env(t_ms *ms);
+bool	is_env_var(const char *str);
 
 // Libc functions
 void	ft_bzero(void *s, size_t len);

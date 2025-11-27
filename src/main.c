@@ -21,6 +21,7 @@ static void	cleanup(char *line, t_ms *ms)
 		while (*tmp)
 			free(*tmp++);
 		free(ms->args);
+		ms->args = NULL;
 	}
 	if (ms->exit && ms->env)
 	{
@@ -51,19 +52,24 @@ static void	init_ms(t_ms *ms, char **env, const char *prompt)
 	t_line	line;
 
 	ms->exit = false;
+	ms->args = 0;
 	if (!init_env(ms, env))
 		return ;
 	while (!ms->exit)
 	{
 		line = cell_read_line(prompt);
 		if (line.eof)
-			break ;
-		if (!line.line)
+			ms->exit = true;
+		else if (!line.line)
 			continue ;
-		ms->args = ft_split(line.line, ' ');
-		if (!ms->args)
-			return (free(line.line));
-		cell_exec(ms);
+		if (!ms->exit)
+		{
+			ms->args = ft_split(line.line, ' ');
+			if (!ms->args)
+				ms->exit = true;
+		}
+		if (!ms->exit)
+			cell_exec(ms);
 		cleanup(line.line, ms);
 	}
 }

@@ -2,12 +2,9 @@
 
 <h2>Requirements:</h2>
 <ol>
-    <li>Handle environment variables ($ followed by a sequence of characters) which should expand to their values.</li>
+    <li>Handle environment variables ($ followed by a sequence of characters) which should expand to their values. [100% Done]</li>
     <li>Handle $? which should expand to the exit status of the most recently executed foreground pipeline.</li>
     <li>Handle ctrl-C <b>[100% Done]</b>, ctrl-D <b>[100% Done]</b> and ctrl-\ <b>[100% Done]</b> which should behave like in bash.
-    <ul>
-        <li></li>
-    </ul>
     </li>
     <li>In interactive mode:
         <ul>

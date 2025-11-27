@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "main.h"
 
-void	cell_exec(t_ms *ms)
+static void	handle_cell_exec(t_ms *ms, char *cmd)
 {
 	if (!ft_strcmp(ms->args[0], "echo"))
 		g_sig.status = cell_echo(ms);
@@ -29,7 +29,21 @@ void	cell_exec(t_ms *ms)
 		g_sig.status = cell_exit(ms);
 	else
 	{
-		eprintf("%s: command not found\n", ms->args[0]);
+		eprintf("%s: command not found\n", cmd);
 		g_sig.status = 127;
 	}
+}
+
+void	cell_exec(t_ms *ms)
+{
+	char	*cmd;
+
+	cmd = ft_strdup(ms->args[0]);
+	if (!cmd || !convert_all_env(ms))
+	{
+		ms->exit = true;
+		return ;
+	}
+	handle_cell_exec(ms, cmd);
+	free(cmd);
 }

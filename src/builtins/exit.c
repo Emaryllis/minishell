@@ -116,7 +116,7 @@ int	cell_exit(t_ms *ms)
 	}
 	if (isatty(STDIN_FILENO))
 		printf("exit\n");
-	if (code && code >= 0 && code <= 255)
+	if (ms && code >= 0 && code <= 255)
 		return (code);
 	if (g_sig.status)
 		return (g_sig.status);

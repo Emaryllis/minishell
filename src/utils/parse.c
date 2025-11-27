@@ -24,7 +24,7 @@ t_line	cell_read_line(const char *prompt)
 	buf = readline(prompt);
 	if (!buf)
 	{
-		cell_exit(NULL);
+		g_sig.status = cell_exit(NULL);
 		return ((t_line){NULL, true});
 	}
 	if (buf[0] == '\0')

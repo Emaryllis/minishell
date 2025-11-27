@@ -11,6 +11,10 @@
 /* ************************************************************************** */
 #include "main.h"
 
+/**
+ * Tries to insert data into empty slots if lazy is true.
+ * @return true if successful, false otherwise.
+ */
 static bool	array_soft_push(t_array *arr, t_env elem, bool lazy)
 {
 	size_t	i;
@@ -28,6 +32,14 @@ static bool	array_soft_push(t_array *arr, t_env elem, bool lazy)
 	return (false);
 }
 
+/**
+ *
+ * @param ptr The old pointer with information
+ * @param old_c The old capacity
+ * @param new_c The new capacity
+ * @param size The size of each element
+ * @return A new pointer with reallocated memory, or NULL on failure
+ */
 static void	*realloc_arr(void *ptr, size_t old_c, size_t new_c, size_t size)
 {
 	void	*new_ptr;
@@ -47,6 +59,13 @@ static void	*realloc_arr(void *ptr, size_t old_c, size_t new_c, size_t size)
 	return (new_ptr);
 }
 
+/**
+ * Pushes {elem} to the end of the {arr} array.
+ * @param arr The array to push to
+ * @param elem The element to push
+ * @param lazy If true, tries to fill empty slots first
+ * @return true if successful, false otherwise
+ */
 bool	array_push(t_array *arr, t_env elem, bool lazy)
 {
 	t_env	*tmp;
@@ -71,6 +90,12 @@ bool	array_push(t_array *arr, t_env elem, bool lazy)
 	return (true);
 }
 
+/**
+ * Removes a key value pair from the array.
+ * @param arr The array to remove from
+ * @param key The lookup key
+ * @return true if successful, false otherwise
+ */
 bool	array_remove(t_array *arr, char *key)
 {
 	size_t	i;

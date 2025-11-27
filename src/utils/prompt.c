@@ -61,6 +61,14 @@ static char	*ft_strstr(const char *haystack, const char *needle)
 	return (NULL);
 }
 
+/**
+ * Builds a prompt that is identical to
+ * the default bash regex prompt of ubuntu.
+ * @param info The prompt information
+ * @param prompt The prompt string
+ * @param total_len The total length of the prompt
+ * @return The built prompt string
+ */
 static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 {
 	prompt = malloc(total_len + 1);
@@ -89,6 +97,11 @@ static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 	return (prompt);
 }
 
+/**
+ * Builds and returns the prompt string.
+ * @return The prompt string.
+ * @see build_prompt
+ */
 char	*get_prompt(void)
 {
 	char		*prompt;

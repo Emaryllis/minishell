@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 #include "main.h"
 
+/**
+ * Converts a string to a long integer.
+ * @param s The long integer string
+ * @param i Pointer to invalid flag
+ * @param r The result accumulator
+ * @param sign The sign of the number (1 or -1)
+ * @return The converted long integer
+ */
 static long long	convert(const char *s, bool *i, long long r, int sign)
 {
 	while (*s)
@@ -25,8 +33,8 @@ static long long	convert(const char *s, bool *i, long long r, int sign)
 			*i = true;
 			break ;
 		}
-		if ((sign == 1 && r > (LONG_MAX - *s - '0') / 10) || (sign == -1
-				&& r > ((unsigned long long)LONG_MAX + 1 - *s - '0') / 10))
+		if ((sign == 1 && r > (LONG_MAX - (*s - '0')) / 10) || (sign == -1
+				&& r > ((unsigned long long)LONG_MAX + 1 - (*s - '0')) / 10))
 		{
 			if (isatty(STDIN_FILENO))
 				printf("exit\n");
@@ -43,6 +51,9 @@ static long long	convert(const char *s, bool *i, long long r, int sign)
  * Sets the invalid flag to true if
  * - The string is not a valid number
  * - The number is out of range (LONG_MIN to LONG_MAX)
+ * @param s The long integer string
+ * @param invalid Pointer to invalid flag
+ * @return The converted long integer
  */
 static long int	ft_atoli(const char *s, bool *invalid)
 {
@@ -65,16 +76,21 @@ static long int	ft_atoli(const char *s, bool *invalid)
 	return (sign * r);
 }
 
+/**
+ * Converts
+ * @param ms
+ * @return
+ */
 static int	parse_args(t_ms *ms)
 {
-	long int	code;
+	long long	code;
 	bool		invalid;
 
 	if (!ms->args || !ms->args[1])
 		return (INT_MIN);
 	if (ms->args[2])
 	{
-		eprintf(": exit: too many arguments");
+		eprintf("exit\n%s: exit: too many arguments\n", NAME);
 		return (INT_MIN + 2);
 	}
 	invalid = false;

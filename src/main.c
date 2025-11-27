@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 #include "main.h"
 
+/**
+ * Cleans up allocated memory for the line and ms structure.
+ */
 static void	cleanup(char *line, t_ms *ms)
 {
 	char	**tmp;
@@ -31,6 +34,12 @@ static void	cleanup(char *line, t_ms *ms)
 	free(line);
 }
 
+/**
+ * Initializes the environment array in the ms structure.
+ * @param ms The ms structure to initialize.
+ * @param env The environment variables.
+ * @return true if successful, false otherwise.
+ */
 static bool	init_env(t_ms *ms, char **env)
 {
 	ms->env = malloc(sizeof(t_array));
@@ -42,11 +51,21 @@ static bool	init_env(t_ms *ms, char **env)
 	if (!init_array(ms->env, env))
 	{
 		ms->exit = true;
+		free(ms->env);
 		return (false);
 	}
 	return (true);
 }
 
+/**
+ * Initializes the ms structure and starts the main loop.
+ * After every command execution, it cleans up allocated memory.
+ * @see init_env
+ * @see cell_read_line
+ * @see ft_split
+ * @see cell_exec
+ * @see cleanup
+ */
 static void	init_ms(t_ms *ms, char **env, const char *prompt)
 {
 	t_line	line;
@@ -74,6 +93,14 @@ static void	init_ms(t_ms *ms, char **env, const char *prompt)
 	}
 }
 
+/**
+ * The main function of the minishell program.
+ * Sets up the prompt, signal handlers, and
+ * initializes the ms structure. Once done,
+ * it cleans up allocated memory and
+ * returns the latest exit status.
+ * @return The exit status denoted by {g_sig.status}.
+ */
 int	main(int c, char **v, char **env)
 {
 	char	*prompt;

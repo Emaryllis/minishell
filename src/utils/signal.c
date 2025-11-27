@@ -48,6 +48,11 @@ void	handle_sigquit(int sig)
 	}
 }
 
+/**
+ * Sets up signal handlers for SIGINT and SIGQUIT.
+ * Non-interactive mode will follow default behavior.
+ * Interactive mode will follow subject's requirements.
+ */
 void	setup_signals(void)
 {
 	struct sigaction	sa_int;

@@ -11,6 +11,11 @@
 /* ************************************************************************** */
 #include "main.h"
 
+/**
+ * @param env The env array
+ * @param key The lookup key
+ * @return A pointer to the value in the env array
+ */
 char	*get_env(t_array *env, const char *key)
 {
 	size_t	i;
@@ -57,6 +62,12 @@ bool	set_env(t_array *env, const char *key, const char *value)
 	return (false);
 }
 
+/**
+ * Converts all the environment variables in the arguments
+ * to their corresponding values. In the future we would
+ * need to handle cases where the env variable is within
+ * quotation marks to avoid converting them.
+ */
 bool	convert_all_env(t_ms *ms)
 {
 	size_t	i;
@@ -67,7 +78,7 @@ bool	convert_all_env(t_ms *ms)
 	i = -1;
 	while (ms->args[++i])
 	{
-		if (!is_env_var(ms->args[i]))
+		if (!is_env_var(ms->args[i], true))
 			continue ;
 		tmp = get_env(ms->env, ms->args[i] + 1);
 		if (!tmp)

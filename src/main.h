@@ -125,7 +125,8 @@ void	array_free(t_array *arr);
 char	*get_env(t_array *env, const char *key);
 bool	set_env(t_array *env, const char *key, const char *value);
 bool	convert_all_env(t_ms *ms);
-bool	is_env_var(const char *str);
+bool	split_env(const char *str, char **key, char **value);
+bool	is_env_var(const char *str, bool dollar_sign);
 
 // Libc functions
 void	ft_bzero(void *s, size_t len);

@@ -11,6 +11,11 @@
 /* ************************************************************************** */
 #include "main.h"
 
+/**
+ * Handles the execution of built-in commands
+ * and the error message for unknown commands
+ * as well as updating the status code.
+ */
 static void	handle_cell_exec(t_ms *ms, char *cmd)
 {
 	if (!ft_strcmp(ms->args[0], "echo"))
@@ -34,6 +39,13 @@ static void	handle_cell_exec(t_ms *ms, char *cmd)
 	}
 }
 
+/**
+ * Handles the execution of built-in commands.
+ * Uses a duplicate of the command name to
+ * avoid displaying a garbage value if the
+ * first argument is a valid env key.
+ * @see handle_cell_exec
+ */
 void	cell_exec(t_ms *ms)
 {
 	char	*cmd;

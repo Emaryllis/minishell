@@ -45,11 +45,13 @@ static bool	init_env(t_ms *ms, char **env)
 	ms->env = malloc(sizeof(t_array));
 	if (!ms->env)
 	{
+		eprintf("Error getting environment... Exiting.");
 		ms->exit = true;
 		return (false);
 	}
 	if (!init_array(ms->env, env))
 	{
+		eprintf("Error initializing environment... Exiting.");
 		ms->exit = true;
 		free(ms->env);
 		return (false);

@@ -39,9 +39,12 @@ int	cell_echo(t_ms *ms)
 	}
 	while (ms->args[i])
 	{
-		printf("%s", ms->args[i]);
-		if (ms->args[i + 1])
-			printf(" ");
+		if (ms->args[i][0] != '\0')
+		{
+			printf("%s", ms->args[i]);
+			if (ms->args[i + 1])
+				printf(" ");
+		}
 		i++;
 	}
 	if (nl)

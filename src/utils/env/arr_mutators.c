@@ -20,7 +20,7 @@ static bool	array_soft_push(t_array *arr, t_env elem, bool lazy)
 	size_t	i;
 
 	i = 0;
-	while (i < arr->capacity && lazy)
+	while (i < arr->used_slots && lazy)
 	{
 		if (!arr->data[i].key)
 		{
@@ -48,7 +48,10 @@ static void	*realloc_arr(void *ptr, size_t old_c, size_t new_c, size_t size)
 		return (NULL);
 	new_ptr = malloc(new_c * size);
 	if (!new_ptr)
+	{
+		malloc_error(0);
 		return (NULL);
+	}
 	if (ptr)
 	{
 		ft_memcpy(new_ptr, ptr, old_c * size);
@@ -81,7 +84,7 @@ bool	array_push(t_array *arr, t_env elem, bool lazy)
 			new_cap = 2;
 		tmp = realloc_arr(arr->data, arr->capacity, new_cap, sizeof(t_env));
 		if (!tmp)
-			return (false);
+			return (malloc_error(false));
 		arr->data = tmp;
 		arr->capacity = new_cap;
 	}

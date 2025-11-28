@@ -20,7 +20,10 @@ static t_env	*copy_env_array(const t_array *arr)
 		return (NULL);
 	copy = ft_calloc(arr->used_slots, sizeof(t_env));
 	if (!copy)
+	{
+		malloc_error(0);
 		return (NULL);
+	}
 	i = 0;
 	while (i < arr->used_slots)
 	{
@@ -91,27 +94,4 @@ t_env	*quicksort_env(const t_array *arr)
 		return (NULL);
 	quicksort_env_internal(copy, 0, arr->used_slots - 1);
 	return (copy);
-}
-
-/**
- * Prints the environment in Bash-style export format.
- */
-void	print_export(const t_array *arr)
-{
-	t_env	*sorted;
-	size_t	i;
-
-	sorted = quicksort_env(arr);
-	if (!sorted)
-		return ;
-	i = 0;
-	while (i < arr->used_slots)
-	{
-		if (sorted[i].key && sorted[i].value)
-			printf("declare -x %s=\"%s\"\n", sorted[i].key, sorted[i].value);
-		else if (sorted[i].key)
-			printf("declare -x %s\n", sorted[i].key);
-		i++;
-	}
-	free(sorted);
 }

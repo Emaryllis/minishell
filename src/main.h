@@ -116,6 +116,7 @@ void	setup_signals(void);
 // utils/prompt.c, utils/utils.c
 char	*get_prompt(void);
 void	set_status(int status);
+int		malloc_error(int ret);
 
 // Dynamic array functions (utils/array/)
 bool	init_array(t_array *arr, char **data);
@@ -125,14 +126,14 @@ void	array_free(t_array *arr);
 char	*get_env(t_array *env, const char *key);
 bool	set_env(t_array *env, const char *key, const char *value);
 bool	convert_all_env(t_ms *ms);
-bool	split_env(const char *str, char **key, char **value);
+int		split_env(const char *str, char **key, char **value);
 bool	is_env_var(const char *str, bool dollar_sign);
-void	print_export(const t_array *arr);
 t_env	*quicksort_env(const t_array *arr);
 
 // Libc functions
 void	ft_bzero(void *s, size_t len);
 void	*ft_calloc(size_t amt, size_t size);
+char	*ft_itoa(int n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(const char *s, int c);

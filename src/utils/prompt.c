@@ -73,7 +73,7 @@ static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 {
 	prompt = malloc(total_len + 1);
 	if (!prompt)
-		return (NULL);
+		return (malloc_error(0), NULL);
 	ft_memset(prompt, 0, total_len + 1);
 	if (info.user && info.hostname)
 	{

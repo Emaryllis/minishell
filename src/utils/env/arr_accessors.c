@@ -51,7 +51,7 @@ bool	set_env(t_array *env, const char *key, const char *value)
 			{
 				env->data[i].value = ft_strdup(value);
 				if (!env->data[i].value)
-					return (false);
+					return (malloc_error(false));
 			}
 			else
 				env->data[i].value = NULL;
@@ -60,6 +60,26 @@ bool	set_env(t_array *env, const char *key, const char *value)
 		i++;
 	}
 	return (false);
+}
+
+static char	*get_value(t_ms *ms, size_t i, bool *cont)
+{
+	char	*tmp;
+
+	if (!is_env_var(ms->args[i], true))
+	{
+		if (!ft_strcmp(ms->args[i], "$?"))
+			return (ft_itoa(g_sig.status));
+		*cont = true;
+	}
+	else
+	{
+		tmp = get_env(ms->env, ms->args[i] + 1);
+		if (tmp)
+			return (ft_strdup(tmp));
+		return (ft_strdup(""));
+	}
+	return (NULL);
 }
 
 /**
@@ -72,20 +92,22 @@ bool	convert_all_env(t_ms *ms)
 {
 	size_t	i;
 	char	*tmp;
+	bool	cont;
 
 	if (!ms || !ms->env || !ms->args)
 		return (false);
 	i = -1;
+	cont = false;
 	while (ms->args[++i])
 	{
-		if (!is_env_var(ms->args[i], true))
+		tmp = get_value(ms, i, &cont);
+		if (cont)
+		{
+			cont = false;
 			continue ;
-		tmp = get_env(ms->env, ms->args[i] + 1);
+		}
 		if (!tmp)
-			continue ;
-		tmp = ft_strdup(tmp);
-		if (!tmp)
-			return (false);
+			return (malloc_error(false));
 		free(ms->args[i]);
 		ms->args[i] = tmp;
 	}

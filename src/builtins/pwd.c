@@ -16,7 +16,7 @@ int	cell_pwd(t_ms *ms)
 	char	cwd[PATH_MAX];
 	char	*pwd;
 
-	pwd = getenv("PWD");
+	pwd = get_env(ms->env, "PWD");
 	if (pwd && pwd[0] == '/')
 	{
 		printf("%s\n", pwd);

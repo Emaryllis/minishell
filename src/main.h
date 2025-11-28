@@ -117,6 +117,7 @@ void	setup_signals(void);
 char	*get_prompt(void);
 void	set_status(int status);
 int		malloc_error(int ret);
+int		handle_error(char *target, const char *format, bool nsf);
 
 // Dynamic array functions (utils/array/)
 bool	init_array(t_array *arr, char **data);

@@ -6,7 +6,7 @@
 /*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/19 19:36:24 by egoh             ###   ########.fr       */
+/*   Updated: 2025/11/29 07:57:41 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "main.h"
@@ -28,4 +28,15 @@ int	malloc_error(int ret)
 	eprintf(NAME": malloc: Cannot allocate memory");
 	set_status(EXIT_FAILURE);
 	return (ret);
+}
+
+/** Only used in cell_cd */
+int	handle_error(char *target, const char *format, bool nsf)
+{
+	if (nsf)
+		eprintf(NAME": cd: %s: No such file or directory\n", target);
+	else
+		eprintf(format);
+	free(target);
+	return (EXIT_FAILURE);
 }

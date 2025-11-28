@@ -127,6 +127,8 @@ bool	set_env(t_array *env, const char *key, const char *value);
 bool	convert_all_env(t_ms *ms);
 bool	split_env(const char *str, char **key, char **value);
 bool	is_env_var(const char *str, bool dollar_sign);
+void	print_export(const t_array *arr);
+t_env	*quicksort_env(const t_array *arr);
 
 // Libc functions
 void	ft_bzero(void *s, size_t len);

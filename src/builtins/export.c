@@ -13,5 +13,6 @@
 
 int	cell_export(t_ms *ms)
 {
+	print_export(ms->env);
 	return (EXIT_SUCCESS);
 }

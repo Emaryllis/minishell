@@ -14,7 +14,7 @@
 /**
  * Cleans up allocated memory for the line and ms structure.
  */
-static void	cleanup(char *line, t_ms *ms)
+static void	cleanup(char *line, t_ms *ms, char *prompt)
 {
 	char	**tmp;
 
@@ -32,6 +32,7 @@ static void	cleanup(char *line, t_ms *ms)
 		free(ms->env);
 	}
 	free(line);
+	free(prompt);
 }
 
 /**
@@ -68,8 +69,9 @@ static bool	init_env(t_ms *ms, char **env)
  * @see cell_exec
  * @see cleanup
  */
-static void	init_ms(t_ms *ms, char **env, const char *prompt)
+static void	init_ms(t_ms *ms, char **env)
 {
+	char	*prompt;
 	t_line	line;
 
 	ms->exit = false;
@@ -78,6 +80,7 @@ static void	init_ms(t_ms *ms, char **env, const char *prompt)
 		return ;
 	while (!ms->exit)
 	{
+		prompt = get_prompt();
 		line = cell_read_line(prompt);
 		if (line.eof)
 			ms->exit = true;
@@ -91,7 +94,7 @@ static void	init_ms(t_ms *ms, char **env, const char *prompt)
 		}
 		if (!ms->exit)
 			cell_exec(ms);
-		cleanup(line.line, ms);
+		cleanup(line.line, ms, prompt);
 	}
 }
 
@@ -105,12 +108,9 @@ static void	init_ms(t_ms *ms, char **env, const char *prompt)
  */
 int	main(int c, char **v, char **env)
 {
-	char	*prompt;
 	t_ms	ms;
 
-	prompt = get_prompt();
 	setup_signals();
-	init_ms(&ms, env, prompt);
-	free(prompt);
+	init_ms(&ms, env);
 	return (g_sig.status);
 }

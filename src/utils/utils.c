@@ -25,7 +25,7 @@ void	debug_print(const char *format, va_list args)
 
 int	malloc_error(int ret)
 {
-	eprintf("bash: malloc: Cannot allocate memory");
+	eprintf(NAME": malloc: Cannot allocate memory");
 	set_status(EXIT_FAILURE);
 	return (ret);
 }

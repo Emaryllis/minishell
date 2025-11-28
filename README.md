@@ -19,7 +19,7 @@
             <li>cd with only a relative or absolute path</li>
             <li>pwd with no options <b>[100% Done]</b></li>
             <li>export with no options <b>[100% Done]</b></li>
-            <li>unset with no options</li>
+            <li>unset with no options <b>[100% Done]</b></li>
             <li>env with no options or arguments <b>[100% Done]</b></li>
             <li>exit with no options <b>[100% Done]</b></li>
         </ul>

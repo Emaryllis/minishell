@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/29 15:56:23 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/02 23:11:39 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_token	*make_tk_word(char **cur)
 	while (1)
 	{
 		while (start[i]
-			&& !(ft_isspace(start[i]) || ft_strchr("|<>'\"", start[i])))
+			&& !(ft_isspace(start[i]) || ft_strchr("<>\"'|&()", start[i])))
 			i++;
 		if (start[i] == '\'' || start[i] == '"')
 		{
@@ -38,11 +38,9 @@ static t_token	*make_tk_word(char **cur)
 	return (new);
 }
 
-static void	tk_op_type(char *start, int *len, t_toktype *type)
+void	what_redir(char *start, int *len, t_toktype *type)
 {
-	if (*start == '|')
-		*type = TK_PIPE;
-	else if (*start == '<')
+	if (*start == '<')
 	{
 		if (start[1] && start[1] == '<')
 		{
@@ -64,6 +62,29 @@ static void	tk_op_type(char *start, int *len, t_toktype *type)
 	}
 }
 
+static void	tk_op_type(char *start, int *len, t_toktype *type)
+{
+	if (*start == '<' || *start == '>')
+		what_redir(start, len, type);
+	else if (*start == '|')
+	{
+		if (start[1] && start[1] == '|')
+		{
+			*type = TK_OR;
+			*len += 1;
+		}
+		else
+			*type = TK_PIPE;
+	}
+	else if (*start == '&' && start[1] == '&')
+	{
+		*type = TK_AND;
+		*len += 1;
+	}
+	else if (*start == '(' || *start == ')')
+		*type = TK_SUBSH;
+}
+
 static t_token	*make_tk_op(char **cur)
 {
 	char		*start;
@@ -81,7 +102,8 @@ static t_token	*make_tk_op(char **cur)
 
 static bool	lexically_valid(char *line)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	if (!line || *line == '\0' || all_isspace(line))
 		return (false);
@@ -90,8 +112,14 @@ static bool	lexically_valid(char *line)
 	{
 		if (line[i] == '\'' || line[i] == '"')
 		{
+			quote = line[i];
 			adv_indx_quote(line, &i, line[i]);
 			if (line[i] == '\0')
+			{
+				ft_putstr_fd("minishell: unexpected EOF while looking for matching `", STDERR_FILENO);
+				write(STDERR_FILENO, &quote, 1);
+				write(STDERR_FILENO, "\'\n", 2);
+			}
 				return (false);
 		}
 		i++;
@@ -110,7 +138,7 @@ bool	lex_tokens(t_minsh *msh, char *line)
 		new = NULL;
 		if (ft_isspace(*line))
 			adv_ptr_isspace(&line);
-		else if (*line == '|' || *line == '<' || *line == '>')
+		else if (ft_strchr("<>|&()", *line))
 			new = make_tk_op(&line);
 		else
 			new = make_tk_word(&line);

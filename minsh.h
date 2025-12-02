@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/29 16:45:35 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/02 22:59:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,14 @@ typedef struct s_minsh
 typedef enum e_toktype
 {
 	TK_WORD,
-	TK_PIPE,
 	TK_RDR_IN,
 	TK_RDR_HERE,
 	TK_RDR_OUT,
-	TK_RDR_APND
+	TK_RDR_APND,
+	TK_SUBSH,
+	TK_PIPE,
+	TK_AND,
+	TK_OR
 }	t_toktype;
 
 typedef struct s_token //FREE token node
@@ -95,11 +98,15 @@ void	adv_indx_quote(char *start, int *i, char quote);
 
 typedef enum e_astype
 {
+	AST_NULL,
 	AST_CMD,
+	AST_SUBSH,
 	AST_PIPE,
+	AST_AND,
+	AST_OR
 }	t_astype;
 
-typedef struct s_redir		//FREE redir node
+typedef struct s_redir //FREE redir node
 {
 	t_toktype	type;
 	char		*target;	//reuse strings from lexer
@@ -109,8 +116,8 @@ typedef struct s_redir		//FREE redir node
 typedef struct s_ast
 {
 	t_astype	type;
-	t_ast		*cmd_left;
-	t_ast		*cmd_right;
+	t_ast		*left;
+	t_ast		*right;
 
 	//CMD Segment
 	int			cmd_ac;

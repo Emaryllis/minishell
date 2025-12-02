@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 00:03:18 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/29 16:47:22 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/02 23:02:34 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int main(int ac, char *av[], char *env[])
 			for (t_token *tk = msh.tk_start; tk; tk = tk->next)
 				printf("%s\n", tk->str);
 		}
+		else
+			return (1);
 
 		//ast print check;
 		build_ast(&msh);

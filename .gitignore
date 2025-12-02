@@ -1,6 +1,7 @@
 .vscode
 minishell
 test_exec
+temp_*
 *.ds*
 *.o
 *.a

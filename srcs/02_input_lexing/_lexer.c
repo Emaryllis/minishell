@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/25 17:48:51 by julhong          ###   ########.fr       */
+/*   Updated: 2025/11/29 15:56:23 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ static void	tk_op_type(char *start, int *len, t_toktype *type)
 		if (start[1] && start[1] == '<')
 		{
 			*len += 1;
-			*type = TK_REDIR_HERE;
+			*type = TK_RDR_HERE;
 		}
 		else
-			*type = TK_REDIR_IN;
+			*type = TK_RDR_IN;
 	}
 	else if (*start == '>')
 	{
 		if (start[1] && start[1] == '>')
 		{
 			*len += 1;
-			*type = TK_REDIR_APND;
+			*type = TK_RDR_APND;
 		}
 		else
-			*type = TK_REDIR_OUT;
+			*type = TK_RDR_OUT;
 	}
 }
 
@@ -99,42 +99,26 @@ static bool	lexically_valid(char *line)
 	return (true);
 }
 
-bool	lex_tokens(t_minsh *minsh, char *cur)
+bool	lex_tokens(t_minsh *msh, char *line)
 {
 	t_token	*new;
 
-	if (!lexically_valid(cur))
+	if (!lexically_valid(line))
 		return (false);
-	while (*cur)
+	while (*line)
 	{
 		new = NULL;
-		if (ft_isspace(*cur))
-			adv_ptr_isspace(&cur);
-		else if (*cur == '|' || *cur == '<' || *cur == '>')
-			new = make_tk_op(&cur);
+		if (ft_isspace(*line))
+			adv_ptr_isspace(&line);
+		else if (*line == '|' || *line == '<' || *line == '>')
+			new = make_tk_op(&line);
 		else
-			new = make_tk_word(&cur);
+			new = make_tk_word(&line);
 		if (new)
 		{
-			append_token(&minsh->tk_start, new);
-			minsh->tk_ttl++;
+			append_token(&msh->tk_start, new);
+			msh->tk_ttl++;
 		}
 	}
 	return (true);
 }
-
-// int	main(int ac, char *av[])
-// {
-// 	t_minsh	minsh;
-
-// 	if (ac != 2)
-// 		return (1);
-
-// 	ft_bzero(&minsh, sizeof(t_minsh));
-// 	if (!lex_tokens(&minsh, av[1]))
-// 		return (1);
-
-// 	for (t_token *tk = minsh.tk_start; tk; tk = tk->next)
-// 		printf("%s\n", tk->str);
-// 	return (0);
-// }

@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2025/11/25 19:27:10 by julhong          ###   ########.fr        #
+#    Updated: 2025/11/29 17:07:11 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,17 @@ MAIN_FNAME = _main
 MAIN_SRC_BASE =	$(MAIN_FNAME)
 
 LEX_SRC_DIR = $(SRC_DIR)/01_input_lexing
-LEX_SRC_BASE =	_lexer		lex_nodes		lex_utils
+LEX_SRC_BASE =	_lexer		token_nodes		lex_utils
+
+PARSE_SRC_DIR = $(SRC_DIR)/02_parser
+PARSE_SRC_BASE = _parser	parsing_nodes	temp_printast
 
 SRCS = \
 	$(addprefix $(MAIN_SRC_DIR)/, $(addsuffix .c, $(MAIN_SRC_BASE)))		\
-	$(addprefix $(LEX_SRC_DIR)/, $(addsuffix .c, $(LEX_SRC_BASE)))
+	$(addprefix $(LEX_SRC_DIR)/, $(addsuffix .c, $(LEX_SRC_BASE)))			\
+	$(addprefix $(PARSE_SRC_DIR)/, $(addsuffix .c, $(PARSE_SRC_BASE)))
 
-MODULE_DIRS = $(MAIN_SRC_DIR) $(LEX_SRC_DIR)
+MODULE_DIRS = $(MAIN_SRC_DIR) $(LEX_SRC_DIR) $(PARSE_SRC_DIR)
 
 vpath %.c $(MODULE_DIRS)
 

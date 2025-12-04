@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static long int	ft_atoli(const char *s, bool *invalid)
  * @param ms
  * @return
  */
-static int	parse_args(t_ms *ms)
+static int	parse_args(t_msh *ms)
 {
 	long long	code;
 	bool		invalid;
@@ -112,7 +112,7 @@ static int	parse_args(t_ms *ms)
  * - Print "exit" if in interactive mode
  * - Exits with given or last exit code, or 0 by default
  */
-int	cell_exit(t_ms *ms)
+int	cell_exit(t_msh *ms)
 {
 	int	code;
 

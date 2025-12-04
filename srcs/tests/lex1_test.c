@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 19:02:09 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/04 17:58:41 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:04:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 //outputs tokens within a string passed as argv[1]
 int main(int ac, char *av[], char *env[])
 {
-	t_minsh	msh;
+	t_msh	msh;
 
 	(void)env;
 	if (ac != 2)
 		return (1);
 
-	ft_bzero(&msh, sizeof(t_minsh));
+	ft_bzero(&msh, sizeof(t_msh));
 	if (!lex_tokens(&msh, av[1]))
 		return (1);
 

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/02 23:11:39 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:04:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static bool	lexically_valid(char *line)
 	return (true);
 }
 
-bool	lex_tokens(t_minsh *msh, char *line)
+bool	lex_tokens(t_msh *msh, char *line)
 {
 	t_token	*new;
 

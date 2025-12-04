@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-static char	*handle_tilde(t_ms *ms)
+static char	*handle_tilde(t_msh *ms)
 {
 	char	*home;
 	char	*result;
@@ -33,7 +33,7 @@ static char	*handle_tilde(t_ms *ms)
 	return (result);
 }
 
-static char	*handle_env_target(t_ms *ms, char *key)
+static char	*handle_env_target(t_msh *ms, char *key)
 {
 	char	*target;
 
@@ -46,7 +46,7 @@ static char	*handle_env_target(t_ms *ms, char *key)
 	return (target);
 }
 
-static char	*get_target_directory(t_ms *ms)
+static char	*get_target_directory(t_msh *ms)
 {
 	char	*target;
 
@@ -71,7 +71,7 @@ static char	*get_target_directory(t_ms *ms)
 	return (target);
 }
 
-static int	set_new_pwd(t_ms *ms, char *cwd, char *target)
+static int	set_new_pwd(t_msh *ms, char *cwd, char *target)
 {
 	char	*tmp;
 
@@ -91,7 +91,7 @@ static int	set_new_pwd(t_ms *ms, char *cwd, char *target)
 	return (EXIT_SUCCESS);
 }
 
-int	cell_cd(t_ms *ms)
+int	cell_cd(t_msh *ms)
 {
 	int		ret;
 	char	*tmp;

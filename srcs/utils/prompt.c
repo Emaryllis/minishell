@@ -6,61 +6,11 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:18:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 16:49:08 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
-
-static char	*ft_strcat(char *dest, const char *src)
-{
-	char	*ptr;
-
-	ptr = dest;
-	while (*ptr)
-		ptr++;
-	while (*src)
-		*ptr++ = *src++;
-	*ptr = '\0';
-	return (dest);
-}
-
-static void	*ft_memset(void *s, int c, size_t n)
-{
-	unsigned char	*ptr;
-	unsigned char	value;
-
-	ptr = (unsigned char *)s;
-	value = (unsigned char)c;
-	while (n--)
-	{
-		*ptr = value;
-		ptr++;
-	}
-	return (s);
-}
-
-static char	*ft_strstr(const char *haystack, const char *needle)
-{
-	size_t	i;
-	size_t	j;
-
-	if (*needle == '\0')
-		return ((char *) haystack);
-	i = 0;
-	while (haystack[i])
-	{
-		j = 0;
-		while (haystack[i + j] == needle[j])
-		{
-			if (needle[j + 1] == '\0')
-				return ((char *) &haystack[i]);
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
 
 /**
  * Builds a prompt that is identical to

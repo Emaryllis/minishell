@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:51:47 by julhong           #+#    #+#             */
-/*   Updated: 2025/09/25 23:34:22 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 17:24:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 //REUSED Main_Source.c Add-ons:
 void	ft_strupper(char *str);
 void	ft_strlower(char *str);
+char	*ft_strcat(char *dest, const char *src);	//ema
 int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strstr(const char *haystack, const char *needle);	//ema
+char	*ft_strndup(const char *s, size_t n);	//ema
 long	ft_atol(const char *nptr);
 void	lstadd_front_chain(t_list **lst, t_list *new);
 
@@ -93,6 +96,5 @@ int		csubstr_isp(const char *str);
 int		csubstr_chset(const char *str, const char *chset);
 char	**ft_issplit(char const *s);
 char	**ft_splitchset(char const *s, char *chset);
-
 
 #endif

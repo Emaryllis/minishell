@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:27:01 by julhong           #+#    #+#             */
-/*   Updated: 2025/05/12 19:30:10 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 16:48:56 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,29 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 				j++;
 			if (j == lil_len)
 				return (&((char *)big)[i]);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+//ema version for minsh prompt.c
+char	*ft_strstr(const char *haystack, const char *needle)
+{
+	size_t	i;
+	size_t	j;
+
+	if (*needle == '\0')
+		return ((char *) haystack);
+	i = 0;
+	while (haystack[i])
+	{
+		j = 0;
+		while (haystack[i + j] == needle[j])
+		{
+			if (needle[j + 1] == '\0')
+				return ((char *) &haystack[i]);
+			j++;
 		}
 		i++;
 	}

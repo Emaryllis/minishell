@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:40:26 by egoh              #+#    #+#             */
-/*   Updated: 2025/09/11 18:45:29 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/04 15:25:16 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stddef.h>

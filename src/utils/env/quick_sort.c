@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   quick_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 00:55:12 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/29 00:55:12 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/04 15:24:09 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "main.h"
 
 static t_env	*copy_env_array(const t_array *arr)

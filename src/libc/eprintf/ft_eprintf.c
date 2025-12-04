@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_eprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:07:53 by egoh              #+#    #+#             */
-/*   Updated: 2025/09/10 00:14:09 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/04 15:25:39 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_eprintf_utils.h"
 #include <stdarg.h>
 #include <unistd.h>

@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:40:26 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/29 03:46:53 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/04 15:25:18 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdlib.h>
 
 static char	*ft_strdup(const char *s)

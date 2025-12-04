@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:18:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/11/20 00:25:18 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/04 15:23:02 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "main.h"
 
 static char	*ft_strcat(char *dest, const char *src)

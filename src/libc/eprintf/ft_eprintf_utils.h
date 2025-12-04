@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_eprintf_utils.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 00:11:19 by egoh              #+#    #+#             */
-/*   Updated: 2025/09/11 15:08:50 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/04 15:25:36 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef FT_EPRINTF_UTILS_H
 # define FT_EPRINTF_UTILS_H
 

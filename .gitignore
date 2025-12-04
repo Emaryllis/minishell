@@ -1,3 +1,14 @@
+#General
 Minishell
+minishell
+*.ds*
+*.o
+*.a
+
+#ema
 cmake-build-debug/
-Libft
+
+#jul
+.vscode
+test_exec
+temp_*

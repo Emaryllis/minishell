@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/04 16:19:14 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 17:13:20 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@
 # include <errno.h>                   // errno
 # include <limits.h>                  // INT_MAX, INT_MIN
 # include "srcs/ft_libc/ft_eprintf.h" // eprintf
+# include "libft.h"
 
 // sig_atomic_t guarantees atomic read/write operations
 typedef struct s_sig
@@ -132,15 +133,4 @@ int		split_env(const char *str, char **key, char **value);
 bool	is_env_var(const char *str, bool dollar_sign);
 t_env	*quicksort_env(const t_array *arr);
 
-// Libc functions
-void	ft_bzero(void *s, size_t len);
-void	*ft_calloc(size_t amt, size_t size);
-char	*ft_itoa(int n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	**ft_split(char const *s, char c);
-char	*ft_strchr(const char *s, int c);
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strdup(const char *s);
-size_t	ft_strlen(const char *str);
-char	*ft_strndup(const char *s, size_t n);
 #endif

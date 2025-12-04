@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:27:01 by julhong           #+#    #+#             */
-/*   Updated: 2025/05/12 16:52:51 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 16:49:22 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,18 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	dst[dst_len + i] = '\0';
 	return (dst_len + src_len);
+}
+
+//ema version for minsh prompt.c
+char	*ft_strcat(char *dest, const char *src)
+{
+	char	*ptr;
+
+	ptr = dest;
+	while (*ptr)
+		ptr++;
+	while (*src)
+		*ptr++ = *src++;
+	*ptr = '\0';
+	return (dest);
 }

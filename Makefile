@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2025/12/04 16:19:31 by julhong          ###   ########.fr        #
+#    Updated: 2025/12/04 17:18:38 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,16 +25,14 @@ MAIN_SRC_BASE =	$(MAIN_FNAME)
 # PARSE_SRC_BASE = _parser	parsing_nodes	temp_printast
 
 ENV_SRC_DIR = $(SRC_DIR)/env
-ENV_SRC_BASE =	arr_accessors	arr_mutators	arr_validators			\
+ENV_SRC_BASE =		arr_accessors	arr_mutators	arr_validators			\
 					dynamic_arr		quick_sort
 
 BUILTIN_SRC_DIR = $(SRC_DIR)/builtins
 BUILTIN_SRC_BASE =	cd echo env exit export pwd unset
 
 FTLIBC_SRC_DIR = $(SRC_DIR)/ft_libc
-FTLIBC_SRC_BASE =	ft_bzero ft_calloc ft_itoa ft_memcpy ft_split ft_strchr	\
-				ft_strcmp ft_strdup ft_strlen ft_strndup					\
-				ft_eprintf ft_eprintf_utils
+FTLIBC_SRC_BASE =	ft_eprintf ft_eprintf_utils
 
 UTILS_SRC_DIR = $(SRC_DIR)/utils
 UTILS_SRC_BASE =	cell parse prompt signal utils

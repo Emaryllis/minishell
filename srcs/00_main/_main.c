@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 17:59:32 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:38:12 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Cleans up allocated memory for the line and ms structure.
  */
-static void	cleanup(char *line, t_ms *ms, char *prompt)
+static void	cleanup(char *line, t_msh *ms, char *prompt)
 {
 	char	**tmp;
 
@@ -42,7 +42,7 @@ static void	cleanup(char *line, t_ms *ms, char *prompt)
  * @param env The environment variables.
  * @return true if successful, false otherwise.
  */
-static bool	init_env(t_ms *ms, char **env)
+static bool	init_env(t_msh *ms, char **env)
 {
 	ms->env = malloc(sizeof(t_array));
 	if (!ms->env)
@@ -70,10 +70,9 @@ static bool	init_env(t_ms *ms, char **env)
  * @see cell_exec
  * @see cleanup
  */
-static void	init_ms(t_ms *ms, char **env)
+static void	init_ms(t_msh *ms, char **env)
 {
 	char	*prompt;
-	t_line	line;
 
 	ms->exit = false;
 	ms->args = 0;
@@ -82,20 +81,36 @@ static void	init_ms(t_ms *ms, char **env)
 	while (!ms->exit)
 	{
 		prompt = get_prompt();
-		line = cell_read_line(prompt);
-		if (line.eof)
+		ms->line = cell_read_line(prompt);
+		if (ms->line.eof)
 			ms->exit = true;
-		else if (!line.line)
+		else if (!ms->line.line)
 			continue ;
+
+		//temp lexer
+		if (lex_tokens(ms, ms->line.line))
+		{
+			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
+				printf("%s\n", tk->str);
+		}
+		else
+			return ;
+
+		//ast print check;
+		build_ast(ms);
+		print_ast(ms->ast_root, 0);
+
+		clear_tokens(&ms->tk_start);
+
 		if (!ms->exit)
 		{
-			ms->args = ft_split(line.line, ' ');
+			ms->args = ft_split(ms->line.line, ' ');
 			if (!ms->args)
 				ms->exit = true;
 		}
 		if (!ms->exit)
 			cell_exec(ms);
-		cleanup(line.line, ms, prompt);
+		cleanup(ms->line.line, ms, prompt);
 	}
 }
 
@@ -107,12 +122,13 @@ static void	init_ms(t_ms *ms, char **env)
  * returns the latest exit status.
  * @return The exit status denoted by {g_sig.status}.
  */
-int	main(int c, char **v, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_ms	ms;
+	t_msh	ms;
 
-	(void)c;
-	(void)v;
+	(void)ac;
+	(void)av;
+	ft_bzero(&ms, sizeof(t_msh));
 	setup_signals();
 	init_ms(&ms, env);
 	return (g_sig.status);

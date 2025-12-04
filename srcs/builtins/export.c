@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-static void	parse_args(t_ms *ms, t_env *item, size_t i, int *ret)
+static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)
 {
 	const int	code_s = split_env(ms->args[i], &item->key, &item->value);
 	bool		code;
@@ -64,7 +64,7 @@ static void	print_export(const t_array *arr)
  * @return 1 if memory allocation fails or invalid identifier,
  * 0 otherwise
  */
-int	cell_export(t_ms *ms)
+int	cell_export(t_msh *ms)
 {
 	size_t	i;
 	t_env	item;

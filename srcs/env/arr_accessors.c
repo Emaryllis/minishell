@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	set_env(t_array *env, const char *key, const char *value)
 	return (false);
 }
 
-static char	*get_value(t_ms *ms, size_t i, bool *cont)
+static char	*get_value(t_msh *ms, size_t i, bool *cont)
 {
 	char	*tmp;
 
@@ -89,7 +89,7 @@ static char	*get_value(t_ms *ms, size_t i, bool *cont)
  * need to handle cases where the env variable is within
  * quotation marks to avoid converting them.
  */
-bool	convert_all_env(t_ms *ms)
+bool	convert_all_env(t_msh *ms)
 {
 	size_t	i;
 	char	*tmp;

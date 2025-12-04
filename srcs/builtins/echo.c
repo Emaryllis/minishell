@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:06:52 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	is_n_flag(const char *arg)
 	return (arg[i] == '\0');
 }
 
-int	cell_echo(t_ms *ms)
+int	cell_echo(t_msh *ms)
 {
 	int		i;
 	bool	nl;

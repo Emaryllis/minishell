@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * and the error message for unknown commands
  * as well as updating the status code.
  */
-static void	handle_cell_exec(t_ms *ms, char *cmd)
+static void	handle_cell_exec(t_msh *ms, char *cmd)
 {
 	if (!ft_strcmp(ms->args[0], "echo"))
 		set_status(cell_echo(ms));
@@ -47,7 +47,7 @@ static void	handle_cell_exec(t_ms *ms, char *cmd)
  * first argument is a valid env key.
  * @see handle_cell_exec
  */
-void	cell_exec(t_ms *ms)
+void	cell_exec(t_msh *ms)
 {
 	char	*cmd;
 

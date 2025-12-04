@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/04 17:55:12 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 23:33:29 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,18 @@
 # include <readline/readline.h>  // readline, rl_on_nl/replace_line/redisplay
 # include <readline/history.h>   // add_history, rl_clear_history
 
-//Includes: OTHERS -------------------//
-# include <stdint.h>                  // uint8_t, uint32_t, etc.
-# include <stdbool.h>                 // bool type
-# include <errno.h>                   // errno
-# include <limits.h>                  // INT_MAX, INT_MIN
-# include "srcs/ft_libc/ft_eprintf.h" // eprintf
+//Includes: OTHERS --------------------//
+# include <stdint.h>                   // uint8_t, uint32_t, etc.
+# include <stdbool.h>                  // bool type
+# include <errno.h>                    // errno
+# include <limits.h>                   // INT_MAX, INT_MIN
+# include "srcs/ft_libc/ft_eprintf.h"  // eprintf
 # include "libft.h"
 
-//PARTB: EMA ------------------------------------------------------------------
+//Forward Delcarations ----------------//
+typedef struct s_minishell	t_msh;
+
+//PART B: EMA ------------------------------------------------------------------
 // sig_atomic_t guarantees atomic read/write operations
 typedef struct s_sig
 {
@@ -75,7 +78,7 @@ typedef struct s_prompt
 	char	*cwd;
 }	t_prompt;
 
-typedef struct s_eof
+typedef struct s_line
 {
 	char	*line;
 	bool	eof;
@@ -94,25 +97,18 @@ typedef struct s_array
 	size_t	capacity;
 }	t_array;
 
-typedef struct s_minishell
-{
-	char	**args;
-	t_array	*env;
-	bool	exit;
-}	t_ms;
-
 // utils/parse.c, utils/cell.c
 t_line	cell_read_line(const char *prompt);
-void	cell_exec(t_ms *ms);
+void	cell_exec(t_msh *ms);
 
 // builtins/
-int		cell_echo(t_ms *ms);
-int		cell_cd(t_ms *ms);
-int		cell_pwd(t_ms *ms);
-int		cell_export(t_ms *ms);
-int		cell_unset(t_ms *ms);
-int		cell_env(t_ms *ms);
-int		cell_exit(t_ms *ms);
+int		cell_echo(t_msh *ms);
+int		cell_cd(t_msh *ms);
+int		cell_pwd(t_msh *ms);
+int		cell_export(t_msh *ms);
+int		cell_unset(t_msh *ms);
+int		cell_env(t_msh *ms);
+int		cell_exit(t_msh *ms);
 
 // utils/signal.c
 void	setup_signals(void);
@@ -130,30 +126,12 @@ bool	array_remove(t_array *arr, char *key);
 void	array_free(t_array *arr);
 char	*get_env(t_array *env, const char *key);
 bool	set_env(t_array *env, const char *key, const char *value);
-bool	convert_all_env(t_ms *ms);
+bool	convert_all_env(t_msh *ms);
 int		split_env(const char *str, char **key, char **value);
 bool	is_env_var(const char *str, bool dollar_sign);
 t_env	*quicksort_env(const t_array *arr);
 
-//PARTA: JUL ------------------------------------------------------------------
-//Forward Declarations --------------------------------------------------------
-
-typedef struct s_token	t_token;
-typedef struct s_ast	t_ast;
-typedef struct s_redir	t_redir;
-
-//MAIN ------------------------------------------------------------------------
-
-typedef struct s_minsh
-{
-	char	*line;
-
-	t_token	*tk_start;
-	int		tk_ttl;
-
-	t_ast	*ast_root;
-}	t_minsh;
-
+//PART A: JUL ------------------------------------------------------------------
 //LEXER -----------------------------------------------------------------------
 
 typedef enum e_toktype
@@ -169,6 +147,7 @@ typedef enum e_toktype
 	TK_OR
 }	t_toktype;
 
+typedef struct s_token	t_token;
 typedef struct s_token //FREE token node
 {
 	char		*str; //FREE string LATER (will be reused in AST)
@@ -176,7 +155,7 @@ typedef struct s_token //FREE token node
 	t_token		*next;
 }	t_token;
 
-bool	lex_tokens(t_minsh *minsh, char *cur);
+bool	lex_tokens(t_msh *minsh, char *cur);
 
 //Nodes
 t_token	*new_token(char *src, int len, t_toktype type);
@@ -200,6 +179,7 @@ typedef enum e_astype
 	AST_OR
 }	t_astype;
 
+typedef struct s_redir	t_redir;
 typedef struct s_redir //FREE redir node
 {
 	t_toktype	type;
@@ -207,6 +187,7 @@ typedef struct s_redir //FREE redir node
 	t_redir		*next;
 }	t_redir;
 
+typedef struct s_ast	t_ast;
 typedef struct s_ast
 {
 	t_astype	type;
@@ -220,12 +201,30 @@ typedef struct s_ast
 
 }	t_ast;
 
-void	build_ast(t_minsh *msh);
+void	build_ast(t_msh *msh);
 void	print_ast(t_ast *node, int depth);
 
 //Nodes
 t_ast	*new_ast_node(t_astype type);
 t_redir	*new_redir_node(t_toktype type);
 void	append_redir(t_redir **start, t_redir *new);
+
+//MAIN ------------------------------------------------------------------------
+
+typedef struct s_minishell
+{
+	//ema original
+	char	**args;
+	t_array	*env;
+	bool	exit;
+
+	//juls cont
+	t_line	line;
+
+	t_token	*tk_start;
+	int		tk_ttl;
+
+	t_ast	*ast_root;
+}	t_msh;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:18:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:49:08 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/04 20:14:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,23 @@ static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 	ft_memset(prompt, 0, total_len + 1);
 	if (info.user && info.hostname)
 	{
-		ft_strcat(prompt, "\033[32m");
+		ft_strcat(prompt, "\001\033[32m\002");
 		ft_strcat(prompt, info.user);
 		ft_strcat(prompt, "@");
 		ft_strcat(prompt, info.hostname);
-		ft_strcat(prompt, "\033[0m:");
+		ft_strcat(prompt, "\001\033[0m\002:");
 	}
 	if (info.home && ft_strstr(info.cwd, info.home) == info.cwd)
 	{
-		ft_strcat(prompt, "\033[34m~");
+		ft_strcat(prompt, "\001\033[34m\002~");
 		ft_strcat(prompt, info.cwd + ft_strlen(info.home));
 	}
 	else
 	{
-		ft_strcat(prompt, "\033[34m");
+		ft_strcat(prompt, "\001\033[34m\002");
 		ft_strcat(prompt, info.cwd);
 	}
-	ft_strcat(prompt, "\033[0m$ ");
+	ft_strcat(prompt, "\001\033[0m\002$ ");
 	return (prompt);
 }
 

@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2025/12/04 17:18:38 by julhong          ###   ########.fr        #
+#    Updated: 2025/12/04 17:57:54 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ MAIN_SRC_DIR = $(SRC_DIR)/00_main
 MAIN_FNAME = _main
 MAIN_SRC_BASE =	$(MAIN_FNAME)
 
-# LEX_SRC_DIR = $(SRC_DIR)/02_input_lexing
-# LEX_SRC_BASE =	_lexer		token_nodes		lex_utils
+LEX_SRC_DIR = $(SRC_DIR)/02_input_lexing
+LEX_SRC_BASE =	_lexer		token_nodes		lex_utils
 
-# PARSE_SRC_DIR = $(SRC_DIR)/03_parser
-# PARSE_SRC_BASE = _parser	parsing_nodes	temp_printast
+PARSE_SRC_DIR = $(SRC_DIR)/03_parser
+PARSE_SRC_BASE = _parser	parsing_nodes
 
 ENV_SRC_DIR = $(SRC_DIR)/env
 ENV_SRC_BASE =		arr_accessors	arr_mutators	arr_validators			\
@@ -39,14 +39,16 @@ UTILS_SRC_BASE =	cell parse prompt signal utils
 
 SRCS = \
 	$(addprefix $(MAIN_SRC_DIR)/, $(addsuffix .c, $(MAIN_SRC_BASE)))		\
+	$(addprefix $(LEX_SRC_DIR)/, $(addsuffix .c, $(LEX_SRC_BASE)))			\
+	$(addprefix $(PARSE_SRC_DIR)/, $(addsuffix .c, $(PARSE_SRC_BASE)))		\
 	$(addprefix $(ENV_SRC_DIR)/, $(addsuffix .c, $(ENV_SRC_BASE)))			\
 	$(addprefix $(BUILTIN_SRC_DIR)/, $(addsuffix .c, $(BUILTIN_SRC_BASE)))	\
 	$(addprefix $(FTLIBC_SRC_DIR)/, $(addsuffix .c, $(FTLIBC_SRC_BASE)))	\
 	$(addprefix $(UTILS_SRC_DIR)/, $(addsuffix .c, $(UTILS_SRC_BASE)))
 
 MODULE_DIRS = $(MAIN_SRC_DIR) \
+	$(LEX_SRC_DIR) $(PARSE_SRC_DIR)	\
 	$(ENV_SRC_DIR) $(BUILTIN_SRC_DIR) $(FTLIBC_SRC_DIR) $(UTILS_SRC_DIR)
-#$(LEX_SRC_DIR) $(PARSE_SRC_DIR)
 
 vpath %.c $(MODULE_DIRS)
 

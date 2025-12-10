@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/10 21:03:36 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cell_exec(t_msh *ms)
 	if (!cmd || !convert_all_env(ms))
 	{
 		eprintf("Error parsing query... Exiting.");
-		ms->exit = true;
+		ms->shell_exit = true;
 		return ;
 	}
 	handle_cell_exec(ms, cmd);

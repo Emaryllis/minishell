@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/04 23:33:29 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/10 23:04:29 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define DEBUG true
 # define NAME "bash"
 
+//MAROS -----------------------------------------------------------------------
+
+//Text Color Codes --------------------//
 # define RST "\033[0m"
 # define RD "\033[1;31m"
 # define G "\033[1;32m"
@@ -24,6 +27,14 @@
 # define M "\033[1;35m"
 # define C "\033[1;36m"
 # define W "\033[1;97m"
+
+//Error Codes -------------------------//
+# define MS_ER_BADBLTIN		2
+# define MS_ER_NOTEXEC		126
+# define MS_ER_CMDNOTF		127
+# define MS_ER_SIGINT		130
+# define MS_ER_SIGQUIT		131
+# define MS_ER_SYNTAX		258
 
 //INCLUDES: Allowed External Functions ----------------------------------------
 # include <unistd.h>
@@ -57,18 +68,21 @@
 # include "srcs/ft_libc/ft_eprintf.h"  // eprintf
 # include "libft.h"
 
-//Forward Delcarations ----------------//
+//Forward Delcarations --------------------------------------------------------
+
 typedef struct s_minishell	t_msh;
 
-//PART B: EMA ------------------------------------------------------------------
+//PART B: EMA -----------------------------------------------------------------
+
 // sig_atomic_t guarantees atomic read/write operations
+
 typedef struct s_sig
 {
 	volatile sig_atomic_t	child_pid;
 	volatile sig_atomic_t	status;
 }	t_sig;
 
-extern volatile t_sig	g_sig;
+extern volatile t_sig		g_sig;
 
 typedef struct s_prompt
 {
@@ -78,11 +92,11 @@ typedef struct s_prompt
 	char	*cwd;
 }	t_prompt;
 
-typedef struct s_line
+typedef struct s_input
 {
 	char	*line;
 	bool	eof;
-}	t_line;
+}	t_input;
 
 typedef struct s_env
 {
@@ -98,10 +112,12 @@ typedef struct s_array
 }	t_array;
 
 // utils/parse.c, utils/cell.c
-t_line	cell_read_line(const char *prompt);
+
+t_input	cell_read_input(const char *prompt);
 void	cell_exec(t_msh *ms);
 
 // builtins/
+
 int		cell_echo(t_msh *ms);
 int		cell_cd(t_msh *ms);
 int		cell_pwd(t_msh *ms);
@@ -111,15 +127,18 @@ int		cell_env(t_msh *ms);
 int		cell_exit(t_msh *ms);
 
 // utils/signal.c
+
 void	setup_signals(void);
 
 // utils/prompt.c, utils/utils.c
+
 char	*get_prompt(void);
 void	set_status(int status);
 int		malloc_error(int ret);
 int		handle_error(char *target, const char *format, bool nsf);
 
 // Dynamic array functions (utils/array/)
+
 bool	init_array(t_array *arr, char **data);
 bool	array_push(t_array *arr, t_env elem, bool lazy);
 bool	array_remove(t_array *arr, char *key);
@@ -131,7 +150,7 @@ int		split_env(const char *str, char **key, char **value);
 bool	is_env_var(const char *str, bool dollar_sign);
 t_env	*quicksort_env(const t_array *arr);
 
-//PART A: JUL ------------------------------------------------------------------
+//PART A: JUL -----------------------------------------------------------------
 //LEXER -----------------------------------------------------------------------
 
 typedef enum e_toktype
@@ -147,7 +166,7 @@ typedef enum e_toktype
 	TK_OR
 }	t_toktype;
 
-typedef struct s_token	t_token;
+typedef struct s_token		t_token;
 typedef struct s_token //FREE token node
 {
 	char		*str; //FREE string LATER (will be reused in AST)
@@ -157,15 +176,16 @@ typedef struct s_token //FREE token node
 
 bool	lex_tokens(t_msh *minsh, char *cur);
 
-//Nodes
+//Token made to type
+t_token	*tk_make_op(char **cur);
+
+//Token raw node data
 t_token	*new_token(char *src, int len, t_toktype type);
 void	append_token(t_token **start, t_token *new);
 void	clear_tokens(t_token **start);
 
-//Utils
+//Lex utils
 bool	all_isspace(const char *str);
-void	adv_ptr_isspace(char **cur);
-void	adv_indx_quote(char *start, int *i, char quote);
 
 //PARSER ----------------------------------------------------------------------
 
@@ -179,15 +199,15 @@ typedef enum e_astype
 	AST_OR
 }	t_astype;
 
-typedef struct s_redir	t_redir;
-typedef struct s_redir //FREE redir node
+typedef struct s_redir		t_redir;	//FREE redir node
+typedef struct s_redir
 {
 	t_toktype	type;
 	char		*target;	//reuse strings from lexer
 	t_redir		*next;
 }	t_redir;
 
-typedef struct s_ast	t_ast;
+typedef struct s_ast		t_ast;	//FREE ast node
 typedef struct s_ast
 {
 	t_astype	type;
@@ -204,27 +224,38 @@ typedef struct s_ast
 void	build_ast(t_msh *msh);
 void	print_ast(t_ast *node, int depth);
 
-//Nodes
+//AST precedence entry point
+t_ast	*parse_lvl2_logical(t_token **cur_tk, t_msh *msh);
+
+//AST leaf exit point
+t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh);
+
+//AST raw node data
 t_ast	*new_ast_node(t_astype type);
 t_redir	*new_redir_node(t_toktype type);
 void	append_redir(t_redir **start, t_redir *new);
+
+//Grammar Errors
+int		parse_err_syntax(t_token *token);
 
 //MAIN ------------------------------------------------------------------------
 
 typedef struct s_minishell
 {
 	//ema original
-	char	**args;
-	t_array	*env;
-	bool	exit;
+	char					**args;
+	t_array					*env;
+	bool					shell_exit;
 
 	//juls cont
-	t_line	line;
+	t_input					input;
 
-	t_token	*tk_start;
-	int		tk_ttl;
+	t_token					*tk_start;
+	int						tk_ttl;
 
-	t_ast	*ast_root;
+	t_ast					*ast_root;
+
+	volatile sig_atomic_t	exit_status;
 }	t_msh;
 
 #endif

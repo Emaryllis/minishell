@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:35:21 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/10 23:12:40 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 01:03:17 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,21 @@ static t_ast	*init_basic_cmd(t_ast *cmd_node, t_msh *msh)
 	return (cmd_node);
 }
 
-static bool	addto_cmd_redir(t_token **cur_tk, t_ast *cmd_node)
+static bool	addto_cmd_redir(t_msh *msh, t_token **cur_tk, t_ast *cmd_node)
 {
 	t_redir	*rdr_node;
 
-	rdr_node = new_redir_node((*cur_tk)->type);
 	*cur_tk = (*cur_tk)->next;
 	if (*cur_tk && (*cur_tk)->type == TK_WORD)	//handle syntax: expecting TK_WORD
+	{
+		rdr_node = new_redir_node((*cur_tk)->type);
 		rdr_node->target = (*cur_tk)->str;
-	else
-		return (false);
-	append_redir(&cmd_node->redir_start, rdr_node);
-	*cur_tk = (*cur_tk)->next;
-	return (true);
+		append_redir(&cmd_node->redir_start, rdr_node);
+		*cur_tk = (*cur_tk)->next;
+		return (true);
+	}
+	msh->exit_status = parse_err_syntax(*cur_tk);
+	return (false);
 }
 
 static void	addto_cmd_words(t_token **cur_tk, t_ast *cmd_node)
@@ -61,7 +63,10 @@ t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh)
 	cmd_node = new_ast_node(AST_NULL);
 	//consume redirs (pre)
 	while (*cur_tk && ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>'))
-		addto_cmd_redir(cur_tk, cmd_node);
+	{
+		if (!addto_cmd_redir(msh, cur_tk, cmd_node))
+			return (NULL);
+	}
 	
 	//consume subsh
 	if (*cur_tk && (*cur_tk)->str[0] == '(')
@@ -70,7 +75,7 @@ t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh)
 		//consume redirs (post)
 		while (*cur_tk
 			&& ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>'))
-			addto_cmd_redir(cur_tk, cmd_node);
+			addto_cmd_redir(msh, cur_tk, cmd_node);
 		return (cmd_node);
 	}
 
@@ -79,7 +84,7 @@ t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh)
 	while (*cur_tk)
 	{
 		if ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>')
-			addto_cmd_redir(cur_tk, cmd_node);
+			addto_cmd_redir(msh, cur_tk, cmd_node);
 		else if ((*cur_tk)->type == TK_WORD)
 			addto_cmd_words(cur_tk, cmd_node);
 		else

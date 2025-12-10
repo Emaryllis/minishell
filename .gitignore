@@ -11,4 +11,3 @@ cmake-build-debug/
 #jul
 .vscode
 test_exec
-temp_*

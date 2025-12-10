@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 23:38:12 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/10 22:16:05 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	cleanup(char *line, t_msh *ms, char *prompt)
 		free(ms->args);
 		ms->args = NULL;
 	}
-	if (ms->exit && ms->env)
+	if (ms->shell_exit && ms->env)
 	{
 		array_free(ms->env);
 		free(ms->env);
@@ -48,13 +48,13 @@ static bool	init_env(t_msh *ms, char **env)
 	if (!ms->env)
 	{
 		eprintf("Error getting environment... Exiting.");
-		ms->exit = true;
+		ms->shell_exit = true;
 		return (false);
 	}
 	if (!init_array(ms->env, env))
 	{
 		eprintf("Error initializing environment... Exiting.");
-		ms->exit = true;
+		ms->shell_exit = true;
 		free(ms->env);
 		return (false);
 	}
@@ -62,74 +62,83 @@ static bool	init_env(t_msh *ms, char **env)
 }
 
 /**
- * Initializes the ms structure and starts the main loop.
+ * The main loop.
  * After every command execution, it cleans up allocated memory.
- * @see init_env
- * @see cell_read_line
+ * @see cell_read_input
  * @see ft_split
  * @see cell_exec
  * @see cleanup
  */
-static void	init_ms(t_msh *ms, char **env)
+static void	ms_prompt_loop(t_msh *ms)
 {
 	char	*prompt;
 
-	ms->exit = false;
-	ms->args = 0;
-	if (!init_env(ms, env))
-		return ;
-	while (!ms->exit)
+	while (!ms->shell_exit)
 	{
 		prompt = get_prompt();
-		ms->line = cell_read_line(prompt);
-		if (ms->line.eof)
-			ms->exit = true;
-		else if (!ms->line.line)
+		ms->input = cell_read_input(prompt);
+		if (ms->input.eof)
+			ms->shell_exit = true;
+		else if (!ms->input.line)
 			continue ;
 
 		//temp lexer
-		if (lex_tokens(ms, ms->line.line))
+		if (lex_tokens(ms, ms->input.line))
 		{
 			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
 				printf("%s\n", tk->str);
+
+			build_ast(ms);
+			//ast print check;
+			print_ast(ms->ast_root, 0);
+			clear_tokens(&ms->tk_start);
 		}
 		else
-			return ;
+			continue ;
 
-		//ast print check;
-		build_ast(ms);
-		print_ast(ms->ast_root, 0);
 
-		clear_tokens(&ms->tk_start);
-
-		if (!ms->exit)
+		//EMA get arguments & exec
+		//get arguments
+		if (!ms->shell_exit)
 		{
-			ms->args = ft_split(ms->line.line, ' ');
+			ms->args = ft_split(ms->input.line, ' ');
 			if (!ms->args)
-				ms->exit = true;
+				ms->shell_exit = true;
 		}
-		if (!ms->exit)
+		//execute
+		if (!ms->shell_exit)
 			cell_exec(ms);
-		cleanup(ms->line.line, ms, prompt);
+
+		cleanup(ms->input.line, ms, prompt);
 	}
 }
 
 /**
- * The main function of the minishell program.
- * Sets up the prompt, signal handlers, and
- * initializes the ms structure. Once done,
- * it cleans up allocated memory and
- * returns the latest exit status.
- * @return The exit status denoted by {g_sig.status}.
+ * Everything to initialize.
+ * - Writing tool tips is fun
  */
-int	main(int ac, char **av, char **env)
+static bool	init_state(t_msh *ms, int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	ft_bzero(ms, sizeof(t_msh));
+	setup_signals();
+	if (!init_env(ms, env))
+		return (false);
+	return (true);
+}
+
+/**
+ * The main function of the minishell program.
+ * Sets everything up: struct, signals, env, prompt etc.
+ * Prompts on loop until expected termination
+ * @return The latest exit status denoted by {g_sig.status}.
+ */
+int	main(int ac, char *av[], char *env[])
 {
 	t_msh	ms;
 
-	(void)ac;
-	(void)av;
-	ft_bzero(&ms, sizeof(t_msh));
-	setup_signals();
-	init_ms(&ms, env);
+	if (init_state(&ms, ac, av, env))
+		ms_prompt_loop(&ms);
 	return (g_sig.status);
 }

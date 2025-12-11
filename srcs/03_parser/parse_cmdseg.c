@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:35:21 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/11 01:03:17 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 13:26:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,42 @@ static t_ast	*init_basic_cmd(t_ast *cmd_node, t_msh *msh)
 	return (cmd_node);
 }
 
-static bool	addto_cmd_redir(t_msh *msh, t_token **cur_tk, t_ast *cmd_node)
+// static bool	addto_cmd_redir(t_msh *msh, t_token **cur_tk, t_ast *cmd_node)
+// {
+// 	t_redir	*rdr_node;
+
+// 	*cur_tk = (*cur_tk)->next;
+// 	if (*cur_tk && (*cur_tk)->type == TK_WORD)	//handle syntax: expecting TK_WORD
+// 	{
+// 		rdr_node = new_redir_node((*cur_tk)->type);
+// 		rdr_node->target = (*cur_tk)->str;
+// 		append_redir(&cmd_node->redir_start, rdr_node);
+// 		*cur_tk = (*cur_tk)->next;
+// 		return (true);
+// 	}
+// 	msh->exit_status = parse_err_syntax(*cur_tk);
+// 	return (false);
+// }
+
+static bool	consume_redirs(t_token **cur_tk, t_ast *cmd_node, t_msh *msh)
 {
 	t_redir	*rdr_node;
-
-	*cur_tk = (*cur_tk)->next;
-	if (*cur_tk && (*cur_tk)->type == TK_WORD)	//handle syntax: expecting TK_WORD
+	
+	while (*cur_tk && ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>'))
 	{
-		rdr_node = new_redir_node((*cur_tk)->type);
-		rdr_node->target = (*cur_tk)->str;
-		append_redir(&cmd_node->redir_start, rdr_node);
 		*cur_tk = (*cur_tk)->next;
-		return (true);
+		if (*cur_tk && (*cur_tk)->type == TK_WORD)	//handle syntax: expecting TK_WORD
+		{
+			rdr_node = new_redir_node((*cur_tk)->type);
+			rdr_node->target = (*cur_tk)->str;
+			append_redir(&cmd_node->redir_start, rdr_node);
+			*cur_tk = (*cur_tk)->next;
+			continue ;
+		}
+		msh->exit_status = parse_err_syntax(*cur_tk);
+		return (false);
 	}
-	msh->exit_status = parse_err_syntax(*cur_tk);
-	return (false);
+	return (true);
 }
 
 static void	addto_cmd_words(t_token **cur_tk, t_ast *cmd_node)
@@ -61,33 +82,23 @@ t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh)
 	t_ast	*cmd_node;
 
 	cmd_node = new_ast_node(AST_NULL);
-	//consume redirs (pre)
-	while (*cur_tk && ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>'))
-	{
-		if (!addto_cmd_redir(msh, cur_tk, cmd_node))
-			return (NULL);
-	}
-	
-	//consume subsh
+	if (!consume_redirs(cur_tk, cmd_node, msh))
+		return (NULL);
 	if (*cur_tk && (*cur_tk)->str[0] == '(')
 	{
 		cmd_node = parse_lvl0_subsh(cur_tk, msh, cmd_node);
-		//consume redirs (post)
-		while (*cur_tk
-			&& ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>'))
-			addto_cmd_redir(msh, cur_tk, cmd_node);
+		if (!consume_redirs(cur_tk, cmd_node, msh))
+			return (NULL);
 		return (cmd_node);
 	}
-
 	cmd_node = init_basic_cmd(cmd_node, msh);
-	//consume simple_cmd
-	while (*cur_tk)
+	while (1)
 	{
-		if ((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>')
-			addto_cmd_redir(msh, cur_tk, cmd_node);
-		else if ((*cur_tk)->type == TK_WORD)
+		if (!consume_redirs(cur_tk, cmd_node, msh))
+			return (NULL);
+		if ((*cur_tk)->type == TK_WORD)
 			addto_cmd_words(cur_tk, cmd_node);
-		else
+		if (!*cur_tk || !((*cur_tk)->str[0] == '<' || (*cur_tk)->str[0] == '>'))
 			break ;
 	}
 	return (cmd_node);

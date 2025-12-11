@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/11 14:14:24 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 21:45:53 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINSH_H
 
 # define DEBUG true
-# define NAME "bash"
+# define NAME "minishell"
 
 //MAROS -----------------------------------------------------------------------
 
@@ -158,8 +158,8 @@ typedef enum e_toktype
 	TK_WORD,
 	TK_RDR_IN,
 	TK_RDR_HERE,
-	TK_RDR_APND,
 	TK_RDR_OUT,
+	TK_RDR_APND,
 	TK_SUBSH_OPN,
 	TK_SUBSH_CLS,
 	TK_PIPE,
@@ -222,14 +222,23 @@ typedef struct s_ast
 
 }	t_ast;
 
-void	build_ast(t_msh *msh);
+typedef struct s_parse_state
+{
+	t_token	*cur_tk;
+	t_token *error_tk;
+	int		tk_ttl;
+	bool	parse_error;
+}	t_parse_state;
+
+
+t_ast	*build_ast(t_msh *msh);
 void	print_ast(t_ast *node, int depth);
 
 //AST precedence entry point
-t_ast	*parse_lvl2_logical(t_token **cur_tk, t_msh *msh);
+t_ast	*parse_lvl2_logical(t_token **cur_tk, t_parse_state *p_state);
 
 //AST leaf exit point
-t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh);
+t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_parse_state *p_state);
 
 //AST raw node data
 t_ast	*new_ast_node(t_astype type);
@@ -237,7 +246,12 @@ t_redir	*new_redir_node(t_toktype type);
 void	append_redir(t_redir **start, t_redir *new);
 
 //Grammar Errors
-int		parse_err_syntax(t_token *token);
+void	set_pstate_err(t_parse_state *p_state);
+int		pr_syntax_err(t_token *token);
+
+//UTILS -----------------------------------------------------------------------
+
+int	malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
 

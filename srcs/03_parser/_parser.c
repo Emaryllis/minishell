@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/11 12:54:26 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 21:45:53 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@
 // 	return (false);
 // }
 
-static t_ast	*parse_lvl1_pipeline(t_token **cur_tk, t_msh *msh)
+static t_ast	*parse_lvl1_pipeline(t_token **cur_tk, t_parse_state *p_state)
 {
 	t_ast	*pipe_node;
 	t_ast	*left;
 	t_ast	*right;
 
-	left = parse_lvl0_cmdseg(cur_tk, msh);
-	if (!left)
+	left = parse_lvl0_cmdseg(cur_tk, p_state);
+	if (p_state->parse_error || !left)
 		return (NULL);
 	right = NULL;
 	if (*cur_tk && ((*cur_tk)->type == TK_PIPE))
 	{
 		*cur_tk = (*cur_tk)->next;
-		right = parse_lvl1_pipeline(cur_tk, msh);
+		right = parse_lvl1_pipeline(cur_tk, p_state);
 	}
 	if (right == NULL)
 		return (left);
@@ -63,22 +63,22 @@ static t_ast	*parse_lvl1_pipeline(t_token **cur_tk, t_msh *msh)
 	}
 }
 
-t_ast	*parse_lvl2_logical(t_token **cur_tk, t_msh *msh)
+t_ast	*parse_lvl2_logical(t_token **cur_tk, t_parse_state *p_state)
 {
 	t_ast		*logic_node;
 	t_astype	type;
 	t_ast		*left;
 	t_ast		*right;
 
-	left = parse_lvl1_pipeline(cur_tk, msh);
-	if (!left)
+	left = parse_lvl1_pipeline(cur_tk, p_state);
+	if (p_state->parse_error || !left)
 		return (NULL);
 	while (*cur_tk && ((*cur_tk)->type == TK_AND || (*cur_tk)->type == TK_OR))
 	{
 		type = ((*cur_tk)->type == TK_AND) * AST_AND
 			+ ((*cur_tk)->type == TK_OR) * AST_OR;
 		*cur_tk = (*cur_tk)->next;
-		right = parse_lvl1_pipeline(cur_tk, msh);
+		right = parse_lvl1_pipeline(cur_tk, p_state);
 		logic_node = new_ast_node(type);
 		logic_node->left = left;
 		logic_node->right = right;
@@ -87,10 +87,18 @@ t_ast	*parse_lvl2_logical(t_token **cur_tk, t_msh *msh)
 	return (left);
 }
 
-void	build_ast(t_msh *msh)
+t_ast	*build_ast(t_msh *msh)
 {
-	t_token	*cur_tk;
+	t_parse_state	p_state;
 
-	cur_tk = msh->tk_start;
-	msh->ast_root = parse_lvl2_logical(&cur_tk, msh);
+	p_state.parse_error = false;
+	p_state.cur_tk = msh->tk_start;
+	p_state.tk_ttl = msh->tk_ttl;
+	msh->ast_root = parse_lvl2_logical(&p_state.cur_tk, &p_state);
+	if (p_state.parse_error)
+	{
+		pr_syntax_err(p_state.error_tk);
+		//clean up ast_root
+	}
+	return (msh->ast_root);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 20:41:44 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ int	malloc_error(int ret)
 	eprintf(NAME": malloc: Cannot allocate memory");
 	set_status(EXIT_FAILURE);
 	return (ret);
+}
+
+int	malloc_fail_exit(void)
+{
+	perror("malloc");
+	exit(EXIT_FAILURE);
 }
 
 /** Only used in cell_cd */

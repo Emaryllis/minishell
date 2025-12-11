@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/11 13:02:13 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 13:35:06 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	ms_prompt_loop(t_msh *ms)
 			//temp lexer check
 			printf("Tokens:\n");
 			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
-				printf("%s\n", tk->str);
+				printf("[%i] %s\n", tk->type, tk->str);
 			printf("\n");
 
 			build_ast(ms);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/10 22:13:44 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 12:54:26 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static t_ast	*parse_lvl1_pipeline(t_token **cur_tk, t_msh *msh)
 	t_ast	*right;
 
 	left = parse_lvl0_cmdseg(cur_tk, msh);
+	if (!left)
+		return (NULL);
 	right = NULL;
 	if (*cur_tk && ((*cur_tk)->type == TK_PIPE))
 	{
@@ -69,6 +71,8 @@ t_ast	*parse_lvl2_logical(t_token **cur_tk, t_msh *msh)
 	t_ast		*right;
 
 	left = parse_lvl1_pipeline(cur_tk, msh);
+	if (!left)
+		return (NULL);
 	while (*cur_tk && ((*cur_tk)->type == TK_AND || (*cur_tk)->type == TK_OR))
 	{
 		type = ((*cur_tk)->type == TK_AND) * AST_AND

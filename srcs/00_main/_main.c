@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/10 22:16:05 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 13:02:13 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,25 @@ static void	ms_prompt_loop(t_msh *ms)
 		else if (!ms->input.line)
 			continue ;
 
-		//temp lexer
 		if (lex_tokens(ms, ms->input.line))
 		{
+			//temp lexer check
+			printf("Tokens:\n");
 			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
 				printf("%s\n", tk->str);
+			printf("\n");
 
 			build_ast(ms);
-			//ast print check;
+			if (!ms->ast_root)
+			{
+				clear_tokens(&ms->tk_start);
+				continue ;
+			}
 			print_ast(ms->ast_root, 0);
 			clear_tokens(&ms->tk_start);
 		}
 		else
 			continue ;
-
 
 		//EMA get arguments & exec
 		//get arguments

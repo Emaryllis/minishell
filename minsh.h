@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/10 23:04:29 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 14:14:24 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,9 +158,10 @@ typedef enum e_toktype
 	TK_WORD,
 	TK_RDR_IN,
 	TK_RDR_HERE,
-	TK_RDR_OUT,
 	TK_RDR_APND,
-	TK_SUBSH,
+	TK_RDR_OUT,
+	TK_SUBSH_OPN,
+	TK_SUBSH_CLS,
 	TK_PIPE,
 	TK_AND,
 	TK_OR

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:18:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 20:14:33 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/15 21:45:58 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*get_prompt(void)
 	size_t		total_len;
 
 	prompt = NULL;
-	if (!getcwd(cwd, sizeof(cwd)))
+	if (!getcwd(cwd, PATH_MAX))
 	{
 		perror("getcwd() error");
 		return (NULL);

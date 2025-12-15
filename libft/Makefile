@@ -41,7 +41,7 @@ GETNL_SRC_BASE =	get_next_line	get_next_line_utils
 
 ADDONS_SRC_DIR =	srcs/addons
 ADDONS_SRC_BASE =	ft_uitoa	ft_atoi_base	ft_isspace		\
-	ft_splitvar		ft_csubstr	ft_cleanups
+	ft_splitvar		ft_csubstr	ft_cleanups		ft_strcpy
 
 SRCS = \
 	$(addprefix $(LIBFT_SRC_DIR)/, $(addsuffix .c, $(LIBFT_SRC_BASE)))			\

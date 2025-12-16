@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/11 21:45:53 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 02:37:38 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static t_ast	*parse_lvl1_pipeline(t_token **cur_tk, t_parse_state *p_state)
 	}
 }
 
-t_ast	*parse_lvl2_logical(t_token **cur_tk, t_parse_state *p_state)
+static t_ast	*parse_lvl2_logical(t_token **cur_tk, t_parse_state *p_state)
 {
 	t_ast		*logic_node;
 	t_astype	type;
@@ -87,17 +87,46 @@ t_ast	*parse_lvl2_logical(t_token **cur_tk, t_parse_state *p_state)
 	return (left);
 }
 
+void	parse_lvl0_subsh(t_token **cur_tk, t_ast *cmd_node,
+	t_parse_state *p_state)
+{
+	cmd_node->type = AST_SUBSH;
+	*cur_tk = (*cur_tk)->next;
+	if (!*cur_tk || (*cur_tk)->type == TK_SUBSH_CLS)
+	{
+		set_pstate_err(p_state);
+		if (!*cur_tk)
+			p_state->unexp_end = true;
+		return ;
+	}
+	cmd_node->left = parse_lvl2_logical(cur_tk, p_state);
+	if (p_state->parse_error)
+		return ;
+	if (!*cur_tk)
+	{
+		set_pstate_err(p_state);
+		p_state->unexp_end = true;
+		return ;
+	}
+	if (*cur_tk && (*cur_tk)->type == TK_SUBSH_CLS)
+		*cur_tk = (*cur_tk)->next;
+	else
+		set_pstate_err(p_state);
+}
+
 t_ast	*build_ast(t_msh *msh)
 {
 	t_parse_state	p_state;
 
-	p_state.parse_error = false;
+	ft_bzero(&p_state, sizeof(p_state));
 	p_state.cur_tk = msh->tk_start;
 	p_state.tk_ttl = msh->tk_ttl;
 	msh->ast_root = parse_lvl2_logical(&p_state.cur_tk, &p_state);
+	if (!p_state.parse_error && p_state.cur_tk != NULL)
+		set_pstate_err(&p_state);
 	if (p_state.parse_error)
 	{
-		pr_syntax_err(p_state.error_tk);
+		pr_syntax_err(p_state);
 		//clean up ast_root
 	}
 	return (msh->ast_root);

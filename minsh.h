@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/11 21:45:53 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 02:11:08 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@
 # include <errno.h>                    // errno
 # include <limits.h>                   // INT_MAX, INT_MIN
 # include "srcs/ft_libc/ft_eprintf.h"  // eprintf
-# include "libft.h"
+# include "libft/libft.h"
 
 //Forward Delcarations --------------------------------------------------------
 
@@ -225,20 +225,21 @@ typedef struct s_ast
 typedef struct s_parse_state
 {
 	t_token	*cur_tk;
-	t_token *error_tk;
+	t_token	*error_tk;
 	int		tk_ttl;
 	bool	parse_error;
+	bool	unexp_end;
 }	t_parse_state;
-
 
 t_ast	*build_ast(t_msh *msh);
 void	print_ast(t_ast *node, int depth);
 
-//AST precedence entry point
-t_ast	*parse_lvl2_logical(t_token **cur_tk, t_parse_state *p_state);
-
 //AST leaf exit point
 t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_parse_state *p_state);
+
+//AST recursive subshell to top level (lvl2 logical)
+void	parse_lvl0_subsh(t_token **cur_tk, t_ast *cmd_node,
+			t_parse_state *p_state);
 
 //AST raw node data
 t_ast	*new_ast_node(t_astype type);
@@ -247,11 +248,11 @@ void	append_redir(t_redir **start, t_redir *new);
 
 //Grammar Errors
 void	set_pstate_err(t_parse_state *p_state);
-int		pr_syntax_err(t_token *token);
+int		pr_syntax_err(t_parse_state p_state);
 
 //UTILS -----------------------------------------------------------------------
 
-int	malloc_fail_exit(void);
+int		malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
 

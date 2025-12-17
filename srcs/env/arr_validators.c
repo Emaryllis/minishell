@@ -33,9 +33,9 @@ bool	is_env_var(const char *str, bool dollar_sign)
 			return (false);
 		return (is_env_var(str + 1, false));
 	}
-	if (!str 
-		|| ((str[0] < 'A' || (str[0] > 'Z' && str[0] < 'a') || str[0] > 'z') 
-		&& str[0] != '_'))
+	if (!str
+		|| ((str[0] < 'A' || (str[0] > 'Z' && str[0] < 'a') || str[0] > 'z')
+			&& str[0] != '_'))
 		return (false);
 	i = 1;
 	while (str[i])

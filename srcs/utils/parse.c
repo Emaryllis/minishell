@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/09 16:11:00 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/15 20:29:02 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_input	cell_read_input(const char *prompt)
 		g_sig.status = cell_exit(NULL);
 		return ((t_input){NULL, true});
 	}
+	rl_on_new_line();
 	if (buf[0] == '\0' || all_isspace(buf))
 	{
 		free(buf);

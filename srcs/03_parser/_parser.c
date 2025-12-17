@@ -6,36 +6,11 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 16:52:15 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/18 00:20:17 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
-
-// static bool	parenth_bal(char *line)
-// {
-// 	int	excess_opn;
-// 	int	excess_cls;
-
-// 	excess_opn = 0;
-// 	excess_cls = 0;
-// 	while (*line)
-// 	{
-// 		if (*line == '(')
-// 			excess_opn++;
-// 		else if (*line == ')')
-// 		{
-// 			if (excess_opn == 0)
-// 				excess_cls++;
-// 			else
-// 				excess_opn--;
-// 		}
-// 		line++;
-// 	}
-// 	if ((excess_opn + excess_cls) == 0)
-// 		return (true);
-// 	return (false);
-// }
 
 static t_ast	*parse_lvl1_pipeline(t_token **cur_tk, t_parse_state *p_state)
 {
@@ -137,7 +112,6 @@ t_ast	*build_ast(t_msh *msh)
 	if (p_state.parse_error)
 	{
 		pr_syntax_err(p_state);
-		clear_ast_garbage(&msh->ast_garbc);
 		return (NULL);
 	}
 	return (msh->ast_root);

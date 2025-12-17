@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/17 16:35:48 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/18 00:32:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,12 @@ static void	ms_prompt_loop(t_msh *ms)
 		if (ms->input.eof)
 			ms->shell_exit = true;
 		else if (!ms->input.line)
+		{
+			free(prompt);
 			continue ;
+		}
 
-		if (lex_tokens(ms, ms->input.line))
+		if (!ms->shell_exit && lex_tokens(ms, ms->input.line))
 		{
 			if (DEBUG)
 				debug_lex_pr_tk(ms);
@@ -90,14 +93,16 @@ static void	ms_prompt_loop(t_msh *ms)
 			build_ast(ms);
 			if (!ms->ast_root)
 			{
+				free(prompt);
 				clear_tokens(&ms->tk_start);
+				clear_ast_garbage(&ms->ast_garbc);
 				continue ;
 			}
 			print_ast(ms->ast_root, 0);
 			clear_tokens(&ms->tk_start);
 			clear_ast_garbage(&ms->ast_garbc);
 		}
-		else
+		else if (!ms->shell_exit)
 			continue ;
 
 		//EMA get arguments & exec
@@ -113,6 +118,7 @@ static void	ms_prompt_loop(t_msh *ms)
 			cell_exec(ms);
 
 		cleanup(ms->input.line, ms, prompt);
+		rl_clear_history();
 	}
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_nodes.c                                        :+:      :+:    :+:   */
+/*   tk_node_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:04:08 by julhong           #+#    #+#             */
-/*   Updated: 2025/11/27 22:19:35 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 23:57:40 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,4 @@ void	append_token(t_token **start, t_token *new)
 	}
 	last = last_token(*start);
 	last->next = new;
-}
-
-void	clear_tokens(t_token **start)
-{
-	t_token	*nxt;
-
-	if (!start)
-		return ;
-	while (*start)
-	{
-		nxt = (*start)->next;
-		if ((*start)->str)
-		{
-			free((*start)->str);
-			(*start)->str = NULL;
-		}
-		free(*start);
-		*start = nxt;
-	}
 }

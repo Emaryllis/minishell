@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 16:52:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/18 00:00:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,8 @@ t_token	*tk_make_op(char **cur);
 //Token raw node data
 t_token	*new_token(char *src, int len, t_toktype type);
 void	append_token(t_token **start, t_token *new);
+
+//Cleanup
 void	clear_tokens(t_token **start);
 
 //Lex utils
@@ -249,14 +251,16 @@ void	parse_lvl0_subsh(t_token **cur_tk, t_ast *cmd_node,
 //AST nodes
 t_ast	*new_ast_node(t_astype type, t_ast **garbc_start);
 
-//Redir nodes
+//Redir nodes (for t_astype == AST_CMD)
 t_redir	*new_redir_node(t_toktype type);
 void	append_redir(t_redir **start, t_redir *new);
 
-//Syntax Handling & Cleanup
+//Cleanup
+void	clear_ast_garbage(t_ast **gc_start);
+
+//Syntax Handling
 void	set_pstate_err(t_parse_state *p_state);
 int		pr_syntax_err(t_parse_state p_state);
-void	clear_ast_garbage(t_ast **gc_start);
 
 //Debugging
 void	debug_parse_garbc(t_ast *gc_start);

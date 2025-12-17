@@ -1,16 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_nodes.c                                      :+:      :+:    :+:   */
+/*   pnode_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:09:56 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 14:12:23 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 23:54:27 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
+
+//AST NODES
+
+static void	garbc_addfront(t_ast **start, t_ast *new)
+{
+	if (!start || !new)
+		return ;
+	if (*start == NULL)
+	{
+		*start = new;
+		return ;
+	}
+	new->garbc_nxt = *start;
+	*start = new;
+}
+
+t_ast	*new_ast_node(t_astype type, t_ast **garbc_start)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (malloc_fail_exit(), NULL);
+	ft_bzero(node, sizeof(t_ast));
+	node->type = type;
+	garbc_addfront(garbc_start, node);
+	return (node);
+}
+
+//REDIR NODES (for t_astype: AST_CMD)
 
 t_redir	*new_redir_node(t_toktype type)
 {

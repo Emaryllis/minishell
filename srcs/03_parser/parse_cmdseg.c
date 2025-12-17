@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:35:21 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 02:31:31 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 16:48:57 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static void	build_simple_cmd(t_token **cur_tk, t_ast *cmd_node,
 		else if (type >= TK_RDR_IN && type <= TK_RDR_APND)
 			consume_redirs(cur_tk, cmd_node, p_state);
 		else if (type == TK_SUBSH_OPN)
+		{
+			*cur_tk = (*cur_tk)->next;
 			set_pstate_err(p_state);
+		}
 		else
 			break ;
 	}
@@ -81,12 +84,12 @@ t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_parse_state *p_state)
 
 	if (p_state->parse_error || !*cur_tk)
 		return (NULL);
-	if (*cur_tk && (*cur_tk)->type >= TK_SUBSH_CLS && (*cur_tk)->type <= TK_OR)
+	if ((*cur_tk)->type >= TK_PIPE && (*cur_tk)->type <= TK_OR)
 	{
 		set_pstate_err(p_state);
 		return (NULL);
 	}
-	cmd_node = new_ast_node(AST_NULL);
+	cmd_node = new_ast_node(AST_NULL, p_state->garbc_start);
 	consume_redirs(cur_tk, cmd_node, p_state);
 	if (*cur_tk && ((*cur_tk)->type == TK_SUBSH_OPN))
 	{

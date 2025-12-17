@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 02:11:08 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 16:52:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,9 @@ void	clear_tokens(t_token **start);
 //Lex utils
 bool	all_isspace(const char *str);
 
+//Debugging
+void	debug_lex_pr_tk(t_msh *ms);
+
 //PARSER ----------------------------------------------------------------------
 
 typedef enum e_astype
@@ -204,11 +207,11 @@ typedef struct s_redir		t_redir;	//FREE redir node
 typedef struct s_redir
 {
 	t_toktype	type;
-	char		*target;	//reuse strings from lexer
+	char		*target;				//reuse lexer strs
 	t_redir		*next;
 }	t_redir;
 
-typedef struct s_ast		t_ast;	//FREE ast node
+typedef struct s_ast		t_ast;		//FREE ast node
 typedef struct s_ast
 {
 	t_astype	type;
@@ -217,9 +220,10 @@ typedef struct s_ast
 
 	//CMD Segment
 	int			cmd_ac;
-	char		**cmd_av;	//FREE outer (but reuse strings from lexer)
+	char		**cmd_av;				//FREE outer (inner reuse lexer strs)
 	t_redir		*redir_start;
 
+	t_ast		*garbc_nxt;
 }	t_ast;
 
 typedef struct s_parse_state
@@ -229,6 +233,7 @@ typedef struct s_parse_state
 	int		tk_ttl;
 	bool	parse_error;
 	bool	unexp_end;
+	t_ast	**garbc_start;
 }	t_parse_state;
 
 t_ast	*build_ast(t_msh *msh);
@@ -241,14 +246,20 @@ t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_parse_state *p_state);
 void	parse_lvl0_subsh(t_token **cur_tk, t_ast *cmd_node,
 			t_parse_state *p_state);
 
-//AST raw node data
-t_ast	*new_ast_node(t_astype type);
+//AST nodes
+t_ast	*new_ast_node(t_astype type, t_ast **garbc_start);
+
+//Redir nodes
 t_redir	*new_redir_node(t_toktype type);
 void	append_redir(t_redir **start, t_redir *new);
 
-//Grammar Errors
+//Syntax Handling & Cleanup
 void	set_pstate_err(t_parse_state *p_state);
 int		pr_syntax_err(t_parse_state p_state);
+void	clear_ast_garbage(t_ast **gc_start);
+
+//Debugging
+void	debug_parse_garbc(t_ast *gc_start);
 
 //UTILS -----------------------------------------------------------------------
 
@@ -270,6 +281,7 @@ typedef struct s_minishell
 	int						tk_ttl;
 
 	t_ast					*ast_root;
+	t_ast					*ast_garbc;
 
 	volatile sig_atomic_t	exit_status;
 }	t_msh;

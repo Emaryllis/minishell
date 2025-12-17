@@ -23,7 +23,7 @@ int	cell_pwd(t_msh *ms)
 		printf("%s\n", pwd);
 		return (EXIT_SUCCESS);
 	}
-	if (!getcwd(cwd, sizeof(cwd)))
+	if (!getcwd(cwd, PATH_MAX))
 	{
 		perror("pwd");
 		return (EXIT_FAILURE);

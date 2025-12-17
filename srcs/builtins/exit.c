@@ -35,7 +35,7 @@ static long long	convert(const char *s, bool *i, long long r, int sign)
 			break ;
 		}
 		if ((sign == 1 && r > (LONG_MAX - (*s - '0')) / 10) || (sign == -1
-				&& (unsigned long long)r > ((unsigned long long)LONG_MAX + 1 - (*s - '0')) / 10))
+				&& r > ((unsigned long long)LONG_MAX + 1 - (*s - '0')) / 10))
 		{
 			if (isatty(STDIN_FILENO))
 				printf("exit\n");

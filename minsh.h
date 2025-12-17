@@ -19,14 +19,14 @@
 //MAROS -----------------------------------------------------------------------
 
 //Text Color Codes --------------------//
-# define RST "\033[0m"
-# define RD "\033[1;31m"
-# define G "\033[1;32m"
-# define Y "\033[1;33m"
-# define B "\033[1;34m"
-# define M "\033[1;35m"
-# define C "\033[1;36m"
-# define W "\033[1;97m"
+# define RST "\001\033[0m\002"
+# define RD "\001\033[1;31m\002"
+# define G "\001\033[1;32m\002"
+# define Y "\001\033[1;33m\002"
+# define B "\001\033[1;34m\002"
+# define M "\001\033[1;35m\002"
+# define C "\001\033[1;36m\002"
+# define W "\001\033[1;97m\002"
 
 //Error Codes -------------------------//
 # define MS_ER_BADBLTIN		2

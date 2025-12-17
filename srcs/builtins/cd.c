@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/15 19:11:15 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static char	*handle_tilde(t_msh *ms)
 		malloc_error(0);
 		return (NULL);
 	}
-	strcpy(result, home);
-	strcat(result, ms->args[1] + 1);
+	ft_strcpy(result, home);
+	ft_strcat(result, ms->args[1] + 1);
 	return (result);
 }
 
@@ -77,8 +77,8 @@ static int	set_new_pwd(t_msh *ms, char *cwd, char *target)
 
 	if (chdir(target) != 0)
 		return (handle_error(target, "", true));
-	if (!getcwd(cwd, sizeof(cwd)))
-		return (handle_error(target, "getcwd() error", false));
+	if (!getcwd(cwd, PATH_MAX))
+		return (handle_error(target, "getcwd() error\n", false));
 	if (!set_env(ms->env, "PWD", cwd))
 	{
 		tmp = ft_strdup(cwd);
@@ -101,8 +101,8 @@ int	cell_cd(t_msh *ms)
 	target = get_target_directory(ms);
 	if (!target)
 		return (EXIT_FAILURE);
-	if (!getcwd(cwd, sizeof(cwd)))
-		return (handle_error(target, "getcwd() error", false));
+	if (!getcwd(cwd, PATH_MAX))
+		return (handle_error(target, "getcwd() error\n", false));
 	if (!set_env(ms->env, "OLDPWD", cwd))
 	{
 		tmp = ft_strdup(cwd);

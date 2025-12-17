@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2025/12/11 21:41:37 by julhong          ###   ########.fr        #
+#    Updated: 2025/12/17 16:30:42 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,16 @@ MAIN_FNAME = _main
 MAIN_SRC_BASE =	$(MAIN_FNAME)
 
 LEX_SRC_DIR = $(SRC_DIR)/02_input_lexing
-LEX_SRC_BASE =	_lexer		tk_node_data	tk_make_op		lex_utils
+LEX_SRC_BASE =	_lexer		tk_node_data	tk_make_op		lex_utils		\
+				lex_debugs
 
 PARSE_SRC_DIR = $(SRC_DIR)/03_parser
-PARSE_SRC_BASE = _parser	ast_node_data	parse_cmdseg	assert_syntax	\
-	TEMP_printast
+PARSE_SRC_BASE = _parser	pnode_ast	pnode_redir 	parse_cmdseg		\
+				assert_syntax	parse_debugs	TEMP_printast
 
 ENV_SRC_DIR = $(SRC_DIR)/env
-ENV_SRC_BASE =		arr_accessors	arr_mutators	arr_validators			\
-					dynamic_arr		quick_sort
+ENV_SRC_BASE =	arr_accessors	arr_mutators	arr_validators			\
+				dynamic_arr		quick_sort
 
 BUILTIN_SRC_DIR = $(SRC_DIR)/builtins
 BUILTIN_SRC_BASE =	cd echo env exit export pwd unset

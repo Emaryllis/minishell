@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/11 13:35:06 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 16:35:48 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,8 @@ static void	ms_prompt_loop(t_msh *ms)
 
 		if (lex_tokens(ms, ms->input.line))
 		{
-			//temp lexer check
-			printf("Tokens:\n");
-			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
-				printf("[%i] %s\n", tk->type, tk->str);
-			printf("\n");
+			if (DEBUG)
+				debug_lex_pr_tk(ms);
 
 			build_ast(ms);
 			if (!ms->ast_root)
@@ -98,6 +95,7 @@ static void	ms_prompt_loop(t_msh *ms)
 			}
 			print_ast(ms->ast_root, 0);
 			clear_tokens(&ms->tk_start);
+			clear_ast_garbage(&ms->ast_garbc);
 		}
 		else
 			continue ;

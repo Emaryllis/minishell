@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/18 00:00:14 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/19 18:56:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,30 @@ int		pr_syntax_err(t_parse_state p_state);
 //Debugging
 void	debug_parse_garbc(t_ast *gc_start);
 
+//EXEC ------------------------------------------------------------------------
+
+# define WR_END 1
+# define RE_END 0
+
+typedef struct s_fds
+{
+	int	fdin;
+	int	fdout;
+	int	pipe_hdoc[2];
+	int	pipe_a[2];
+	int	pipe_b[2];
+}	t_fds;
+
+typedef struct s_excmd
+{
+	char	**path_arr;
+	char	**envp;
+	char	*cmd_path;
+}	t_excmd;
+
+void	walk_ast(t_ast *node, t_msh *ms);
+void	msh_exec_cmd(char *argv[], t_msh *ms);
+
 //UTILS -----------------------------------------------------------------------
 
 int		malloc_fail_exit(void);
@@ -287,7 +311,12 @@ typedef struct s_minishell
 	t_ast					*ast_root;
 	t_ast					*ast_garbc;
 
+	t_fds					fds;
+
 	volatile sig_atomic_t	exit_status;
 }	t_msh;
+
+//cleanup
+void	fd_cleanup(t_fds *fds);
 
 #endif

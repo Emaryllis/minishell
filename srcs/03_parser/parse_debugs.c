@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:36:47 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 16:52:28 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/19 17:38:10 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static const char	*get_ast_type(t_astype type)
 
 void	debug_parse_garbc(t_ast *gc_start)
 {
-	ft_printf("***DEBUG*** Garbage Collection:\n");
+	ft_printf("***DEBUG*** AST Garbage Collection:\n");
 	while (gc_start)
 	{
 		ft_printf("%s", get_ast_type(gc_start->type));

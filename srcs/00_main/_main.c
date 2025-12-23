@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/19 18:56:55 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/23 20:25:26 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,13 @@ static void	ms_prompt_loop(t_msh *ms)
 				continue ;
 			}
 			if (DEBUG)
+			{
+				ft_printf("***DEBUG*** AST-Diagram:\n");
 				print_ast(ms->ast_root, 0);
+				ft_printf("\n");
+			}
 
-			walk_ast(ms->ast_root, ms);
+			execute_input(ms);
 
 			clear_tokens(&ms->tk_start);
 			clear_ast_garbage(&ms->ast_garbc);
@@ -109,39 +113,26 @@ static void	ms_prompt_loop(t_msh *ms)
 		else if (!ms->shell_exit)
 			continue ;
 
-		//EMA get arguments & exec
-		//get arguments
-		if (!ms->shell_exit)
-		{
-			ms->args = ft_split(ms->input.line, ' ');
-			if (!ms->args)
-				ms->shell_exit = true;
-		}
-		//execute
-		if (!ms->shell_exit)
-			cell_exec(ms);
+		// //EMA get arguments & exec
+		// //get arguments
+		// if (!ms->shell_exit)
+		// {
+		// 	ms->args = ft_split(ms->input.line, ' ');
+		// 	if (!ms->args)
+		// 		ms->shell_exit = true;
+		// }
+		// //execute
+		// if (!ms->shell_exit)
+		// 	cell_exec(ms);
 
 		cleanup(ms->input.line, ms, prompt);
 		rl_clear_history();
 	}
 }
 
-static void	init_fds(t_fds *fds)
-{
-	fds->fdin = -1;
-	fds->fdout = -1;
-	fds->pipe_hdoc[RE_END] = -1;
-	fds->pipe_hdoc[WR_END] = -1;
-	fds->pipe_a[RE_END] = -1;
-	fds->pipe_a[WR_END] = -1;
-	fds->pipe_b[RE_END] = -1;
-	fds->pipe_b[WR_END] = -1;
-}
-
 static bool	init_ms(t_msh *ms)
 {
 	ft_bzero(ms, sizeof(t_msh));
-	init_fds(&ms->fds);
 	return (true);
 }
 

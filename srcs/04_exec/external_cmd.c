@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/19 18:06:03 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/23 18:17:43 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,16 @@ static void	rdy_set_execve(char *argv[], t_excmd var)
  * - Sets input/output & closes fds
  * - Uses provided path or walks PATH with execve
  */
-void	msh_exec_cmd(char *argv[], t_msh *ms)
+void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms)
 {
 	t_excmd	var;
 
 	var.envp = format_envp(ms->env);
 	if (!var.envp
-		|| (ms->fds.fdin != -1 && dup2(ms->fds.fdin, STDIN_FILENO) == -1)
-		|| (ms->fds.fdout != -1 && dup2(ms->fds.fdout, STDOUT_FILENO) == -1))
-		return (fd_cleanup(&ms->fds), exit(EXIT_FAILURE));
-	fd_cleanup(&ms->fds);
+		|| (ctx.fdin != -1 && dup2(ctx.fdin, STDIN_FILENO) == -1)
+		|| (ctx.fdout != -1 && dup2(ctx.fdout, STDOUT_FILENO) == -1))
+		return (fd_cleanup(&ctx), exit(EXIT_FAILURE));
+	fd_cleanup(&ctx);
 	var.path_arr = get_path_arr(ms->env);
 	if (!var.path_arr)
 		exit(MS_ER_CMDNOTF);

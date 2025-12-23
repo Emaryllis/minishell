@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/19 18:56:55 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/23 20:03:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,14 +270,14 @@ void	debug_parse_garbc(t_ast *gc_start);
 # define WR_END 1
 # define RE_END 0
 
-typedef struct s_fds
+typedef struct s_exctx
 {
-	int	fdin;
-	int	fdout;
-	int	pipe_hdoc[2];
-	int	pipe_a[2];
-	int	pipe_b[2];
-}	t_fds;
+	int		fdin;
+	int		fdout;
+	bool	is_piped;
+	bool	in_subsh;
+}	t_exctx;
+
 
 typedef struct s_excmd
 {
@@ -286,8 +286,15 @@ typedef struct s_excmd
 	char	*cmd_path;
 }	t_excmd;
 
-void	walk_ast(t_ast *node, t_msh *ms);
-void	msh_exec_cmd(char *argv[], t_msh *ms);
+void	execute_input(t_msh *ms);
+bool	is_builtin(char *argv0);
+void	walk_ast(t_ast *cur_node, t_exctx ctx, t_msh *ms);
+int		interp_waitstat(int	wstat);
+void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
+void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
+
+//cleanup
+void	fd_cleanup(t_exctx *ctx);
 
 //UTILS -----------------------------------------------------------------------
 
@@ -311,12 +318,7 @@ typedef struct s_minishell
 	t_ast					*ast_root;
 	t_ast					*ast_garbc;
 
-	t_fds					fds;
-
 	volatile sig_atomic_t	exit_status;
 }	t_msh;
-
-//cleanup
-void	fd_cleanup(t_fds *fds);
 
 #endif

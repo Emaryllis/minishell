@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/23 21:06:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/24 00:05:34 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 		//apply redris if any
 		ms->args = cmd_node->cmd_av;
 		cell_exec(ms);
+		fd_cleanup(&ctx);
 		//restore STD fds
 		exit(g_sig.status);
 	}
@@ -55,9 +56,9 @@ void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
 			exc_ext_cmd(cmd_node->cmd_av, ctx, ms);
-		}
+		else if (pid == -1)
+			exit(EXIT_FAILURE);
 		fd_cleanup(&ctx);
 		waitpid(pid, &exstat, 0);
 		exit(interp_waitstat(exstat));

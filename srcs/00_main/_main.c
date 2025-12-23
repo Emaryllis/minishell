@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/23 20:25:26 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/23 23:03:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ static void	ms_prompt_loop(t_msh *ms)
 		// 	cell_exec(ms);
 
 		cleanup(ms->input.line, ms, prompt);
-		rl_clear_history();
 	}
+	rl_clear_history();
 }
 
 static bool	init_ms(t_msh *ms)

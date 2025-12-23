@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/23 21:09:03 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/24 00:13:34 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,17 @@ void	execute_input(t_msh *ms)
 		ms->args = root->cmd_av;
 		cell_exec(ms);
 		ms->args = NULL;
-	}	
+	}
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 			walk_ast(ms->ast_root, ctx, ms);
+		else if (pid == -1)
+		{
+			ms->exit_status = EXIT_FAILURE;
+			return ;
+		}
 		waitpid(pid, &wstat, 0);
 		ms->exit_status = interp_waitstat(wstat);
 	}
@@ -55,7 +60,8 @@ void	execute_input(t_msh *ms)
 
 static void	exc_hdl_pipe(t_ast *cur_node, t_exctx ctx, t_msh *ms)
 {
-	pid_t	pid;
+	pid_t	left_pid;
+	pid_t	right_pid;
 	int		pipefds[2];
 	t_exctx	left_ctx;
 	t_exctx	right_ctx;
@@ -66,17 +72,23 @@ static void	exc_hdl_pipe(t_ast *cur_node, t_exctx ctx, t_msh *ms)
 	right_ctx = ctx;
 	pipe(pipefds);
 	left_ctx.fdout = pipefds[WR_END];
-	pid = fork();
-	if (pid == 0)
+	left_pid = fork();
+	if (left_pid == 0)
+	{
+		close(pipefds[RE_END]);
 		walk_ast(cur_node->left, left_ctx, ms);
-	close(pipefds[WR_END]);
+	}
 	right_ctx.fdin = pipefds[RE_END];
-	pid = fork();
-	if (pid == 0)
+	right_pid = fork();
+	if (right_pid == 0)
+	{
+		close(pipefds[WR_END]);
 		walk_ast(cur_node->right, right_ctx, ms);
+	}
+	close(pipefds[WR_END]);
 	close(pipefds[RE_END]);
-	waitpid(pid, &wstat, 0);
-	wait(NULL);
+	waitpid(left_pid, NULL, 0);
+	waitpid(right_pid, &wstat, 0);
 	exit(interp_waitstat(wstat));
 }
 

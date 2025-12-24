@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/24 00:05:34 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/24 08:41:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,36 @@ bool	is_builtin(char *argv0)
 	return (false);
 }
 
-// void	apply_redirs(t_ast cmd_node, t_exctx *ctx)
-// {
-// 	//go through and open redirs (including heredoc)
-// 	//keep last one
-// }
+/**
+ * Goes through and opens a cmd segment's redirs
+ * @param cur_redir the cmd node's t_redir start ptr
+ * @param ctx the cmd context to update as we go
+ */
+void	run_redirs(t_redir *cur_redir, t_exctx *ctx)
+{
+	int	fd;
+
+	if (cur_redir == NULL)
+		return ;
+	while (cur_redir)
+	{
+		if (cur_redir->type == TK_RDR_IN)
+		{
+			fd = open(cur_redir->target, O_RDONLY);
+			if (fd == -1)
+				{/*handle error*/}
+			fd_cls_set(ctx->fdin);
+			ctx->fdin = fd;
+		}
+		else if (cur_redir->type == TK_RDR_OUT)
+			{/*handle*/}
+		else if (cur_redir->type == TK_RDR_APND)
+			{/*handle*/}
+		else if (cur_redir->type == TK_RDR_HERE)
+			{/*handle*/}
+		cur_redir = cur_redir->next;
+	}
+}
 
 void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 {

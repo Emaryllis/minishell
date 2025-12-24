@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/23 20:03:55 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/24 08:40:17 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 //cleanup
+void	fd_cls_set(int *fd);
 void	fd_cleanup(t_exctx *ctx);
 
 //UTILS -----------------------------------------------------------------------

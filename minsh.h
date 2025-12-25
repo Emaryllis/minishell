@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/18 00:00:14 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/25 19:29:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,14 @@ typedef struct s_minishell	t_msh;
 
 typedef struct s_sig
 {
-	volatile sig_atomic_t	child_pid;
-	volatile sig_atomic_t	status;
+	volatile sig_atomic_t	child_pid;	//not used
+	volatile sig_atomic_t	status;		//replace with ms->exit_status
 }	t_sig;
 
 extern volatile t_sig		g_sig;
+
+typedef volatile sig_atomic_t	t_newsig;
+extern t_newsig					g_newsig;
 
 typedef struct s_prompt
 {

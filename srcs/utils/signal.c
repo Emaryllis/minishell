@@ -6,13 +6,15 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/25 19:28:17 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
 volatile t_sig	g_sig;
+
+t_newsig		g_newsig;
 
 void	handle_sigint(int sig)
 {

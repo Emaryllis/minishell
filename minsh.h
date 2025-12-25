@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/24 08:40:17 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/25 17:14:03 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ typedef struct s_sig
 	volatile sig_atomic_t	status;
 }	t_sig;
 
-extern volatile t_sig		g_sig;
+extern volatile t_sig			g_sig;
+
+//To replace global signal
+// typedef volatile sig_atomic_t	t_sigat;
+// extern t_sigat	g_sig;
 
 typedef struct s_prompt
 {
@@ -286,16 +290,23 @@ typedef struct s_excmd
 	char	*cmd_path;
 }	t_excmd;
 
+//Top-level
 void	execute_input(t_msh *ms);
 bool	is_builtin(char *argv0);
 void	walk_ast(t_ast *cur_node, t_exctx ctx, t_msh *ms);
-int		interp_waitstat(int	wstat);
+int		interp_waitstat(int wstat);
+
+//Btm-level
+bool	run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 //cleanup
 void	fd_cls_set(int *fd);
 void	fd_cleanup(t_exctx *ctx);
+
+//Error handling
+int		ms_perror_stat(char *err_src, int exit_status);
 
 //UTILS -----------------------------------------------------------------------
 
@@ -306,20 +317,20 @@ int		malloc_fail_exit(void);
 typedef struct s_minishell
 {
 	//ema original
-	char					**args;
-	t_array					*env;
-	bool					shell_exit;
+	char		**args;
+	t_array		*env;
+	bool		shell_exit;
 
 	//juls cont
-	t_input					input;
+	t_input		input;
 
-	t_token					*tk_start;
-	int						tk_ttl;
+	t_token		*tk_start;
+	int			tk_ttl;
 
-	t_ast					*ast_root;
-	t_ast					*ast_garbc;
+	t_ast		*ast_root;
+	t_ast		*ast_garbc;
 
-	volatile sig_atomic_t	exit_status;
+	int			exit_status;
 }	t_msh;
 
 #endif

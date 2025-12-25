@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/24 00:13:34 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/25 16:12:03 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-int	interp_waitstat(int	wstat)
+int	interp_waitstat(int wstat)
 {
 	if (WIFEXITED(wstat))
 		return (WEXITSTATUS(wstat));

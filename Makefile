@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2025/12/23 19:49:37 by julhong          ###   ########.fr        #
+#    Updated: 2025/12/25 17:34:53 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
 
 EXEC_SRC_DIR = $(SRC_DIR)/04_exec
 EXEC_SRC_BASE =	_exec	cmd_handling	internal_cmd	external_cmd		\
-				exec_cleanup
+				run_redirs		exec_cleanup	exec_errs
 
 ENV_SRC_DIR = $(SRC_DIR)/env
 ENV_SRC_BASE =	arr_accessors	arr_mutators	arr_validators				\

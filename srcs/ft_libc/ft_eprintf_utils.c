@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 00:05:26 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 15:25:32 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 13:31:42 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <stdio.h>
 #include <unistd.h>
 
@@ -50,9 +49,8 @@ int	ft_eputnbr(int nb)
 		return (write(STDERR_FILENO, "-2147483648", 11));
 	if (nb < 0)
 	{
-		write(1, "-", 1);
 		nb = -nb;
-		len += 1;
+		len += write(1, "-", 1);
 	}
 	if (nb > 9)
 		len += ft_eputnbr(nb / 10);

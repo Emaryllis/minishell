@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/15 20:29:02 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/26 16:20:32 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minsh.h"
 
 /**
@@ -17,7 +16,7 @@
  * Returns a t_input with data read from the stdin.
  * If EOF is reached like with Ctrl+D, exits shell.
  * If empty string or all isspace, clear for next iteration.
- * Otherwise add to history, we'll work with this line.
+ * Otherwise, add to history, we'll work with this line.
  */
 t_input	cell_read_input(const char *prompt)
 {

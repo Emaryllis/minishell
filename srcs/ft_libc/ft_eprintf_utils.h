@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 00:11:19 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 15:25:36 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 12:02:24 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef FT_EPRINTF_UTILS_H
 # define FT_EPRINTF_UTILS_H
 

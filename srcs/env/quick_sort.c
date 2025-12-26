@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 00:55:12 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 12:03:30 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minsh.h"
 
 static t_env	*copy_env_array(const t_array *arr)

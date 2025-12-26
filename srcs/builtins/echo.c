@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:06:52 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/26 17:22:08 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minsh.h"
 
 static int	is_n_flag(const char *arg)

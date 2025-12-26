@@ -27,8 +27,9 @@ static void	cleanup(char *line, t_msh *ms, char *prompt)
 		free(ms->args);
 		ms->args = NULL;
 	}
-	if (ms->shell_exit && ms->env)
+	if ((ms->shell_exit || ms->input.eof) && ms->env)
 	{
+		ms->shell_exit = true;
 		array_free(ms->env);
 		free(ms->env);
 	}
@@ -48,13 +49,11 @@ static bool	init_env(t_msh *ms, char **env)
 	if (!ms->env)
 	{
 		eprintf("Error getting environment... Exiting.");
-		ms->shell_exit = true;
 		return (false);
 	}
 	if (!init_array(ms->env, env))
 	{
 		eprintf("Error initializing environment... Exiting.");
-		ms->shell_exit = true;
 		free(ms->env);
 		return (false);
 	}
@@ -78,15 +77,15 @@ static void	ms_prompt_loop(t_msh *ms)
 		prompt = get_prompt();
 		ms->input = cell_read_input(prompt);
 		if (ms->input.eof)
-			ms->shell_exit = true;
+			cleanup(ms->input.line, ms, prompt);
 		else if (!ms->input.line)
 			continue ;
 
 		//temp lexer
-		if (lex_tokens(ms, ms->input.line))
+		if (!ms->shell_exit && lex_tokens(ms, ms->input.line))
 		{
 			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
-				printf("%s\n", tk->str);
+				debug_print("%s\n", tk->str);
 
 			build_ast(ms);
 			//ast print check;
@@ -96,19 +95,14 @@ static void	ms_prompt_loop(t_msh *ms)
 		else
 			continue ;
 
-
-		//EMA get arguments & exec
-		//get arguments
 		if (!ms->shell_exit)
 		{
 			ms->args = ft_split(ms->input.line, ' ');
 			if (!ms->args)
 				ms->shell_exit = true;
 		}
-		//execute
 		if (!ms->shell_exit)
 			cell_exec(ms);
-
 		cleanup(ms->input.line, ms, prompt);
 	}
 }
@@ -123,9 +117,7 @@ static bool	init_state(t_msh *ms, int ac, char **av, char **env)
 	(void)av;
 	ft_bzero(ms, sizeof(t_msh));
 	setup_signals();
-	if (!init_env(ms, env))
-		return (false);
-	return (true);
+	return (init_env(ms, env));
 }
 
 /**

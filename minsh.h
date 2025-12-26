@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/10 23:04:29 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/18 00:00:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINSH_H
 
 # define DEBUG true
-# define NAME "bash"
+# define NAME "minishell"
 
 //MACROS -----------------------------------------------------------------------
 
@@ -153,7 +153,8 @@ typedef enum e_toktype
 	TK_RDR_HERE,
 	TK_RDR_OUT,
 	TK_RDR_APND,
-	TK_SUBSH,
+	TK_SUBSH_OPN,
+	TK_SUBSH_CLS,
 	TK_PIPE,
 	TK_AND,
 	TK_OR
@@ -175,10 +176,15 @@ t_token	*tk_make_op(char **cur);
 //Token raw node data
 t_token	*new_token(char *src, int len, t_toktype type);
 void	append_token(t_token **start, t_token *new);
+
+//Cleanup
 void	clear_tokens(t_token **start);
 
 //Lex utils
 bool	all_isspace(const char *str);
+
+//Debugging
+void	debug_lex_pr_tk(t_msh *ms);
 
 //PARSER ----------------------------------------------------------------------
 
@@ -196,11 +202,11 @@ typedef struct s_redir		t_redir;	//FREE redir node
 typedef struct s_redir
 {
 	t_toktype	type;
-	char		*target;	//reuse strings from lexer
+	char		*target;				//reuse lexer strs
 	t_redir		*next;
 }	t_redir;
 
-typedef struct s_ast		t_ast;	//FREE ast node
+typedef struct s_ast		t_ast;		//FREE ast node
 typedef struct s_ast
 {
 	t_astype	type;
@@ -209,27 +215,52 @@ typedef struct s_ast
 
 	//CMD Segment
 	int			cmd_ac;
-	char		**cmd_av;	//FREE outer (but reuse strings from lexer)
+	char		**cmd_av;				//FREE outer (inner reuse lexer strs)
 	t_redir		*redir_start;
 
+	t_ast		*garbc_nxt;
 }	t_ast;
 
-void	build_ast(t_msh *msh);
+typedef struct s_parse_state
+{
+	t_token	*cur_tk;
+	t_token	*error_tk;
+	int		tk_ttl;
+	bool	parse_error;
+	bool	unexp_end;
+	t_ast	**garbc_start;
+}	t_parse_state;
+
+t_ast	*build_ast(t_msh *msh);
 void	print_ast(t_ast *node, int depth);
 
-//AST precedence entry point
-t_ast	*parse_lvl2_logical(t_token **cur_tk, t_msh *msh);
-
 //AST leaf exit point
-t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_msh *msh);
+t_ast	*parse_lvl0_cmdseg(t_token **cur_tk, t_parse_state *p_state);
 
-//AST raw node data
-t_ast	*new_ast_node(t_astype type);
+//AST recursive subshell to top level (lvl2 logical)
+void	parse_lvl0_subsh(t_token **cur_tk, t_ast *cmd_node,
+			t_parse_state *p_state);
+
+//AST nodes
+t_ast	*new_ast_node(t_astype type, t_ast **garbc_start);
+
+//Redir nodes (for t_astype == AST_CMD)
 t_redir	*new_redir_node(t_toktype type);
 void	append_redir(t_redir **start, t_redir *new);
 
-//Grammar Errors
-int		parse_err_syntax(t_token *token);
+//Cleanup
+void	clear_ast_garbage(t_ast **gc_start);
+
+//Syntax Handling
+void	set_pstate_err(t_parse_state *p_state);
+int		pr_syntax_err(t_parse_state p_state);
+
+//Debugging
+void	debug_parse_garbc(t_ast *gc_start);
+
+//UTILS -----------------------------------------------------------------------
+
+int		malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
 
@@ -247,6 +278,7 @@ typedef struct s_minishell
 	int						tk_ttl;
 
 	t_ast					*ast_root;
+	t_ast					*ast_garbc;
 
 	volatile sig_atomic_t	exit_status;
 }	t_msh;

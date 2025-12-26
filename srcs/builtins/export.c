@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 23:03:33 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 13:15:34 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minsh.h"
 
 static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)
@@ -24,20 +23,21 @@ static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)
 					ms->args[i]), 1);
 	if (code_s != 1)
 		return ;
+	code = set_env(ms->env, item->key, item->value);
+	if (code)
+	{
+		free(item->key);
+		free(item->value);
+		return ;
+	}
 	if (get_env(ms->env, item->key) == NULL)
 	{
 		if (!array_push(ms->env, *item, true))
-		{
 			free(item->key);
-			*ret = -1;
-		}
-		return ;
+		else
+			return ;
 	}
-	code = set_env(ms->env, item->key, item->value);
-	free(item->key);
-	free(item->value);
-	if (code == false)
-		*ret = -1;
+	*ret = -1;
 }
 
 static void	print_export(const t_array *arr)
@@ -83,7 +83,7 @@ int	cell_export(t_msh *ms)
 	{
 		parse_args(ms, &item, i, &code);
 		if (code == -1)
-			return (EXIT_FAILURE);
+			return (malloc_error(EXIT_FAILURE));
 	}
 	return (code);
 }

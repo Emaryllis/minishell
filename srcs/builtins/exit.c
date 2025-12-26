@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/17 23:47:22 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/26 15:40:11 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minsh.h"
 
 /**
@@ -35,8 +34,7 @@ static long long	convert(const char *s, bool *i, long long r, int sign)
 			break ;
 		}
 		if ((sign == 1 && r > (LONG_MAX - (*s - '0')) / 10) || (sign == -1
-				&& (unsigned long long)r
-				> ((unsigned long long)LONG_MAX + 1 - (*s - '0')) / 10))
+				&& (t_ull)r > ((t_ull)LONG_MAX + 1 - (*s - '0')) / 10))
 		{
 			if (isatty(STDIN_FILENO))
 				printf("exit\n");

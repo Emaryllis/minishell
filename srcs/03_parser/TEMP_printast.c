@@ -28,6 +28,8 @@ const char	*ast_type_str(t_astype type)
 
 void	print_ast(t_ast *node, int depth)
 {
+	if (!DEBUG)
+		return ;
 	if (!node)
 	{
 		print_indent(depth);

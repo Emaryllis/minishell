@@ -6,10 +6,9 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/17 12:50:14 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minsh.h"
 
 /**
@@ -72,16 +71,17 @@ int	split_env(const char *str, char **key, char **value)
 	status = check_env_key(str, key, value, equal);
 	if (status != 1)
 		return (status);
-	if (!equal)
-		return (1);
-	*value = ft_strdup(equal + 1);
+	if (equal)
+		*value = ft_strdup(equal + 1);
+	else
+		*value = ft_strdup("");
 	if (!*value)
 	{
 		free(*key);
 		*key = NULL;
 		return (malloc_error(0));
 	}
-	return (true);
+	return (1);
 }
 
 /**
@@ -111,8 +111,8 @@ void	array_free(t_array *arr)
 }
 
 /**
- * Initalizes a dynamic array with
- * environment variables using {data}.
+ * Initializes a dynamic array with
+ * environment variables using [data].
  * @param arr The array to initialize
  * @param data The environment variable strings
  * @return true if successful, false otherwise

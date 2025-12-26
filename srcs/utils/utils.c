@@ -34,6 +34,12 @@ int	malloc_error(int ret)
 	return (ret);
 }
 
+int	malloc_fail_exit(void)
+{
+	perror("malloc");
+	exit(EXIT_FAILURE);
+}
+
 /** Only used in cell_cd */
 int	handle_error(char *target, const char *format, t_msh *ms)
 {

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:06:16 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/10 21:32:51 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/11 14:15:11 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ static void	tk_op_type(char *start, int *len, t_toktype *type)
 		*type = TK_AND;
 		*len += 1;
 	}
-	else if (*start == '(' || *start == ')')
-		*type = TK_SUBSH;
+	else if (*start == '(')
+		*type = TK_SUBSH_OPN;
+	else if (*start == ')')
+		*type = TK_SUBSH_CLS;
 }
 
 t_token	*tk_make_op(char **cur)

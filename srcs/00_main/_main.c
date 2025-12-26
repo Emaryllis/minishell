@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/10 22:16:05 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/18 00:32:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,29 @@ static void	ms_prompt_loop(t_msh *ms)
 		if (ms->input.eof)
 			cleanup(ms->input.line, ms, prompt);
 		else if (!ms->input.line)
+		{
+			free(prompt);
 			continue ;
+		}
 
-		//temp lexer
 		if (!ms->shell_exit && lex_tokens(ms, ms->input.line))
 		{
-			for (t_token *tk = ms->tk_start; tk; tk = tk->next)
-				debug_print("%s\n", tk->str);
+			if (DEBUG)
+				debug_lex_pr_tk(ms);
 
 			build_ast(ms);
-			//ast print check;
+			if (!ms->ast_root)
+			{
+				free(prompt);
+				clear_tokens(&ms->tk_start);
+				clear_ast_garbage(&ms->ast_garbc);
+				continue ;
+			}
 			print_ast(ms->ast_root, 0);
 			clear_tokens(&ms->tk_start);
+			clear_ast_garbage(&ms->ast_garbc);
 		}
-		else
+		else if (!ms->shell_exit)
 			continue ;
 
 		if (!ms->shell_exit)
@@ -104,6 +113,7 @@ static void	ms_prompt_loop(t_msh *ms)
 		if (!ms->shell_exit)
 			cell_exec(ms);
 		cleanup(ms->input.line, ms, prompt);
+		rl_clear_history();
 	}
 }
 

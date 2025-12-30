@@ -6,9 +6,10 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/17 13:15:34 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minsh.h"
 
 static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)

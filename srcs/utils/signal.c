@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ volatile t_sig	g_sig;
 
 void	handle_sigint(int sig)
 {
+	ssize_t unused	__attribute__((unused));
+
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
+		unused = write(1, "\n", 1);
 		if (g_sig.child_pid > 0)
 		{
 			kill(g_sig.child_pid, SIGINT);
@@ -35,13 +37,15 @@ void	handle_sigint(int sig)
 // Writing quit 3 since MACRO for SIGQUIT is 3
 void	handle_sigquit(int sig)
 {
+	ssize_t unused	__attribute__((unused));
+
 	if (sig == SIGQUIT)
 	{
 		if (g_sig.child_pid > 0)
 		{
 			kill(g_sig.child_pid, SIGQUIT);
 			g_sig.status = 128 + SIGQUIT;
-			write(1, "Quit: 3\n", 8);
+			unused = write(1, "Quit: 3\n", 8);
 			return ;
 		}
 		rl_on_new_line();

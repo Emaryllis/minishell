@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:18:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/15 21:45:58 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@
  */
 static char	*build_prompt(t_prompt info, char *prompt, size_t total_len)
 {
-	prompt = malloc(total_len + 1);
+	prompt = ft_calloc(total_len, sizeof(char));
 	if (!prompt)
 		return (malloc_error(0), NULL);
-	ft_memset(prompt, 0, total_len + 1);
 	if (info.user && info.hostname)
 	{
 		ft_strcat(prompt, "\001\033[32m\002");
@@ -76,5 +75,6 @@ char	*get_prompt(void)
 		total_len += ft_strlen(p.cwd) - ft_strlen(p.home) + 10;
 	else
 		total_len += ft_strlen(p.cwd) + 10;
+	total_len += 3;
 	return (build_prompt(p, prompt, total_len));
 }

@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2025/12/18 00:02:56 by julhong          ###   ########.fr        #
+#    Updated: 2025/12/30 15:38:21 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,15 @@ MAIN_SRC_BASE =	$(MAIN_FNAME)
 
 LEX_SRC_DIR = $(SRC_DIR)/02_input_lexing
 LEX_SRC_BASE =	_lexer		tk_node_data	tk_make_op		lex_utils		\
-				tk_cleanup	lex_debugs
+				tk_cleanup	debug_toks
 
 PARSE_SRC_DIR = $(SRC_DIR)/03_parser
 PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
-				ast_cleanup	parse_debugs	TEMP_printast
+				ast_cleanup	debug_garbc		debug_ast
+
+EXEC_SRC_DIR = $(SRC_DIR)/04_exec
+EXEC_SRC_BASE =	_exec	cmd_handling		external_cmd					\
+				run_redirs		exec_cleanup	exec_errs
 
 ENV_SRC_DIR = $(SRC_DIR)/env
 ENV_SRC_BASE =	arr_accessors	arr_mutators	arr_validators				\
@@ -43,13 +47,14 @@ SRCS = \
 	$(addprefix $(MAIN_SRC_DIR)/, $(addsuffix .c, $(MAIN_SRC_BASE)))		\
 	$(addprefix $(LEX_SRC_DIR)/, $(addsuffix .c, $(LEX_SRC_BASE)))			\
 	$(addprefix $(PARSE_SRC_DIR)/, $(addsuffix .c, $(PARSE_SRC_BASE)))		\
+	$(addprefix $(EXEC_SRC_DIR)/, $(addsuffix .c, $(EXEC_SRC_BASE)))		\
 	$(addprefix $(ENV_SRC_DIR)/, $(addsuffix .c, $(ENV_SRC_BASE)))			\
 	$(addprefix $(BUILTIN_SRC_DIR)/, $(addsuffix .c, $(BUILTIN_SRC_BASE)))	\
 	$(addprefix $(FTLIBC_SRC_DIR)/, $(addsuffix .c, $(FTLIBC_SRC_BASE)))	\
 	$(addprefix $(UTILS_SRC_DIR)/, $(addsuffix .c, $(UTILS_SRC_BASE)))
 
-MODULE_DIRS = $(MAIN_SRC_DIR) \
-	$(LEX_SRC_DIR) $(PARSE_SRC_DIR)	\
+MODULE_DIRS = $(MAIN_SRC_DIR)	\
+	$(LEX_SRC_DIR) $(PARSE_SRC_DIR)	$(EXEC_SRC_DIR)	\
 	$(ENV_SRC_DIR) $(BUILTIN_SRC_DIR) $(FTLIBC_SRC_DIR) $(UTILS_SRC_DIR)
 
 vpath %.c $(MODULE_DIRS)
@@ -84,38 +89,18 @@ $(OBJ_DIR)/%.o: %.c $(HEADERS) | $(OBJ_DIR)
 $(OBJ_DIR):
 	mkdir -p $@
 
-#TESTING ----------------------------------------------------------------------
-TEST_NAME = test_exec
-
-TEST_SRC_DIR = $(SRC_DIR)/tests
-TEST_SRC_BASE = $(TEST)_test
-TEST_SRC = $(TEST_SRC_DIR)/$(TEST_SRC_BASE).c
-TEST_OBJ = $(OBJ_DIR)/$(TEST_SRC_BASE).o
-
-test: make_libft $(TEST_NAME)
-
-$(TEST_NAME): $(OBJS) $(TEST_OBJ) libft/libft.a
-	cc $(CFLAGS)			\
-	$(filter-out $(OBJ_DIR)/$(MAIN_FNAME).o, $(OBJS)) $(TEST_OBJ)	\
-	$(LIB_DIRS) $(LIBS)		\
-	-o $@
-
-$(OBJ_DIR)/%_test.o: $(TEST_SRC_DIR)/%_test.c $(HEADERS) | $(OBJ_DIR)
-	cc -c $(CFLAGS) $(INCLUDES) $< -o $@
-#TESTING ----------------------------------------------------------------------
-
 bonus: all
 
 .PHONY:	all re fclean clean	\
-		make_libft test
+		make_libft
 
 #Cleanup
 re: fclean all
 
 fclean: clean
-	rm -rf $(NAME) $(TEST_NAME)
+	rm -rf $(NAME)
 	make -C libft fclean
 
 clean:
-	find $(OBJ_DIR) -mindepth 1 -delete
+	rm -rf $(OBJS)
 	make -C libft clean

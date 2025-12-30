@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/30 15:20:45 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 23:13:20 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ typedef struct s_exctx
 }	t_exctx;
 
 
-typedef struct s_excmd
+typedef struct s_excmd		//curr left to exit in child, not freed
 {
 	char	**path_arr;
 	char	**envp;
@@ -291,6 +291,7 @@ int			interp_waitstat(int wstat);
 //Btm-level
 bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 void		exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
+char		**dup_argv(char **av, int ac);
 void		exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 //cleanup

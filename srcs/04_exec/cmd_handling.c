@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/25 17:40:46 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 22:55:18 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@ bool	is_builtin(char *argv0)
 	else if (!ft_strcmp(argv0, "exit"))
 		return (true);
 	return (false);
+}
+
+char	**dup_argv(char **av, int ac)
+{
+	char	**exc_argv;
+	int		i;
+
+	exc_argv = malloc((ac + 1) * sizeof(char *));
+	i = -1;
+	while (++i < ac)
+		exc_argv[i] = ft_strdup(av[i]);
+	exc_argv[ac] = NULL;
+	return (exc_argv);
 }
 
 void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)

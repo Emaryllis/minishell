@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/18 00:32:01 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 14:56:37 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,37 +97,56 @@ static void	ms_prompt_loop(t_msh *ms)
 				clear_ast_garbage(&ms->ast_garbc);
 				continue ;
 			}
-			print_ast(ms->ast_root, 0);
+			if (DEBUG)
+			{
+				ft_printf("***DEBUG*** AST-Diagram:\n");
+				print_ast(ms->ast_root, 0);
+				ft_printf("\n");
+			}
+
+			execute_input(ms);
+
 			clear_tokens(&ms->tk_start);
 			clear_ast_garbage(&ms->ast_garbc);
 		}
 		else if (!ms->shell_exit)
 			continue ;
 
-		if (!ms->shell_exit)
-		{
-			ms->args = ft_split(ms->input.line, ' ');
-			if (!ms->args)
-				ms->shell_exit = true;
-		}
-		if (!ms->shell_exit)
-			cell_exec(ms);
+		// //EMA get arguments & exec
+		// //get arguments
+		// if (!ms->shell_exit)
+		// {
+		// 	ms->args = ft_split(ms->input.line, ' ');
+		// 	if (!ms->args)
+		// 		ms->shell_exit = true;
+		// }
+		// //execute
+		// if (!ms->shell_exit)
+		// 	cell_exec(ms);
+
 		cleanup(ms->input.line, ms, prompt);
-		rl_clear_history();
 	}
+	rl_clear_history();
+}
+
+static bool	init_ms(t_msh *ms)
+{
+	ft_bzero(ms, sizeof(t_msh));
+	return (true);
 }
 
 /**
  * Everything to initialize.
  * - Writing tool tips is fun
  */
-static bool	init_state(t_msh *ms, int ac, char **av, char **env)
+static bool	init_state(t_msh *ms, int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	ft_bzero(ms, sizeof(t_msh));
 	setup_signals();
-	return (init_env(ms, env));
+	if (!init_ms(ms) || !init_env(ms, envp))
+		return (false);
+	return (true);
 }
 
 /**
@@ -136,11 +155,11 @@ static bool	init_state(t_msh *ms, int ac, char **av, char **env)
  * Prompts on loop until expected termination
  * @return The latest exit status denoted by {g_sig.status}.
  */
-int	main(int ac, char *av[], char *env[])
+int	main(int ac, char *av[], char *envp[])
 {
 	t_msh	ms;
 
-	if (init_state(&ms, ac, av, env))
+	if (init_state(&ms, ac, av, envp))
 		ms_prompt_loop(&ms);
 	return (g_sig.status);
 }

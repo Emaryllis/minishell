@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex1_test.c                                        :+:      :+:    :+:   */
+/*   exec_errs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 19:02:09 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/04 23:04:19 by julhong          ###   ########.fr       */
+/*   Created: 2025/12/25 16:11:53 by julhong           #+#    #+#             */
+/*   Updated: 2025/12/25 18:00:54 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-//outputs tokens within a string passed as argv[1]
-int main(int ac, char *av[], char *env[])
+int	ms_perror_stat(char *err_src, int exit_status)
 {
-	t_msh	msh;
-
-	(void)env;
-	if (ac != 2)
-		return (1);
-
-	ft_bzero(&msh, sizeof(t_msh));
-	if (!lex_tokens(&msh, av[1]))
-		return (1);
-
-	for (t_token *tk = msh.tk_start; tk; tk = tk->next)
-		printf("%s\n", tk->str);
-	return (0);
+	// eprintf("%s: %s: %s\n", NAME, err_src, strerror(errno)); ->vargs bad?
+	ft_putstr_fd(NAME, STDERR_FILENO);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(err_src, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	return (exit_status);
 }

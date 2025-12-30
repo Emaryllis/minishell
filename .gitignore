@@ -11,3 +11,5 @@ Minishell.sh
 #jul
 .vscode
 test_exec
+infile
+outfile

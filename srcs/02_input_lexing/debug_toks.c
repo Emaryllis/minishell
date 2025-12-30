@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:45:14 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 16:02:48 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/25 16:10:38 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static const char	*get_tk_type(t_toktype type)
 void	debug_lex_pr_tk(t_msh *ms)
 {
 	t_token	*tk;
-	
+
 	tk = ms->tk_start;
 	ft_printf("***DEBUG*** Tokens:\n");
 	while (tk)

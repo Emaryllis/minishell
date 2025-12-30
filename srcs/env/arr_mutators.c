@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 05:00:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/04 16:18:42 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ static bool	array_soft_push(t_array *arr, t_env elem, bool lazy)
 }
 
 /**
- *
+ * Reallocates an array to a new capacity.
+ * Essentially reallocarray, but:
+ * - No overflow check for old_c * size and (new_c - old_c) * size
+ * - Doesn't check for new_c == 0 and free ptr
+ * - Does not zero new memory
+ * - Newly allocated bytes are indeterminate
  * @param ptr The old pointer with information
  * @param old_c The old capacity
  * @param new_c The new capacity
@@ -64,7 +69,7 @@ static void	*realloc_arr(void *ptr, size_t old_c, size_t new_c, size_t size)
 }
 
 /**
- * Pushes {elem} to the end of the {arr} array.
+ * Pushes [elem] to the end of the [arr] array.
  * @param arr The array to push to
  * @param elem The element to push
  * @param lazy If true, tries to fill empty slots first

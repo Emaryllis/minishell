@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/23 23:03:33 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 14:54:43 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ static void	cleanup(char *line, t_msh *ms, char *prompt)
 		free(ms->args);
 		ms->args = NULL;
 	}
-	if (ms->shell_exit && ms->env)
+	if ((ms->shell_exit || ms->input.eof) && ms->env)
 	{
+		ms->shell_exit = true;
 		array_free(ms->env);
 		free(ms->env);
 	}
@@ -48,13 +49,11 @@ static bool	init_env(t_msh *ms, char **env)
 	if (!ms->env)
 	{
 		eprintf("Error getting environment... Exiting.");
-		ms->shell_exit = true;
 		return (false);
 	}
 	if (!init_array(ms->env, env))
 	{
 		eprintf("Error initializing environment... Exiting.");
-		ms->shell_exit = true;
 		free(ms->env);
 		return (false);
 	}
@@ -78,7 +77,7 @@ static void	ms_prompt_loop(t_msh *ms)
 		prompt = get_prompt();
 		ms->input = cell_read_input(prompt);
 		if (ms->input.eof)
-			ms->shell_exit = true;
+			cleanup(ms->input.line, ms, prompt);
 		else if (!ms->input.line)
 		{
 			free(prompt);
@@ -145,9 +144,13 @@ static bool	init_state(t_msh *ms, int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	setup_signals();
+<<<<<<< HEAD
 	if (!init_ms(ms) || !init_env(ms, envp))
 		return (false);
 	return (true);
+=======
+	return (init_env(ms, env));
+>>>>>>> julian
 }
 
 /**

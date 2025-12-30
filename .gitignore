@@ -1,12 +1,12 @@
-#General
-Minishell
+#Executables, object files and libraries
 minishell
 *.ds*
 *.o
 *.a
 
-#ema
+#CMake files
 cmake-build-debug/
+Minishell.sh
 
 #jul
 .vscode

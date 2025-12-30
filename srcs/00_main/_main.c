@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:54:43 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 14:56:37 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,9 @@ static bool	init_state(t_msh *ms, int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	setup_signals();
-<<<<<<< HEAD
 	if (!init_ms(ms) || !init_env(ms, envp))
 		return (false);
 	return (true);
-=======
-	return (init_env(ms, env));
->>>>>>> julian
 }
 
 /**

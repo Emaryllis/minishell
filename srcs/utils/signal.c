@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/25 19:28:17 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/25 19:49:04 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,33 @@ t_newsig		g_newsig;
 
 void	handle_sigint(int sig)
 {
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		if (g_sig.child_pid > 0)
-		{
-			kill(g_sig.child_pid, SIGINT);
-			set_status(128 + SIGINT);
-			return ;
-		}
-		set_status(EXIT_FAILURE);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	(void)sig;
+	write(1, "\n", 1);
+	// if (g_sig.child_pid > 0)
+	// {
+	// 	kill(g_sig.child_pid, SIGINT);
+	// 	set_status(128 + SIGINT);
+	// 	return ;
+	// }
+	set_status(EXIT_FAILURE);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 // Writing quit 3 since MACRO for SIGQUIT is 3
 void	handle_sigquit(int sig)
 {
-	if (sig == SIGQUIT)
-	{
-		if (g_sig.child_pid > 0)
-		{
-			kill(g_sig.child_pid, SIGQUIT);
-			g_sig.status = 128 + SIGQUIT;
-			write(1, "Quit: 3\n", 8);
-			return ;
-		}
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	(void)sig;
+	// if (g_sig.child_pid > 0)
+	// {
+	// 	kill(g_sig.child_pid, SIGQUIT);
+	// 	g_sig.status = 128 + SIGQUIT;
+	// 	write(1, "Quit: 3\n", 8);
+	// 	return ;
+	// }
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/15 19:11:15 by egoh             ###   ########.fr       */
+/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,17 @@ static int	set_new_pwd(t_msh *ms, char *cwd, char *target)
 	char	*tmp;
 
 	if (chdir(target) != 0)
-		return (handle_error(target, "", true));
+		return (handle_error(target, NULL, ms));
 	if (!getcwd(cwd, PATH_MAX))
-		return (handle_error(target, "getcwd() error\n", false));
+		return (handle_error(target, "getcwd() error\n", NULL));
 	if (!set_env(ms->env, "PWD", cwd))
 	{
 		tmp = ft_strdup(cwd);
 		if (!tmp)
-			return (handle_error(target, NAME": cd: malloc failed\n", false));
+			return (handle_error(target, NAME": cd: malloc failed\n", NULL));
 		if (!array_push(ms->env, (t_env){tmp, NULL}, true))
 			return (handle_error(target, NAME": cd: failed to set PWD\n",
-					false));
+					NULL));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -101,20 +101,21 @@ int	cell_cd(t_msh *ms)
 	target = get_target_directory(ms);
 	if (!target)
 		return (EXIT_FAILURE);
+	debug_print("%s", target);
 	if (!getcwd(cwd, PATH_MAX))
-		return (handle_error(target, "getcwd() error\n", false));
+		return (handle_error(target, "getcwd() error\n", NULL));
+	ret = set_new_pwd(ms, cwd, target);
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	if (!set_env(ms->env, "OLDPWD", cwd))
 	{
 		tmp = ft_strdup(cwd);
 		if (!tmp)
-			return (handle_error(target, NAME": cd: malloc failed\n", false));
+			return (handle_error(target, NAME": cd: malloc failed\n", NULL));
 		if (!array_push(ms->env, (t_env){tmp, NULL}, true))
 			return (handle_error(target, NAME": cd: failed to set OLDPWD\n",
-					false));
+					NULL));
 	}
-	ret = set_new_pwd(ms, cwd, target);
-	if (ret != EXIT_SUCCESS)
-		return (ret);
 	free(target);
 	return (EXIT_SUCCESS);
 }

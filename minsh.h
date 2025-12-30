@@ -16,17 +16,7 @@
 # define DEBUG true
 # define NAME "minishell"
 
-//MAROS -----------------------------------------------------------------------
-
-//Text Color Codes --------------------//
-# define RST "\001\033[0m\002"
-# define RD "\001\033[1;31m\002"
-# define G "\001\033[1;32m\002"
-# define Y "\001\033[1;33m\002"
-# define B "\001\033[1;34m\002"
-# define M "\001\033[1;35m\002"
-# define C "\001\033[1;36m\002"
-# define W "\001\033[1;97m\002"
+//MACROS -----------------------------------------------------------------------
 
 //Error Codes -------------------------//
 # define MS_ER_BADBLTIN		2
@@ -68,7 +58,7 @@
 # include "srcs/ft_libc/ft_eprintf.h"  // eprintf
 # include "libft/libft.h"
 
-//Forward Delcarations --------------------------------------------------------
+//Forward Declarations --------------------------------------------------------
 
 typedef struct s_minishell	t_msh;
 
@@ -100,6 +90,8 @@ typedef struct s_input
 	char	*line;
 	bool	eof;
 }	t_input;
+
+typedef unsigned long long	t_ull;
 
 typedef struct s_env
 {
@@ -138,7 +130,8 @@ void	setup_signals(void);
 char	*get_prompt(void);
 void	set_status(int status);
 int		malloc_error(int ret);
-int		handle_error(char *target, const char *format, bool nsf);
+int		handle_error(char *target, const char *format, t_msh *ms);
+void	debug_print(const char *format, ...);
 
 // Dynamic array functions (utils/array/)
 

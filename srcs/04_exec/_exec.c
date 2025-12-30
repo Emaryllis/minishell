@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/25 16:12:03 by julhong          ###   ########.fr       */
+/*   Updated: 2025/12/30 23:00:48 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void	execute_input(t_msh *ms)
 	init_ctx(&ctx);
 	if (root->type == AST_CMD && is_builtin(root->cmd_av[0]))
 	{
-		ms->args = root->cmd_av;
+		ms->args = dup_argv(root->cmd_av, root->cmd_ac);
 		cell_exec(ms);
+		free_2darr((void **)ms->args);
 		ms->args = NULL;
 	}
 	else

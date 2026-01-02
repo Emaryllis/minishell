@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:21:31 by julhong           #+#    #+#             */
-/*   Updated: 2025/06/02 15:18:03 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/03 00:24:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main (void)
 	printf("%d", ft_printf("Result: I am %10c, he is %-10c, they are %*c.\n", a, b, -5, c));
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 
 	// Testing '%'
 	printf("\n\n\nTesting for '%%' > Format\n");
@@ -40,7 +40,7 @@ int	main (void)
 	printf("%d", ft_printf("Result: I am %-5%, he is %5%, they are %.*%.\n", 5));
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 
 	// Testing 's'
 	char	*s1 = "first";
@@ -59,7 +59,7 @@ int	main (void)
 	printf("%d", ft_printf("Result: I am %10.1s, he is %5.3s, they are %*.*s.\n", s1, s2, -5, 2, s3));
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 	
 	// Testing 'di'
 	int	n1 = 42;
@@ -90,7 +90,7 @@ int	main (void)
 	printf("%d", ft_printf("Result: I am %+10d, he is %0+10i, they are %-+10.5d.\n", n1, n2, n3));
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 
 #include	<limits.h>
 	// Testing 'u'
@@ -107,7 +107,7 @@ int	main (void)
 	printf("%d", ft_printf("Result: We are %.u, I am %20u, he is %*.13u, they are %-20.5u.\n", u0, u1, -20, u2, u3));
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 
 	// Testing 'p'
 	void	*p1 = "check";
@@ -130,7 +130,7 @@ int	main (void)
 	printf("%d", ft_printf(" %-1p %-2p \n", 0, 0));
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 
 	// Testing 'X'
 	printf("\n\n\nTesting for 'X' hex > Basics\n");
@@ -139,7 +139,7 @@ int	main (void)
 	
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 
 	// Other Tests
 	printf("\n\n\nTesting for others");
@@ -149,6 +149,6 @@ int	main (void)
 	
 	fflush(NULL);
 	write(1, "\n", 1);
-	print_nchars('-', 80);
+	write_nchars(1, '-', 80);
 	return (0);
 }

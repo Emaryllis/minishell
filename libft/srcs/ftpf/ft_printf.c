@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:21:31 by julhong           #+#    #+#             */
-/*   Updated: 2025/06/02 15:04:38 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/03 00:54:46 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,54 @@ static const t_printer	g_printer_dispatch[256] = {
 
 int	ft_printf(const char *str, ...)
 {
-	int		i;
-	int		printed;
-	int		check;
-	t_spec	spec;
+	t_ftpf	var;
 	va_list	ap;
 
-	i = 0;
-	printed = 0;
+	var.spec.fd = 1;
+	var.i = 0;
+	var.printed = 0;
 	va_start(ap, str);
-	while (str[i])
+	while (str[var.i])
 	{
-		if (str[i] != '%')
-			printed += write(1, &str[i++], 1);
+		if (str[var.i] != '%')
+			var.printed += write(var.spec.fd, &str[var.i++], 1);
 		else
 		{
-			if (ftpf_parse_fmt(&i, str, &spec, &ap) == -1)
+			if (ftpf_parse_fmt(&var.i, str, &var.spec, &ap) == -1)
 				return (-1);
-			check = g_printer_dispatch[(int)spec.conv](&ap, &spec);
-			if (check == -1)
+			var.check = g_printer_dispatch[(int)var.spec.conv](&ap, &var.spec);
+			if (var.check == -1)
 				return (-1);
-			printed += check;
+			var.printed += var.check;
 		}
 	}
 	va_end(ap);
-	return (printed);
+	return (var.printed);
+}
+
+int	ft_printfd(int fd, const char *str, ...)
+{
+	t_ftpf	var;
+	va_list	ap;
+
+	var.spec.fd = fd;
+	var.i = 0;
+	var.printed = 0;
+	va_start(ap, str);
+	while (str[var.i])
+	{
+		if (str[var.i] != '%')
+			var.printed += write(var.spec.fd, &str[var.i++], 1);
+		else
+		{
+			if (ftpf_parse_fmt(&var.i, str, &var.spec, &ap) == -1)
+				return (-1);
+			var.check = g_printer_dispatch[(int)var.spec.conv](&ap, &var.spec);
+			if (var.check == -1)
+				return (-1);
+			var.printed += var.check;
+		}
+	}
+	va_end(ap);
+	return (var.printed);
 }

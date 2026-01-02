@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:10:17 by julhong           #+#    #+#             */
-/*   Updated: 2025/07/17 06:24:53 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/03 01:00:54 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ static void	conf_res(t_spec *spec)
 
 int	ftpf_parse_fmt(int *i, const char *str, t_spec *spec, va_list *ap)
 {
+	int	fd;
+
+	fd = spec->fd;
 	ft_bzero(spec, sizeof(*spec));
+	spec->fd = fd;
 	check_flags(i, str, spec);
 	check_width(i, str, spec, ap);
 	check_preci(i, str, spec, ap);

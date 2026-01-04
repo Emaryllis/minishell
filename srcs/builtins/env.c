@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:26 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:29:24 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	cell_env(t_msh *ms)
 
 	if (ms->args[1])
 	{
-		eprintf("env: too many arguments\n");
+		ft_printfd(2, "env: too many arguments\n");
 		return (EXIT_FAILURE);
 	}
 	if (!ms->env || !ms->env->data)

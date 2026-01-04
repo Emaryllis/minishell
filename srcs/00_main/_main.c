@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:56:37 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:28:12 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static bool	init_env(t_msh *ms, char **env)
 	ms->env = malloc(sizeof(t_array));
 	if (!ms->env)
 	{
-		eprintf("Error getting environment... Exiting.");
+		ft_printfd(2, "Error getting environment... Exiting.");
 		return (false);
 	}
 	if (!init_array(ms->env, env))
 	{
-		eprintf("Error initializing environment... Exiting.");
+		ft_printfd(2, "Error initializing environment... Exiting.");
 		free(ms->env);
 		return (false);
 	}

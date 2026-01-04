@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 22:25:09 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 23:59:00 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:28:27 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	pr_syntax_err(t_parse_state p_state)
 
 	if (p_state.unexp_end)
 	{
-		eprintf("minishell: syntax error: unexpected end of file\n");
+		ft_printfd(2, "minishell: syntax error: unexpected end of file\n");
 		return (MS_ER_SYNTAX);
 	}
 	final_token = p_state.error_tk;
@@ -34,6 +34,6 @@ int	pr_syntax_err(t_parse_state p_state)
 		token_str = "newline";
 	else
 		token_str = final_token->str;
-	eprintf("minishell: syntax error near unexpected token `%s'\n", token_str);
+	ft_printfd(2, "minishell: syntax error near unexpected token `%s'\n", token_str);
 	return (MS_ER_SYNTAX);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:30:29 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)
 	if (code_s == 0)
 		*ret = -1;
 	else if (code_s == -1)
-		*ret = (eprintf(NAME": export: `%s': not a valid identifier\n",
+		*ret = (ft_printfd(2, NAME": export: `%s': not a valid identifier\n",
 					ms->args[i]), 1);
 	if (code_s != 1)
 		return ;

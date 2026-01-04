@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/30 23:13:20 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:33:45 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@
 # include <stdbool.h>                  // bool type
 # include <errno.h>                    // errno
 # include <limits.h>                   // INT_MAX, INT_MIN
-# include "srcs/ft_libc/ft_eprintf.h"  // eprintf
 # include "libft/libft.h"
 
 //Forward Declarations --------------------------------------------------------

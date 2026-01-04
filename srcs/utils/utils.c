@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:30:50 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	debug_print(const char *format, ...)
 
 int	malloc_error(int ret)
 {
-	eprintf(NAME": malloc: Cannot allocate memory\n");
+	ft_printfd(2, NAME": malloc: Cannot allocate memory\n");
 	set_status(EXIT_FAILURE);
 	return (ret);
 }
@@ -48,7 +48,7 @@ int	handle_error(char *target, const char *format, t_msh *ms)
 
 	if (!ms)
 	{
-		eprintf(format);
+		ft_printfd(2, format);
 		free(target);
 		return (EXIT_FAILURE);
 	}
@@ -58,11 +58,11 @@ int	handle_error(char *target, const char *format, t_msh *ms)
 	else if (ms->args[1] && ms->env && ft_strcmp(ms->args[1], "~") == 0)
 		env = get_env(ms->env, "HOME");
 	if (errno == EACCES)
-		eprintf(NAME": cd: %s: Permission denied\n", target);
+		ft_printfd(2, NAME": cd: %s: Permission denied\n", target);
 	else if (env)
-		eprintf(NAME": cd: %s: No such file or directory\n", env);
+		ft_printfd(2, NAME": cd: %s: No such file or directory\n", env);
 	else if (ms->args[1])
-		eprintf(NAME": cd: %s: No such file or directory\n", ms->args[1]);
+		ft_printfd(2, NAME": cd: %s: No such file or directory\n", ms->args[1]);
 	free(target);
 	return (EXIT_FAILURE);
 }

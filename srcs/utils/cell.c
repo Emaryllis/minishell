@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:30:48 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	handle_cell_exec(t_msh *ms, char *cmd)
 		set_status(cell_exit(ms));
 	else
 	{
-		eprintf("%s: command not found\n", cmd);
+		ft_printfd(2, "%s: command not found\n", cmd);
 		set_status(127);
 	}
 }
@@ -54,7 +54,7 @@ void	cell_exec(t_msh *ms)
 	cmd = ft_strdup(ms->args[0]);
 	if (!cmd || !convert_all_env(ms))
 	{
-		eprintf("Error parsing query... Exiting.");
+		ft_printfd(2, "Error parsing query... Exiting.");
 		ms->shell_exit = true;
 		return ;
 	}

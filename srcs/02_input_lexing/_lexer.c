@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/04 17:28:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/05 21:50:36 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static t_token	*tk_make_word(char **cur)
 	while (1)
 	{
 		while (start[i]
-			&& !(ft_isspace(start[i]) || ft_strchr("<>\"'|&()", start[i])))
+			&& !(ft_isspace(start[i]) || ft_strchr("<>\"'|()", start[i])
+				|| (start[i] == '&' && start[i + 1] == '&')))
 			i++;
 		if (start[i] == '\'' || start[i] == '"')
 		{
@@ -97,7 +98,8 @@ bool	lex_tokens(t_msh *msh, char *line)
 		new = NULL;
 		if (ft_isspace(*line))
 			adv_ptr_isspace(&line);
-		else if (ft_strchr("<>|&()", *line))
+		else if (ft_strchr("<>|()", *line)
+			|| (*line == '&' && *(line + 1) == '&'))
 			new = tk_make_op(&line);
 		else
 			new = tk_make_word(&line);

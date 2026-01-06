@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/01/05 22:54:38 by julhong          ###   ########.fr        #
+#    Updated: 2026/01/06 16:56:24 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,16 @@ MAIN_SRC_BASE =	$(MAIN_FNAME)
 
 LEX_SRC_DIR = $(SRC_DIR)/02_input_lexing
 LEX_SRC_BASE =	_lexer		tk_node_data	tk_make_op		lex_utils		\
-				tk_cleanup	debug_toks
+				tk_cleanup		debug_toks
 
 PARSE_SRC_DIR = $(SRC_DIR)/03_parser
 PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
-				ast_cleanup	debug_garbc		debug_ast
+				ast_cleanup		debug_garbc		debug_ast
 
-EXPN_SRC_DIR = $(SRC_DIR)/04a_expans
-EXPN_SRC_BASE =	_expans
+EXPN_SRC_DIR = $(SRC_DIR)/04_expans
+EXPN_SRC_BASE =	_expans		exp_str		debug_expans
 
-EXEC_SRC_DIR = $(SRC_DIR)/04b_exec
+EXEC_SRC_DIR = $(SRC_DIR)/05_exec
 EXEC_SRC_BASE =	_exec	cmd_handling		external_cmd					\
 				run_redirs		exec_cleanup	exec_errs
 

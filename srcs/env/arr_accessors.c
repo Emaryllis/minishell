@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/05 22:16:31 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/06 16:07:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ bool	set_env(t_array *env, const char *key, const char *value)
 
 /**
  * Converts simple env var str to corresponding value
- * @note - simple env var str == entire string is the env variable
- * @note - function only works in conjunction with convert_all_env
+ *
+ * Notes:
+ * - simple env var str == entire string is the env variable
+ * - function only works in conjunction with convert_all_env
  */
 static char	*get_value(t_msh *ms, size_t i, bool *cont)
 {
@@ -89,8 +91,10 @@ static char	*get_value(t_msh *ms, size_t i, bool *cont)
 }
 
 /**
- * Converts simple env var str entries in argv array to corresponding value
- * @note - simple env var str == entire string is the env variable
+ * Converts any simple env var str entries in argv array to corresponding values
+ * 
+ * Notes:
+ * - simple env var str == entire string is the env variable
  */
 bool	convert_all_env(t_msh *ms)
 {

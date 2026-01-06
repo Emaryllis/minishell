@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/04 17:33:45 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/06 14:27:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ void		clear_tokens(t_token **start);
 
 //Lex utils
 bool		all_isspace(const char *str);
+void		adv_indx_quote(char *start, int *i, char quote);
 
 //Debugging
 void		debug_lex_pr_tk(t_msh *ms);
@@ -260,6 +261,10 @@ int			pr_syntax_err(t_parse_state p_state);
 void		debug_parse_garbc(t_ast *gc_start);
 const char	*get_ast_type(t_astype type);
 
+//EXPANS ----------------------------------------------------------------------
+
+char	*expand_str(char *str, t_msh *ms);
+
 //EXEC ------------------------------------------------------------------------
 
 # define WR_END 1
@@ -292,6 +297,9 @@ bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 void		exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 char		**dup_argv(char **av, int ac);
 void		exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
+
+//Utils
+char		*str3join(const char *s1, const char *s2, const char *s3);
 
 //cleanup
 void		fd_cls_set(int *fd);

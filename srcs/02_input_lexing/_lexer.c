@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/05 21:50:36 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/06 01:30:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	adv_ptr_isspace(char **cur)
 	*cur = start;
 }
 
-static void	adv_indx_quote(char *start, int *i, char quote)
+void	adv_indx_quote(char *start, int *i, char quote)
 {
 	int	cur_indx;
 

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/30 23:00:48 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/07 01:29:11 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ void	execute_input(t_msh *ms)
 	init_ctx(&ctx);
 	if (root->type == AST_CMD && is_builtin(root->cmd_av[0]))
 	{
-		ms->args = dup_argv(root->cmd_av, root->cmd_ac);
+		ms->args = expand_argv(root->cmd_av, root->cmd_ac, ms);
+		ft_printf("***DEBUG*** String Expansion:\n");
+		for (int i = 0; ms->args[i]; i++)
+			ft_printf("final_argv[%i] -- %s\n", i, ms->args[i]);
+		ft_printf("\n");
 		cell_exec(ms);
 		free_2darr((void **)ms->args);
 		ms->args = NULL;

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/06 15:38:21 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/07 00:37:46 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ const char	*get_ast_type(t_astype type);
 
 //EXPANS ----------------------------------------------------------------------
 
-typedef struct s_expvar
+typedef struct s_expstr
 {
 	bool	in_dquote;
 	int		i;
@@ -272,10 +272,35 @@ typedef struct s_expvar
 	char	*key;
 	char	*expans;
 	char	*postfx;
-}	t_expvar;
+}	t_expstr;
+
+typedef enum e_quote
+{
+	NO_QUOTE,
+	S_QUOTE,
+	D_QUOTE
+}	t_quote;
+
+typedef struct s_strip_split
+{
+	char	*sub_arg;
+	char	*split_prog;
+}	t_stripsplt;
+
+typedef struct s_expav
+{
+	int				i;
+	char			**exp_argv;
+	int				j;
+	char			**final_argv;
+	int				ac_max;
+	t_stripsplt		ss_res;
+}	t_expav;
 
 
-char	*expand_str(char *str, t_msh *ms);
+char		**expand_argv(char **av, int ac, t_msh *ms);
+t_stripsplt	strip_and_split(char *str);
+char		*expand_str(char *str, t_msh *ms);
 
 //Debug
 void	print_example_expans(char *str, t_msh *ms);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 22:55:31 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/07 00:14:47 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/07 02:24:34 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	hdl_expn_quotes(char *str, t_expstr *v)
 
 static char	*exp_and_replace(char *str, t_expstr *v, t_msh *ms)
 {
+	v->dollar_ind = v->i; 
 	v->prefix = ft_substr(str, 0, v->i++);
 	if (str[v->i] == '?')
 	{
@@ -54,7 +55,7 @@ static char	*exp_and_replace(char *str, t_expstr *v, t_msh *ms)
 	v->postfx = ft_strdup(&str[v->i + v->j]);
 	free(str);
 	str = str3join(v->prefix, v->expans, v->postfx);
-	v->i += ft_strlen(v->expans);
+	v->i = v->dollar_ind + ft_strlen(v->expans);
 	return (free(v->prefix), free(v->expans), free(v->postfx), str);
 }
 

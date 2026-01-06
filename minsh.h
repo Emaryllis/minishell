@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/07 00:37:46 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/07 02:23:05 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,7 @@ typedef struct s_expstr
 	int		i;
 	int		j;
 	char	*prefix;
+	int		dollar_ind;
 	char	*key;
 	char	*expans;
 	char	*postfx;

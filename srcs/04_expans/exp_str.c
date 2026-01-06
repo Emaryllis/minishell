@@ -6,14 +6,14 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 22:55:31 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/06 16:54:34 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/07 00:14:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
 
-static void	hdl_expn_quotes(char *str, t_expvar *v)
+static void	hdl_expn_quotes(char *str, t_expstr *v)
 {
 	if (str[v->i] == '"')
 	{
@@ -30,7 +30,7 @@ static void	hdl_expn_quotes(char *str, t_expvar *v)
 	}
 }
 
-static char	*exp_and_replace(char *str, t_expvar *v, t_msh *ms)
+static char	*exp_and_replace(char *str, t_expstr *v, t_msh *ms)
 {
 	v->prefix = ft_substr(str, 0, v->i++);
 	if (str[v->i] == '?')
@@ -67,8 +67,10 @@ static char	*exp_and_replace(char *str, t_expvar *v, t_msh *ms)
  */
 char	*expand_str(char *str, t_msh *ms)
 {
-	t_expvar	v;
+	t_expstr	v;
 
+	if (!ft_strchr(str, '$'))
+		return (str);
 	v.in_dquote = false;
 	v.i = 0;
 	while (str[v.i])

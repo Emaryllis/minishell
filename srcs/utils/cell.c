@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:30:48 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/07 01:36:40 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	cell_exec(t_msh *ms)
 	char	*cmd;
 
 	cmd = ft_strdup(ms->args[0]);
-	if (!cmd || !convert_all_env(ms))
+	if (!cmd)
 	{
 		ft_printfd(2, "Error parsing query... Exiting.");
 		ms->shell_exit = true;

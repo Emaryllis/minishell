@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_str.c                                          :+:      :+:    :+:   */
+/*   exp_str_envs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 22:55:31 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/07 02:24:34 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/08 23:39:45 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-
-static void	hdl_expn_quotes(char *str, t_expstr *v)
+static void	hdl_evnlvl_quotes(char *str, t_expstr *v)
 {
 	if (str[v->i] == '"')
 	{
@@ -30,9 +29,14 @@ static void	hdl_expn_quotes(char *str, t_expstr *v)
 	}
 }
 
+/**
+ * Expands $ENV at current index of str
+ * - Replaces creates new str to replace (and free) old one
+ * - Updates pointer to unprocessed portion post expansion
+ */
 static char	*exp_and_replace(char *str, t_expstr *v, t_msh *ms)
 {
-	v->dollar_ind = v->i; 
+	v->dollar_ind = v->i;
 	v->prefix = ft_substr(str, 0, v->i++);
 	if (str[v->i] == '?')
 	{
@@ -60,13 +64,10 @@ static char	*exp_and_replace(char *str, t_expstr *v, t_msh *ms)
 }
 
 /**
- * Expands all valid $ENVs in in a string.
- * - Skips single quote sections (not inside d_quotes)
- * - Traverses up to $ENV for prefix substr (? or valid key)
- * - Traverses $ENV for expans substr
- * - Rest of the string after $ENV is postfx strdup
+ * Expands all valid $ENVs in in a string
+ * - Quotes aware, and quotes remain
  */
-char	*expand_str(char *str, t_msh *ms)
+char	*expand_str_envs(char *str, t_msh *ms)
 {
 	t_expstr	v;
 
@@ -77,7 +78,7 @@ char	*expand_str(char *str, t_msh *ms)
 	while (str[v.i])
 	{
 		if (str[v.i] == '"' || (str[v.i] == '\'' && !v.in_dquote))
-			hdl_expn_quotes(str, &v);
+			hdl_evnlvl_quotes(str, &v);
 		else if (str[v.i] == '$' && (str[v.i + 1] == '?'
 				|| (ft_isalpha(str[v.i + 1]) || (str[v.i + 1] == '_'))))
 			str = exp_and_replace(str, &v, ms);

@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/01/08 23:50:41 by julhong          ###   ########.fr        #
+#    Updated: 2026/01/09 00:53:22 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ vpath %.c $(MODULE_DIRS)
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra $(FSAN)
 LIB_DIRS = -Llibft
 LIBS = -lft -lreadline -lncurses
 INCLUDES = -I. -Ilibft -Isrcs/ft_libc

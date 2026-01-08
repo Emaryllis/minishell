@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/04 17:29:17 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*handle_tilde(t_msh *ms)
 
 	home = get_env(ms->env, "HOME");
 	if (!home)
-		return (eprintf(NAME": cd: HOME not set\n"), NULL);
+		return (ft_printfd(2, NAME": cd: HOME not set\n"), NULL);
 	if (ms->args[0][1] == '\0')
 		return (ft_strdup(home));
 	result = malloc(strlen(home) + strlen(ms->args[1]) + 1);
@@ -39,7 +39,7 @@ static char	*handle_env_target(t_msh *ms, char *key)
 
 	target = get_env(ms->env, key);
 	if (!target)
-		return (eprintf(NAME": cd: %s not set\n", key), NULL);
+		return (ft_printfd(2, NAME": cd: %s not set\n", key), NULL);
 	target = ft_strdup(target);
 	if (!target)
 		return (malloc_error(0), NULL);
@@ -51,7 +51,7 @@ static char	*get_target_directory(t_msh *ms)
 	char	*target;
 
 	if (ms->args[1] && ms->args[2])
-		return (eprintf(NAME": cd: too many arguments\n"), NULL);
+		return (ft_printfd(2, NAME": cd: too many arguments\n"), NULL);
 	if (!ms->args[1] || ms->args[1][0] == '\0')
 		target = handle_env_target(ms, "HOME");
 	else if (!ft_strcmp(ms->args[1], "-"))

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 18:26:51 by julhong           #+#    #+#             */
-/*   Updated: 2025/06/02 14:42:41 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/03 00:23:59 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_part(char c, char *charset)
 	return (0);
 }
 
-int	print_nchars(char c, int n)
+int	write_nchars(int fd, char c, int n)
 {
 	int	i;
 	int	printed;
@@ -33,7 +33,7 @@ int	print_nchars(char c, int n)
 	i = 0;
 	printed = 0;
 	while (i++ < n)
-		printed += write(1, &c, 1);
+		printed += write(fd, &c, 1);
 	return (printed);
 }
 

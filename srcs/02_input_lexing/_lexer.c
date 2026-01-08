@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/11 01:14:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/06 01:30:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	adv_ptr_isspace(char **cur)
 	*cur = start;
 }
 
-static void	adv_indx_quote(char *start, int *i, char quote)
+void	adv_indx_quote(char *start, int *i, char quote)
 {
 	int	cur_indx;
 
@@ -44,7 +44,8 @@ static t_token	*tk_make_word(char **cur)
 	while (1)
 	{
 		while (start[i]
-			&& !(ft_isspace(start[i]) || ft_strchr("<>\"'|&()", start[i])))
+			&& !(ft_isspace(start[i]) || ft_strchr("<>\"'|()", start[i])
+				|| (start[i] == '&' && start[i + 1] == '&')))
 			i++;
 		if (start[i] == '\'' || start[i] == '"')
 		{
@@ -75,7 +76,7 @@ static bool	lexically_valid(t_msh *msh, char *line)
 			adv_indx_quote(line, &i, line[i]);
 			if (line[i] == '\0')
 			{
-				eprintf("minishell: "
+				ft_printfd(2, "minishell: "
 					"unexpected EOF while looking for matching `%c'\n", quote);
 				msh->exit_status = MS_ER_SYNTAX;
 				return (false);
@@ -97,7 +98,8 @@ bool	lex_tokens(t_msh *msh, char *line)
 		new = NULL;
 		if (ft_isspace(*line))
 			adv_ptr_isspace(&line);
-		else if (ft_strchr("<>|&()", *line))
+		else if (ft_strchr("<>|()", *line)
+			|| (*line == '&' && *(line + 1) == '&'))
 			new = tk_make_op(&line);
 		else
 			new = tk_make_word(&line);

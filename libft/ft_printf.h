@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:36 by julhong           #+#    #+#             */
-/*   Updated: 2025/07/17 06:37:26 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/03 00:54:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 typedef struct s_spec
 {
+	int		fd;
 	//flags
 	int		int_signpos;	//'+'
 	int		int_signspace;	//' '
@@ -35,6 +36,14 @@ typedef struct s_spec
 
 typedef int	(*t_printer)(va_list *, t_spec *);
 
+typedef struct s_ftpf
+{
+	int		i;
+	int		printed;
+	int		check;
+	t_spec	spec;
+}	t_ftpf;
+
 typedef struct s_pr_segs
 {
 	int		width_pad;
@@ -46,9 +55,10 @@ typedef struct s_pr_segs
 }	t_pr_segs;
 
 int		ft_printf(const char *s, ...);
+int		ft_printfd(int fd, const char *str, ...);
 //generic utils
 int		is_part(char c, char *charset);
-int		print_nchars(char c, int n);
+int		write_nchars(int fd, char c, int n);
 int		count_base_digits(uintptr_t p, int base);
 char	*get_hexstr(uintptr_t p);
 //ftpf utils

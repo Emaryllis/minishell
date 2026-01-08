@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/23 18:17:43 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/06 02:31:50 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-static char	*str3join(const char *s1, const char *s2, const char *s3)
+char	*str3join(const char *s1, const char *s2, const char *s3)
 {
 	int		ttl_len;
 	char	*res_str;

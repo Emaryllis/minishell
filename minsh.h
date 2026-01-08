@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/07 02:23:05 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/08 23:58:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define DEBUG true
 # define NAME "minishell"
+# define JAMES_BOND 0x07
 
 //Error Codes -------------------------//
 # define MS_ER_BADBLTIN		2
@@ -172,20 +173,25 @@ typedef struct s_token //FREE token node
 bool		lex_tokens(t_msh *minsh, char *cur);
 
 //Token made to type
+
 t_token		*tk_make_op(char **cur);
 
 //Token raw node data
+
 t_token		*new_token(char *src, int len, t_toktype type);
 void		append_token(t_token **start, t_token *new);
 
 //Cleanup
+
 void		clear_tokens(t_token **start);
 
 //Lex utils
+
 bool		all_isspace(const char *str);
 void		adv_indx_quote(char *start, int *i, char quote);
 
 //Debugging
+
 void		debug_lex_pr_tk(t_msh *ms);
 
 //PARSER ----------------------------------------------------------------------
@@ -237,27 +243,34 @@ t_ast		*build_ast(t_msh *msh);
 void		print_ast(t_ast *node, int depth);
 
 //AST leaf exit point
+
 t_ast		*parse_lvl0_cmdseg(t_token **cur_tk, t_parse_state *p_state);
 
 //AST recursive subshell to top level (lvl2 logical)
+
 void		parse_lvl0_subsh(t_token **cur_tk, t_ast *cmd_node,
 				t_parse_state *p_state);
 
 //AST nodes
+
 t_ast		*new_ast_node(t_astype type, t_ast **garbc_start);
 
 //Redir nodes (for t_astype == AST_CMD)
+
 t_redir		*new_redir_node(t_toktype type);
 void		append_redir(t_redir **start, t_redir *new);
 
 //Cleanup
+
 void		clear_ast_garbage(t_ast **gc_start);
 
 //Syntax Handling
+
 void		set_pstate_err(t_parse_state *p_state);
 int			pr_syntax_err(t_parse_state p_state);
 
 //Debugging
+
 void		debug_parse_garbc(t_ast *gc_start);
 const char	*get_ast_type(t_astype type);
 
@@ -286,25 +299,34 @@ typedef struct s_strip_split
 {
 	char	*sub_arg;
 	char	*split_prog;
-}	t_stripsplt;
+}	t_strips;
 
 typedef struct s_expav
 {
 	int				i;
-	char			**exp_argv;
+	char			**tmp_argv;
 	int				j;
-	char			**final_argv;
+	char			**output_argv;
+	char			ac_cur;
 	int				ac_max;
-	t_stripsplt		ss_res;
 }	t_expav;
 
+//Char** Expansion Phases
 
 char		**expand_argv(char **av, int ac, t_msh *ms);
-t_stripsplt	strip_and_split(char *str);
-char		*expand_str(char *str, t_msh *ms);
+
+//Char** Utils
+
+char		**realloc_str_arr(char **input_arr, int size_used, int *size_cap);
+
+//String-level Utils
+
+char		*expand_str_envs(char *str, t_msh *ms);
+t_strips	strip_split_gmark_nxt(char *str);
 
 //Debug
-void	print_example_expans(char *str, t_msh *ms);
+
+void		print_example_expans(char *str, t_msh *ms);
 
 //EXEC ------------------------------------------------------------------------
 
@@ -319,8 +341,7 @@ typedef struct s_exctx
 	bool	in_subsh;
 }	t_exctx;
 
-
-typedef struct s_excmd		//curr left to exit in child, not freed
+typedef struct s_excmd //curr left to exit in child, not freed
 {
 	char	**path_arr;
 	char	**envp;
@@ -328,25 +349,30 @@ typedef struct s_excmd		//curr left to exit in child, not freed
 }	t_excmd;
 
 //Top-level
+
 void		execute_input(t_msh *ms);
 bool		is_builtin(char *argv0);
 void		walk_ast(t_ast *cur_node, t_exctx ctx, t_msh *ms);
 int			interp_waitstat(int wstat);
 
 //Btm-level
+
 bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 void		exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 char		**dup_argv(char **av, int ac);
 void		exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 //Utils
+
 char		*str3join(const char *s1, const char *s2, const char *s3);
 
 //cleanup
+
 void		fd_cls_set(int *fd);
 void		fd_cleanup(t_exctx *ctx);
 
 //Error handling
+
 int			ms_perror_stat(char *err_src, int exit_status);
 
 //UTILS -----------------------------------------------------------------------

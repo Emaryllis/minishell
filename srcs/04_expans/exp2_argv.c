@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/08 23:56:57 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/09 00:53:03 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ char	**expand_argv(char **raw_argv, int ac, t_msh *ms)
 {
 	t_expav	v;
 
+	v = (t_expav){.i = -1, .j = 0, .ac_max = ac * 2};
 	v.tmp_argv = dup_argv(raw_argv, ac);
-	v.i = -1;
 	while (v.tmp_argv[++v.i])
 		v.tmp_argv[v.i] = expand_str_envs(v.tmp_argv[v.i], ms);
-	v = (t_expav){.i = 0, .j = 0, .ac_max = ac * 2};
+	v.i = 0;
 	v.output_argv = dup_argv(NULL, v.ac_max);
 	while (v.i < ac)
 	{

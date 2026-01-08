@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_eprintf.h                                       :+:      :+:    :+:   */
+/*   debug_expans.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 14:07:53 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:25:33 by julhong          ###   ########.fr       */
+/*   Created: 2026/01/06 14:42:26 by julhong           #+#    #+#             */
+/*   Updated: 2026/01/07 00:47:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_EPRINTF_H
-# define FT_EPRINTF_H
+#include "minsh.h"
 
-# include <stdarg.h>
-
-int	eprintf(const char *format, ...);
-
-#endif
+void	print_example_expans(char *str, t_msh *ms)
+{
+	ft_printf("***DEBUG*** String Expansion:\n");
+	ft_printf("Unexpanded: %s\n", str);
+	str = expand_str(str, ms);
+	ft_printf("Expanded: %s\n\n", str);
+}

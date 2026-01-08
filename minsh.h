@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/31 02:16:07 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/08 14:16:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@
 # include <stdbool.h>                  // bool type
 # include <errno.h>                    // errno
 # include <limits.h>                   // INT_MAX, INT_MIN
-# include "srcs/ft_libc/ft_eprintf.h"  // eprintf
 # include "libft/libft.h"
 
 //Forward Declarations --------------------------------------------------------
@@ -183,6 +182,7 @@ void		clear_tokens(t_token **start);
 
 //Lex utils
 bool		all_isspace(const char *str);
+void		adv_indx_quote(char *start, int *i, char quote);
 
 //Debugging
 void		debug_lex_pr_tk(t_msh *ms);
@@ -260,6 +260,51 @@ int			pr_syntax_err(t_parse_state p_state);
 void		debug_parse_garbc(t_ast *gc_start);
 const char	*get_ast_type(t_astype type);
 
+//EXPANS ----------------------------------------------------------------------
+
+typedef struct s_expstr
+{
+	bool	in_dquote;
+	int		i;
+	int		j;
+	char	*prefix;
+	int		dollar_ind;
+	char	*key;
+	char	*expans;
+	char	*postfx;
+}	t_expstr;
+
+typedef enum e_quote
+{
+	NO_QUOTE,
+	S_QUOTE,
+	D_QUOTE
+}	t_quote;
+
+typedef struct s_strip_split
+{
+	char	*sub_arg;
+	char	*split_prog;
+}	t_stripsplt;
+
+typedef struct s_expav
+{
+	int				i;
+	char			**exp_argv;
+	int				j;
+	char			**final_argv;
+	int				ac_max;
+	t_stripsplt		ss_res;
+}	t_expav;
+
+
+char		**expand_argv(char **av, int ac, t_msh *ms);
+t_stripsplt	strip_and_split(char *str);
+char		*expand_str(char *str, t_msh *ms);
+
+//Debug
+void	print_example_expans(char *str, t_msh *ms);
+
 //EXEC ------------------------------------------------------------------------
 
 # define WR_END 1
@@ -292,6 +337,9 @@ bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 void		exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 char		**dup_argv(char **av, int ac);
 void		exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
+
+//Utils
+char		*str3join(const char *s1, const char *s2, const char *s3);
 
 //cleanup
 void		fd_cls_set(int *fd);

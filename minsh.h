@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/08 23:58:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/14 00:57:49 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,13 +303,21 @@ typedef struct s_strip_split
 
 typedef struct s_expav
 {
-	int				i;
-	char			**tmp_argv;
-	int				j;
-	char			**output_argv;
-	char			ac_cur;
-	int				ac_max;
+	char		argc;
+	int			i;
+	char		**tmp_argv;
+	int			j;
+	char		**output_argv;
+	int			ac_max;
 }	t_expav;
+
+typedef struct s_globpat
+{
+	char		**chunks;
+	bool		bgn_pat;
+	bool		bgn_dot;
+	bool		end_pat;
+}	t_globpat;
 
 //Char** Expansion Phases
 

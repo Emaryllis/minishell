@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/09 00:53:03 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/15 00:08:38 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	strip_split_gmark_loop(t_expav *v)
 	while (*ssg_ret.split_prog != '\0')
 	{
 		ssg_ret = strip_split_gmark_nxt(ssg_ret.split_prog);
-		if (v->j + 1 >= v->ac_max)
+		if (v->j >= v->ac_max)
 			v->output_argv = realloc_str_arr(v->output_argv, v->j, &v->ac_max);
 		v->output_argv[v->j++] = ssg_ret.sub_arg;
 	}

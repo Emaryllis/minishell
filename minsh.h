@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/14 00:57:49 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/14 23:37:00 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,6 @@ typedef struct s_strip_split
 
 typedef struct s_expav
 {
-	char		argc;
 	int			i;
 	char		**tmp_argv;
 	int			j;

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/14 23:37:00 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/17 01:48:39 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,22 +318,32 @@ typedef struct s_globpat
 	bool		end_pat;
 }	t_globpat;
 
+typedef struct s_globout
+{
+	int				slot;
+	int				ac_max;
+	t_globpat		pat;
+	char			**glob_arr;
+	DIR				*dir;
+	struct dirent	*ent;
+}	t_globout;
+
 //Char** Expansion Phases
 
 char		**expand_argv(char **av, int ac, t_msh *ms);
-
-//Char** Utils
-
-char		**realloc_str_arr(char **input_arr, int size_used, int *size_cap);
-
-//String-level Utils
-
+char		**globble_argv(char **input_argv);
 char		*expand_str_envs(char *str, t_msh *ms);
-t_strips	strip_split_gmark_nxt(char *str);
+
+//Utils
+
+void		msh_lex_sort(char **argv);
+char		**realloc_str_arr(char **input, int used, int *old_cap,
+				int new_cap);
+int			arr_len(void **arr);
 
 //Debug
 
-void		print_example_expans(char *str, t_msh *ms);
+void		debug_pr_fargv(char **fargv);
 
 //EXEC ------------------------------------------------------------------------
 

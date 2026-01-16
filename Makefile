@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/01/14 01:09:12 by julhong          ###   ########.fr        #
+#    Updated: 2026/01/16 14:46:22 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
 				ast_cleanup		debug_garbc		debug_ast
 
 EXPN_SRC_DIR = $(SRC_DIR)/04_expans
-EXPN_SRC_BASE =	exp1_str_envs	exp2_argv	globbing	debug_expans
+EXPN_SRC_BASE =	exp1_str_envs	exp2_argv	globbing	exp_utils			\
+				debug_expans
 
 EXEC_SRC_DIR = $(SRC_DIR)/05_exec
 EXEC_SRC_BASE =	_exec	cmd_handling		external_cmd					\

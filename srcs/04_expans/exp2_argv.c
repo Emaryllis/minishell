@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/15 00:08:38 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/16 18:07:07 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	hndl_ssglvl_quotes(char **cur, char *arg, int *i, t_quote *q)
  * - *str != '\0' indicates more to process
  * - *str == '\0' indicates finished stripping &/or splitting the arg
  */
-t_strips	strip_split_gmark_nxt(char *str)
+static t_strips	strip_split_gmark_nxt(char *str)
 {
 	char	*arg;
 	t_quote	quote;
@@ -66,29 +66,6 @@ t_strips	strip_split_gmark_nxt(char *str)
 	return (arg[i] = '\0', (t_strips){arg, str});
 }
 
-/**
- * Increaes capacity of a fixed char *array[]
- * - repoints to origianl strings
- * - does not NULL terminate
- * 
- * Usage:
- * - use in a condition and/or loop to ensure size_used can fit in size_cap
- */
-char	**realloc_str_arr(char **input_arr, int size_used, int *size_cap)
-{
-	char	**tmp;
-	int		i;
-
-	*size_cap *= 2;
-	tmp = dup_argv(NULL, *size_cap);
-	i = -1;
-	while (++i < size_used)
-		tmp[i] = input_arr[i];
-	free(input_arr);
-	input_arr = tmp;
-	return (input_arr);
-}
-
 static void	strip_split_gmark_loop(t_expav *v)
 {
 	t_strips	ssg_ret;
@@ -99,7 +76,8 @@ static void	strip_split_gmark_loop(t_expav *v)
 	{
 		ssg_ret = strip_split_gmark_nxt(ssg_ret.split_prog);
 		if (v->j >= v->ac_max)
-			v->output_argv = realloc_str_arr(v->output_argv, v->j, &v->ac_max);
+			v->output_argv = realloc_str_arr(v->output_argv, v->j, &v->ac_max,
+					v->ac_max * 2);
 		v->output_argv[v->j++] = ssg_ret.sub_arg;
 	}
 }
@@ -122,8 +100,10 @@ char	**expand_argv(char **raw_argv, int ac, t_msh *ms)
 	v.output_argv = dup_argv(NULL, v.ac_max);
 	while (v.i < ac)
 	{
-		if (!ft_strchr(v.tmp_argv[v.i], ' ') && !ft_strchr(v.tmp_argv[v.i], '"')
-			&& !ft_strchr(v.tmp_argv[v.i], '\''))
+		if (!ft_strchr(v.tmp_argv[v.i], ' ')
+			&& !ft_strchr(v.tmp_argv[v.i], '"')
+			&& !ft_strchr(v.tmp_argv[v.i], '\'')
+			&& !ft_strchr(v.tmp_argv[v.i], '*'))
 		{
 			v.output_argv[v.j++] = v.tmp_argv[v.i++];
 			continue ;
@@ -131,5 +111,7 @@ char	**expand_argv(char **raw_argv, int ac, t_msh *ms)
 		strip_split_gmark_loop(&v);
 		free(v.tmp_argv[v.i++]);
 	}
-	return (free(v.tmp_argv), v.output_argv[v.j] = NULL, v.output_argv);
+	free(v.tmp_argv);
+	v.output_argv[v.j] = NULL;
+	return (v.output_argv = globble_argv(v.output_argv));
 }

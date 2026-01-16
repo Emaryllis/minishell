@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 19:26:12 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/15 00:49:58 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/17 01:41:54 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_globpat	extract_glob_pat(char *str)
  * - if the ent starts with '.' (hidden file) then "dot rule" applies
  * - Dot Rule: pat has to start with a literal, and that lit is also a '.'
  */
-bool	glob_match(char *d_name, t_globpat pat)
+static bool	glob_match(char *d_name, t_globpat pat)
 {
 	int		i;
 	char	*match;
@@ -70,60 +70,71 @@ bool	glob_match(char *d_name, t_globpat pat)
 	return (true);
 }
 
-/** Extracts, sorts, and adds to output_argv all matching entries
- * - Ext: accumulate pat matches into a tmp (dynamic)
- * - Sort: sort tmp lexicographically
- * - Add: expand output_argv accordingly
+/** Ret a sorted str arr of args from glob matches
+ * - takes original arg, extracts pat, and reverts glob marker to literal
+ * - checks dir for matches against pattern (dot and hidden rules asserted)
+ * - dynamically accumulate into str arr, sorts and returns to caller
+ * - Returns NULL if 0 matches (same as opendir failure)
  */
-static void	globble_up_loop(char *arg, t_expav *m)
+static char	**glob_output(char *arg)
 {
-	t_globpat		pat;
-	t_expav			g;
-	DIR				*dir;
-	struct dirent	*ent;
+	t_globout	v;
 
-	pat = extract_glob_pat(arg);
-	g = (t_expav){.tmp_argv = dup_argv(NULL, 10), .ac_max = 10};
-
-	//run through dir entries
-		//check if it is a match
-		//accumulate in a tmp_argv
-	dir = opendir(".");
-	if (!dir)
-		return ; //to treat as no match
-	ent = readdir(dir);
-	while (ent)
+	v = (t_globout){.slot = 0, .ac_max = 10};
+	v.dir = opendir(".");
+	if (!v.dir)
+		return (NULL);
+	v.pat = extract_glob_pat(arg);
+	v.glob_arr = dup_argv(NULL, v.ac_max);
+	v.ent = readdir(v.dir);
+	while (v.ent)
 	{
-		if (!ft_strcmp(ent->d_name, ".") || !ft_strcmp(ent->d_name, ".."))
-			continue ;
-		if (glob_match(ent->d_name, pat))
+		if (glob_match(v.ent->d_name, v.pat))
 		{
-			if (g.i >= g.ac_max)
-				g.tmp_argv = realloc_str_arr(g.tmp_argv, g.i, &g.ac_max);
-			g.tmp_argv[g.i++] = ft_strdup(ent->d_name);
+			if (v.slot >= v.ac_max)
+				v.glob_arr = realloc_str_arr(v.glob_arr, v.slot,
+						&v.ac_max, v.ac_max * 2);
+			v.glob_arr[v.slot++] = ft_strdup(v.ent->d_name);
 		}
-		ent = readdir(dir);
+		v.ent = readdir(v.dir);
 	}
-	closedir(dir);
-
-
-	//if tmp_argv is NULL (no match)
-		//then replace JAMES_BOND in original string back to * literal
-		//return without freeing
-	//else
-		//sort tmp_argv
-		//add to output_argv (widen space if needed)
-		//update pointers
-		//free original argv
-
-	//free2darr chunks in pat
+	if (closedir(v.dir), free_2darr((void **)v.pat.chunks), v.slot == 0)
+		return (free(v.glob_arr), NULL);
+	return (v.glob_arr[v.slot] = NULL, msh_lex_sort(v.glob_arr), v.glob_arr);
 }
 
-char	**gobble_argv(char **input_argv)
+/** Finalizes the result of globbing into output_argv
+ * - reallocs if necessary (>1 glob match)
+ * - points output_argv to strings (ownership transf)
+ * - frees the consumed glob_arr 
+ */
+static void	glob_exp(t_expav *m, char **glob_arr)
+{
+	int	glob_len;
+	int	glob_idx;
+
+	glob_len = arr_len((void **)glob_arr);
+	if (glob_len == 1)
+		m->output_argv[m->j++] = *glob_arr;
+	else
+	{
+		m->output_argv = realloc_str_arr(m->output_argv, m->j, &m->ac_max,
+				m->ac_max + glob_len - 1);
+		glob_idx = 0;
+		while (glob_arr[glob_idx])
+			m->output_argv[m->j++] = glob_arr[glob_idx++];
+	}
+	free(glob_arr);
+}
+
+char	**globble_argv(char **input_argv)
 {
 	t_expav	m;
+	char	**glob_arr;
 
-	m = (t_expav){.output_argv = dup_argv(NULL, 10), .ac_max = 10};
+	m = (t_expav){0};
+	m.ac_max = arr_len((void **)input_argv);
+	m.output_argv = dup_argv(NULL, m.ac_max);
 	while (input_argv[m.i])
 	{
 		if (!ft_strchr(input_argv[m.i], JAMES_BOND))
@@ -131,13 +142,14 @@ char	**gobble_argv(char **input_argv)
 			m.output_argv[m.j++] = input_argv[m.i++];
 			continue ;
 		}
-		(void)globble_up_loop(input_argv[m.i], &m);
-		//globble_up_loop() 
-			//loops to find next match, expands accordingly
-			//no match then replaces JAMES_BOND back to * literal
-
-		//original loop: strip_split_gmark_loop(&v);
-		// free(v.tmp_argv[v.i++]);
+		glob_arr = glob_output(input_argv[m.i]);
+		if (!glob_arr)
+		{
+			m.output_argv[m.j++] = input_argv[m.i++];
+			continue ;
+		}
+		glob_exp(&m, glob_arr);
+		free(input_argv[m.i++]);
 	}
 	return (free(input_argv), m.output_argv[m.j] = NULL, m.output_argv);
 }

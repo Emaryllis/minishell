@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/01/16 14:46:22 by julhong          ###   ########.fr        #
+#    Updated: 2026/01/17 22:32:54 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,11 +63,22 @@ vpath %.c $(MODULE_DIRS)
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 
-CFLAGS = -Wall -Werror -Wextra $(FSAN)
+DEBUG ?= 0
+FSAN ?= 0
+
+CFLAGS = -Wall -Werror -Wextra
 LIB_DIRS = -Llibft
 LIBS = -lft -lreadline -lncurses
 INCLUDES = -I. -Ilibft -Isrcs/ft_libc
 HEADERS = minsh.h
+
+ifeq ($(DEBUG), 1)
+ CFLAGS += -DDEBUG=1
+endif
+
+ifeq ($(FSAN), 1)
+ CFLAGS += -g -fsanitize=address
+endif
 
 ifeq ($(shell uname), Darwin)
  LIB_DIRS += -L/opt/homebrew/opt/readline/lib

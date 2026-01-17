@@ -6,14 +6,17 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/17 01:48:39 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/17 22:17:25 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINSH_H
 # define MINSH_H
 
-# define DEBUG true
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
+
 # define NAME "minishell"
 # define JAMES_BOND 0x07
 

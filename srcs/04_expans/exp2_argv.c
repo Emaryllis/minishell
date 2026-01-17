@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/16 18:07:07 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/17 22:45:26 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	strip_split_gmark_loop(t_expav *v)
 }
 
 /**
- * Expansion of char **argv w/o globbing-up (but globs are marked)
+ * Expansion of char **argv
  * - Dups raw parser cmd-node argv (unexpanded, with quotes)
  * - Runs expand_str_envs on each entry (quotes remain)
  * - Strips (of quotes) and splits (on unquoted whitespace) argv entries

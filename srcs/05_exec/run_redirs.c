@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:10:21 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/25 17:37:15 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/17 21:57:22 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	open_simple_rdr(t_redir *cur_redir, t_exctx *ctx, t_msh *ms)
 	return (true);
 }
 
-//, t_msh *ms
+// Need to handle signals here
 static void	heredoc(t_redir *cur_redir, t_exctx *ctx)
 {
 	int		pipe_hdoc[2];

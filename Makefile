@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/01/06 16:56:24 by julhong          ###   ########.fr        #
+#    Updated: 2026/01/17 22:32:54 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
 				ast_cleanup		debug_garbc		debug_ast
 
 EXPN_SRC_DIR = $(SRC_DIR)/04_expans
-EXPN_SRC_BASE =	_expans		exp_str		debug_expans
+EXPN_SRC_BASE =	exp1_str_envs	exp2_argv	globbing	exp_utils			\
+				debug_expans
 
 EXEC_SRC_DIR = $(SRC_DIR)/05_exec
 EXEC_SRC_BASE =	_exec	cmd_handling		external_cmd					\
@@ -62,11 +63,22 @@ vpath %.c $(MODULE_DIRS)
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 
+DEBUG ?= 0
+FSAN ?= 0
+
 CFLAGS = -Wall -Werror -Wextra
 LIB_DIRS = -Llibft
 LIBS = -lft -lreadline -lncurses
 INCLUDES = -I. -Ilibft -Isrcs/ft_libc
 HEADERS = minsh.h
+
+ifeq ($(DEBUG), 1)
+ CFLAGS += -DDEBUG=1
+endif
+
+ifeq ($(FSAN), 1)
+ CFLAGS += -g -fsanitize=address
+endif
 
 ifeq ($(shell uname), Darwin)
  LIB_DIRS += -L/opt/homebrew/opt/readline/lib

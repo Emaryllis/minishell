@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:30:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/18 01:56:56 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,12 @@ int	cell_exit(t_msh *ms)
 		code = parse_args(ms);
 		if (code == INT_MIN + 1)
 		{
-			set_status(2);
+			ms->exit_status = 2;
 			return (2);
 		}
 		if (code == INT_MIN + 2)
 		{
-			set_status(1);
+			ms->exit_status = 1;
 			return (1);
 		}
 	}

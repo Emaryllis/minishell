@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/06 16:07:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/18 11:03:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	set_env(t_array *env, const char *key, const char *value)
 	return (false);
 }
 
-/**
+/** EMA SHOWCASE -- Not used
  * Converts simple env var str to corresponding value
  *
  * Notes:
@@ -90,7 +90,7 @@ static char	*get_value(t_msh *ms, size_t i, bool *cont)
 	return (NULL);
 }
 
-/**
+/** EMA SHOWCASE -- Not used
  * Converts any simple env var str entries in argv array to corresponding values
  * 
  * Notes:

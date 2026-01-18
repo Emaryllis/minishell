@@ -6,17 +6,17 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:30:50 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/18 02:16:44 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
 // Needs to be atomic safe
-void	set_status(int status)
-{
-	g_sig.status = status;
-}
+// void	set_status(int status)
+// {
+// 	g_sig.status = status;
+// }
 
 void	debug_print(const char *format, ...)
 {
@@ -31,7 +31,6 @@ void	debug_print(const char *format, ...)
 int	malloc_error(int ret)
 {
 	ft_printfd(2, NAME": malloc: Cannot allocate memory\n");
-	set_status(EXIT_FAILURE);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/06 14:45:31 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/18 02:21:20 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ static void	ms_prompt_loop(t_msh *ms)
 static bool	init_ms(t_msh *ms)
 {
 	ft_bzero(ms, sizeof(t_msh));
+	ms->exit_status = 0;
 	return (true);
 }
 

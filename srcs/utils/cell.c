@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/07 01:36:40 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/18 02:09:44 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@
 static void	handle_cell_exec(t_msh *ms, char *cmd)
 {
 	if (!ft_strcmp(ms->args[0], "echo"))
-		set_status(cell_echo(ms));
+		ms->exit_status = cell_echo(ms);
 	else if (!ft_strcmp(ms->args[0], "cd"))
-		set_status(cell_cd(ms));
+		ms->exit_status = cell_cd(ms);
 	else if (!ft_strcmp(ms->args[0], "pwd"))
-		set_status(cell_pwd(ms));
+		ms->exit_status = cell_pwd(ms);
 	else if (!ft_strcmp(ms->args[0], "export"))
-		set_status(cell_export(ms));
+		ms->exit_status = cell_export(ms);
 	else if (!ft_strcmp(ms->args[0], "unset"))
-		set_status(cell_unset(ms));
+		ms->exit_status = cell_unset(ms);
 	else if (!ft_strcmp(ms->args[0], "env"))
-		set_status(cell_env(ms));
+		ms->exit_status = cell_env(ms);
 	else if (!ft_strcmp(ms->args[0], "exit"))
-		set_status(cell_exit(ms));
+		ms->exit_status = cell_exit(ms);
 	else
 	{
 		ft_printfd(2, "%s: command not found\n", cmd);
-		set_status(127);
+		ms->exit_status = 127;
 	}
 }
 

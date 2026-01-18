@@ -6,11 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/01/08 14:16:33 by julhong          ###   ########.fr       */
-=======
-/*   Updated: 2026/01/17 22:17:25 by julhong          ###   ########.fr       */
->>>>>>> julian
+/*   Updated: 2026/01/18 02:16:58 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +129,6 @@ void		setup_signals(void);
 // utils/prompt.c, utils/utils.c
 
 char		*get_prompt(void);
-void		set_status(int status);
 int			malloc_error(int ret);
 int			handle_error(char *target, const char *format, t_msh *ms);
 void		debug_print(const char *format, ...);

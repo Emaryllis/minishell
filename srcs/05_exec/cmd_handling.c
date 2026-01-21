@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/07 00:41:06 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/20 11:15:48 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 		cell_exec(ms);
 		fd_cleanup(&ctx);
 		//restore STD fds
-		exit(g_sig.status);
+		exit(ms->exit_status);
 	}
 	else //fork and run externally
 	{

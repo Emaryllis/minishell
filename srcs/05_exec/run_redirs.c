@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:10:21 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/17 21:57:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/21 23:36:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	open_simple_rdr(t_redir *cur_redir, t_exctx *ctx, t_msh *ms)
 	}
 	if (new_fd == -1)
 	{
-		ms->exit_status = ms_perror_stat(cur_redir->target, 1);
+		ms->exit_status = ms_perr_exstat(cur_redir->target, 1);
 		return (fd_cleanup(ctx), false);
 	}
 	fd_cls_set(prev_fd);
@@ -51,9 +51,13 @@ static void	heredoc(t_redir *cur_redir, t_exctx *ctx)
 	pipe(pipe_hdoc);
 	limiter = cur_redir->target;
 	lim_len = ft_strlen(limiter);
-	line = get_next_line(STDIN_FILENO);
-	while (line)
+	while (1)
 	{
+		if (isatty(STDIN_FILENO))
+			write(1, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			break ;
 		if (ft_strncmp(line, limiter, lim_len) == 0 && line[lim_len] == '\n')
 		{
 			free(line);
@@ -62,7 +66,6 @@ static void	heredoc(t_redir *cur_redir, t_exctx *ctx)
 		}
 		write(pipe_hdoc[1], line, ft_strlen(line));
 		free(line);
-		line = get_next_line(STDIN_FILENO);
 	}
 	fd_cls_set(&ctx->fdin);
 	ctx->fdin = pipe_hdoc[0];

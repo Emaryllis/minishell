@@ -6,14 +6,26 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 16:11:53 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/04 17:33:11 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/20 12:03:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-int	ms_perror_stat(char *err_src, int exit_status)
+int	ms_perr_exstat(char *err_src, int exstat)
 {
-	ft_printfd(2, "%s: %s: %s\n", NAME, err_src, strerror(errno));
-	return (exit_status);
+	char	*err_msg;
+
+	err_msg = strerror(errno);
+	if (exstat == MS_ER_SYNTAX)
+	{
+		err_src = "syntax error";
+		err_msg = "unexpected end of file";
+	}
+	else if (exstat == MS_ER_CMDNOTF)
+		err_msg = "command not found";
+	else if (exstat == MS_ER_NOTEXEC)
+		err_msg = "Permission denied";
+	ft_printfd(2, "%s: %s: %s\n", NAME, err_src, err_msg);
+	return (exstat);
 }

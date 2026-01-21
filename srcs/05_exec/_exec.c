@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/17 01:50:57 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/20 09:41:04 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	execute_input(t_msh *ms)
 
 	root = ms->ast_root;
 	init_ctx(&ctx);
-	if (root->type == AST_CMD || is_builtin(root->cmd_av[0]))
+	if (root->type == AST_CMD && is_builtin(root->cmd_av[0]))
 	{
 		ms->args = expand_argv(root->cmd_av, root->cmd_ac, ms);
 		debug_pr_fargv(ms->args);

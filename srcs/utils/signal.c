@@ -6,13 +6,11 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/18 23:19:10 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/21 21:52:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
-
-volatile t_sig	g_sig;
 
 t_newsig		g_newsig;
 
@@ -51,6 +49,8 @@ void	setup_signals(void)
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
 
+	if (!isatty(STDIN_FILENO))
+		return ;
 	g_newsig = 0;
 	sa_int.sa_handler = handle_sigint;
 	sa_int.sa_flags = SA_RESTART;

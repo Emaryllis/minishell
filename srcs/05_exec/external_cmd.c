@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/06 02:31:50 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/20 12:03:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,14 @@ static void	rdy_set_execve(char *argv[], t_excmd var)
 	if (ft_strchr(argv[0], '/') && execve(argv[0], argv, var.envp) == -1)
 	{
 		if (errno == ENOENT)
-			exit(MS_ER_CMDNOTF);
-		exit(MS_ER_NOTEXEC);
+			exit(ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
+		exit(ms_perr_exstat(argv[0], MS_ER_NOTEXEC));
 	}
 	i = -1;
 	exit_status = MS_ER_CMDNOTF;
 	while (var.path_arr[++i])
 	{
 		var.cmd_path = str3join(var.path_arr[i], "/", argv[0]);
-		if (!var.cmd_path)
-			exit(EXIT_FAILURE);
 		if (execve(var.cmd_path, argv, var.envp) == -1)
 		{
 			free(var.cmd_path);
@@ -85,7 +83,7 @@ static void	rdy_set_execve(char *argv[], t_excmd var)
 			continue ;
 		}
 	}
-	exit(exit_status);
+	exit(ms_perr_exstat(argv[0], exit_status));
 }
 
 /**
@@ -106,6 +104,6 @@ void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms)
 	fd_cleanup(&ctx);
 	var.path_arr = get_path_arr(ms->env);
 	if (!var.path_arr)
-		exit(MS_ER_CMDNOTF);
+		exit(ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
 	rdy_set_execve(argv, var);
 }

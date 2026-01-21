@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/18 11:03:47 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/19 01:04:08 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*get_value(t_msh *ms, size_t i, bool *cont)
 	if (!is_env_var(ms->args[i], true))
 	{
 		if (!ft_strcmp(ms->args[i], "$?"))
-			return (ft_itoa(g_sig.status));
+			return (ft_itoa(ms->exit_status));
 		*cont = true;
 	}
 	else

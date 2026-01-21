@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/18 02:16:58 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/21 23:52:09 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,14 @@
 
 //Forward Declarations --------------------------------------------------------
 
-typedef struct s_minishell	t_msh;
+typedef struct s_minishell		t_msh;
 
 //PART B: EMA -----------------------------------------------------------------
 
 // sig_atomic_t guarantees atomic read/write operations
 
-typedef struct s_sig
-{
-	volatile sig_atomic_t	child_pid;	//not used
-	volatile sig_atomic_t	status;		//replace with ms->exit_status
-}	t_sig;
-
-extern volatile t_sig		g_sig;
-
 typedef volatile sig_atomic_t	t_newsig;
+
 extern t_newsig					g_newsig;
 
 typedef struct s_prompt
@@ -92,7 +85,7 @@ typedef struct s_input
 	bool		eof;
 }	t_input;
 
-typedef unsigned long long	t_ull;
+typedef unsigned long long		t_ull;
 
 typedef struct s_env
 {
@@ -163,7 +156,7 @@ typedef enum e_toktype
 	TK_OR
 }	t_toktype;
 
-typedef struct s_token		t_token;
+typedef struct s_token			t_token;
 typedef struct s_token //FREE token node
 {
 	char		*str; //FREE string LATER (will be reused in AST)
@@ -207,7 +200,7 @@ typedef enum e_astype
 	AST_OR
 }	t_astype;
 
-typedef struct s_redir		t_redir;	//FREE redir node
+typedef struct s_redir			t_redir;//FREE redir node
 typedef struct s_redir
 {
 	t_toktype	type;
@@ -215,7 +208,7 @@ typedef struct s_redir
 	t_redir		*next;
 }	t_redir;
 
-typedef struct s_ast		t_ast;		//FREE ast node
+typedef struct s_ast			t_ast;	//FREE ast node
 typedef struct s_ast
 {
 	t_astype	type;
@@ -391,7 +384,7 @@ void		fd_cleanup(t_exctx *ctx);
 
 //Error handling
 
-int			ms_perror_stat(char *err_src, int exit_status);
+int			ms_perr_exstat(char *err_src, int exstat);
 
 //UTILS -----------------------------------------------------------------------
 

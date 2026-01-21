@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/18 02:21:20 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/21 23:12:52 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,19 @@ static void	ms_prompt_loop(t_msh *ms)
 		prompt = get_prompt();
 		ms->input = cell_read_input(prompt);
 		if (ms->input.eof)
+		{
+			ms->shell_exit = true;
 			cleanup(ms->input.line, ms, prompt);
+		}
 		else if (!ms->input.line)
 		{
 			free(prompt);
 			continue ;
+		}
+		if (g_newsig == SIGINT)
+		{
+			ms->exit_status = 1;
+			g_newsig = 0;
 		}
 
 		if (!ms->shell_exit && lex_tokens(ms, ms->input.line))
@@ -108,6 +116,7 @@ static void	ms_prompt_loop(t_msh *ms)
 
 			clear_tokens(&ms->tk_start);
 			clear_ast_garbage(&ms->ast_garbc);
+			cleanup(ms->input.line, ms, prompt);
 		}
 		else if (!ms->shell_exit)
 			continue ;
@@ -123,31 +132,34 @@ static void	ms_prompt_loop(t_msh *ms)
 		// //execute
 		// if (!ms->shell_exit)
 		// 	cell_exec(ms);
-
-		cleanup(ms->input.line, ms, prompt);
 	}
 	rl_clear_history();
 }
 
-static bool	init_ms(t_msh *ms)
+/** Suppresses Ctrl+C print
+ */
+static void	tty_settings(void)
 {
-	ft_bzero(ms, sizeof(t_msh));
-	ms->exit_status = 0;
-	return (true);
+	struct	termios t;
+
+	tcgetattr(STDIN_FILENO, &t);
+	t.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &t);
 }
 
 /**
  * Everything to initialize.
  * - Writing tool tips is fun
  */
-static bool	init_state(t_msh *ms, int ac, char **av, char **envp)
+static void	init_state(t_msh *ms, int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	setup_signals();
-	if (!init_ms(ms) || !init_env(ms, envp))
-		return (false);
-	return (true);
+	tty_settings();
+	ft_bzero(ms, sizeof(t_msh));
+	if (!init_env(ms, envp))
+		exit(EXIT_FAILURE);
 }
 
 /**
@@ -160,7 +172,7 @@ int	main(int ac, char *av[], char *envp[])
 {
 	t_msh	ms;
 
-	if (init_state(&ms, ac, av, envp))
-		ms_prompt_loop(&ms);
-	return (g_sig.status);
+	init_state(&ms, ac, av, envp);
+	ms_prompt_loop(&ms);
+	return (ms.exit_status);
 }

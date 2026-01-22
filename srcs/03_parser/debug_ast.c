@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   TEMP_printast.c                                    :+:      :+:    :+:   */
+/*   debug_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:04:01 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/30 15:34:50 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:50:12 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	print_ast_cmd(t_ast *node, int depth)
 		printf("  redirs:\n");
 		print_redirs(node->redir_start, depth + 1);
 	}
+	if (depth == 0)
+		ft_printf("\n");
 }
 
 static void	print_ast_subsh(t_ast *node, int depth)
@@ -59,13 +61,17 @@ static void	print_ast_subsh(t_ast *node, int depth)
 	}
 	print_indent(depth);
 	printf("  (subshell-body):\n");
-	print_ast(node->left, depth + 1);
+	debug_print_ast(node->left, depth + 1);
+	if (depth == 0)
+		ft_printf("\n");
 }
 
-void	print_ast(t_ast *node, int depth)
+void	debug_print_ast(t_ast *node, int depth)
 {
 	if (!DEBUG || !node)
 		return ;
+	if (depth == 0)
+		ft_printf("***DEBUG*** AST-Diagram:\n");
 	print_indent(depth);
 	printf("[%s]\n", get_ast_type(node->type));
 	if (node->type == AST_CMD)
@@ -74,8 +80,10 @@ void	print_ast(t_ast *node, int depth)
 		return (print_ast_subsh(node, depth));
 	print_indent(depth);
 	printf("  left:\n");
-	print_ast(node->left, depth + 1);
+	debug_print_ast(node->left, depth + 1);
 	print_indent(depth);
 	printf("  right:\n");
-	print_ast(node->right, depth + 1);
+	debug_print_ast(node->right, depth + 1);
+	if (depth == 0)
+		ft_printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:35:21 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 16:48:57 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 15:43:13 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void	consume_redirs(t_token **cur_tk, t_ast *cmd_node,
 			rdr_node = new_redir_node(rdr_type);
 			rdr_node->target = (*cur_tk)->str;
 			append_redir(&cmd_node->redir_start, rdr_node);
+			if (rdr_node->type == TK_RDR_HERE)
+				collect_hdoc(&p_state->hdocs_start, rdr_node);
 			*cur_tk = (*cur_tk)->next;
 			continue ;
 		}

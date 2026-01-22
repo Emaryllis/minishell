@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_debugs.c                                     :+:      :+:    :+:   */
+/*   debug_garbc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:36:47 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/30 15:12:41 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 15:18:59 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ const char	*get_ast_type(t_astype type)
 
 void	debug_parse_garbc(t_ast *gc_start)
 {
+	if (!DEBUG)
+		return ;
 	ft_printf("***DEBUG*** AST Garbage Collection:\n");
 	while (gc_start)
 	{

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/21 23:52:09 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 20:14:16 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINSH_H
 
 # ifndef DEBUG
-#  define DEBUG 0
+#  define DEBUG 1
 # endif
 
 # define NAME "minishell"
@@ -206,6 +206,8 @@ typedef struct s_redir
 	t_toktype	type;
 	char		*target;				//reuse lexer strs
 	t_redir		*next;
+	t_redir		*hdoc_next;
+	int			hdoc_pipefd_0;
 }	t_redir;
 
 typedef struct s_ast			t_ast;	//FREE ast node
@@ -231,10 +233,10 @@ typedef struct s_parse_state
 	bool		parse_error;
 	bool		unexp_end;
 	t_ast		**garbc_start;
+	t_redir		*hdocs_start;
 }	t_parse_state;
 
 t_ast		*build_ast(t_msh *msh);
-void		print_ast(t_ast *node, int depth);
 
 //AST leaf exit point
 
@@ -253,6 +255,8 @@ t_ast		*new_ast_node(t_astype type, t_ast **garbc_start);
 
 t_redir		*new_redir_node(t_toktype type);
 void		append_redir(t_redir **start, t_redir *new);
+void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
+void		resolve_hdocs(t_redir *cur_hdoc);
 
 //Cleanup
 
@@ -265,6 +269,7 @@ int			pr_syntax_err(t_parse_state p_state);
 
 //Debugging
 
+void		debug_print_ast(t_ast *node, int depth);
 void		debug_parse_garbc(t_ast *gc_start);
 const char	*get_ast_type(t_astype type);
 

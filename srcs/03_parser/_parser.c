@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/18 00:20:17 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 16:16:25 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,7 @@ t_ast	*build_ast(t_msh *msh)
 	p_state.tk_ttl = msh->tk_ttl;
 	p_state.garbc_start = &msh->ast_garbc;
 	msh->ast_root = parse_lvl2_logical(&p_state.cur_tk, &p_state);
-
-	if (DEBUG)
-		debug_parse_garbc(*p_state.garbc_start);
-
+	debug_parse_garbc(*p_state.garbc_start);
 	if (!p_state.parse_error && p_state.cur_tk != NULL)
 		set_pstate_err(&p_state);
 	if (p_state.parse_error)
@@ -114,5 +111,6 @@ t_ast	*build_ast(t_msh *msh)
 		pr_syntax_err(p_state);
 		return (NULL);
 	}
+	resolve_hdocs(p_state.hdocs_start);
 	return (msh->ast_root);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/21 23:12:52 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:31:27 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,17 +100,12 @@ static void	ms_prompt_loop(t_msh *ms)
 			build_ast(ms);
 			if (!ms->ast_root)
 			{
-				free(prompt);
 				clear_tokens(&ms->tk_start);
 				clear_ast_garbage(&ms->ast_garbc);
+				cleanup(ms->input.line, ms, prompt);
 				continue ;
 			}
-			if (DEBUG)
-			{
-				ft_printf("***DEBUG*** AST-Diagram:\n");
-				print_ast(ms->ast_root, 0);
-				ft_printf("\n");
-			}
+			debug_print_ast(ms->ast_root, 0);
 
 			execute_input(ms);
 

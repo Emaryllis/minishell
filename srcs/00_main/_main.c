@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/22 17:31:27 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/24 01:02:44 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ static void	ms_prompt_loop(t_msh *ms)
 		else if (!ms->input.line)
 		{
 			free(prompt);
+			if (g_newsig == SIGINT)
+			{
+				ms->exit_status = 1;
+				g_newsig = 0;
+			}
 			continue ;
-		}
-		if (g_newsig == SIGINT)
-		{
-			ms->exit_status = 1;
-			g_newsig = 0;
 		}
 
 		if (!ms->shell_exit && lex_tokens(ms, ms->input.line))
@@ -97,7 +97,7 @@ static void	ms_prompt_loop(t_msh *ms)
 			if (DEBUG)
 				debug_lex_pr_tk(ms);
 
-			build_ast(ms);
+			ms->ast_root = build_ast(ms);
 			if (!ms->ast_root)
 			{
 				clear_tokens(&ms->tk_start);
@@ -135,7 +135,7 @@ static void	ms_prompt_loop(t_msh *ms)
  */
 static void	tty_settings(void)
 {
-	struct	termios t;
+	struct termios	t;
 
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag &= ~ECHOCTL;
@@ -150,7 +150,8 @@ static void	init_state(t_msh *ms, int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	setup_signals();
+	g_newsig = 0;
+	sigset_shell();
 	tty_settings();
 	ft_bzero(ms, sizeof(t_msh));
 	if (!init_env(ms, envp))

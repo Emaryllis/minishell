@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/21 21:52:01 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/24 01:31:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_newsig		g_newsig;
 
-static void	handle_sigint(int sig)
+static void	shell_sigint_handler(int sig)
 {
 	(void)sig;
 	g_newsig = SIGINT;
@@ -44,15 +44,14 @@ static void	handle_sigint(int sig)
  * Non-interactive mode will follow default behavior.
  * Interactive mode will follow subject's requirements.
  */
-void	setup_signals(void)
+void	sigset_shell(void)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
 
 	if (!isatty(STDIN_FILENO))
 		return ;
-	g_newsig = 0;
-	sa_int.sa_handler = handle_sigint;
+	sa_int.sa_handler = shell_sigint_handler;
 	sa_int.sa_flags = SA_RESTART;
 	sigemptyset(&sa_int.sa_mask);
 	if (sigaction(SIGINT, &sa_int, NULL) == -1)
@@ -61,4 +60,25 @@ void	setup_signals(void)
 	sigemptyset(&sa_quit.sa_mask);
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
 		perror("sigaction SIGQUIT");
+}
+
+static void	hdoc_sigint_handler(int sig)
+{
+	(void)sig;
+	g_newsig = SIGINT;
+	rl_done = 1;
+	write(1, "\n", 1);
+}
+
+void	sigset_hdoc(void)
+{
+	struct sigaction	sa_int;
+
+	if (!isatty(STDIN_FILENO))
+		return ;
+	sa_int.sa_handler = hdoc_sigint_handler;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	if (sigaction(SIGINT, &sa_int, NULL) == -1)
+		perror("sigaction SIGINT");
 }

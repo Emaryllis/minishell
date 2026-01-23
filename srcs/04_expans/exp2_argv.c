@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/17 22:45:26 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/22 21:47:50 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-static void	hndl_ssglvl_quotes(char **cur, char *arg, int *i, t_quote *q)
+void	quote_filter(char **cur, char *arg, int *i, t_quote *q)
 {
 	char	*start;
 
@@ -50,7 +50,7 @@ static t_strips	strip_split_gmark_nxt(char *str)
 	while (*str)
 	{
 		if (ft_strchr("'\"", *str))
-			hndl_ssglvl_quotes(&str, arg, &i, &quote);
+			quote_filter(&str, arg, &i, &quote);
 		else if (*str == ' ' && quote == NO_QUOTE)
 		{
 			arg[i] = '\0';
@@ -95,7 +95,7 @@ char	**expand_argv(char **raw_argv, int ac, t_msh *ms)
 	v = (t_expav){.i = -1, .j = 0, .ac_max = ac * 2};
 	v.tmp_argv = dup_argv(raw_argv, ac);
 	while (v.tmp_argv[++v.i])
-		v.tmp_argv[v.i] = expand_str_envs(v.tmp_argv[v.i], ms);
+		v.tmp_argv[v.i] = expand_str_envs(v.tmp_argv[v.i], ms, 0);
 	v.i = 0;
 	v.output_argv = dup_argv(NULL, v.ac_max);
 	while (v.i < ac)

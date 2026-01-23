@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/22 20:14:16 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/24 01:02:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINSH_H
 
 # ifndef DEBUG
-#  define DEBUG 1
+#  define DEBUG 0
 # endif
 
 # define NAME "minishell"
@@ -117,7 +117,8 @@ int			cell_exit(t_msh *ms);
 
 // utils/signal.c
 
-void		setup_signals(void);
+void		sigset_shell(void);
+void		sigset_hdoc(void);
 
 // utils/prompt.c, utils/utils.c
 
@@ -207,8 +208,18 @@ typedef struct s_redir
 	char		*target;				//reuse lexer strs
 	t_redir		*next;
 	t_redir		*hdoc_next;
-	int			hdoc_pipefd_0;
+	int			hdoc_pipefd_0;			//TO check & close during cleanup
 }	t_redir;
+
+typedef struct s_hdoc
+{
+	int		hd_pipe[2];
+	char	*limiter;
+	int		lim_len;
+	bool	hd_expans;
+	char	*line;
+}	t_hdoc;
+
 
 typedef struct s_ast			t_ast;	//FREE ast node
 typedef struct s_ast
@@ -256,7 +267,7 @@ t_ast		*new_ast_node(t_astype type, t_ast **garbc_start);
 t_redir		*new_redir_node(t_toktype type);
 void		append_redir(t_redir **start, t_redir *new);
 void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
-void		resolve_hdocs(t_redir *cur_hdoc);
+void		resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
 
 //Cleanup
 
@@ -331,7 +342,8 @@ typedef struct s_globout
 
 char		**expand_argv(char **av, int ac, t_msh *ms);
 char		**globble_argv(char **input_argv);
-char		*expand_str_envs(char *str, t_msh *ms);
+char		*expand_str_envs(char *str, t_msh *ms, int is_hdoc);
+void		quote_filter(char **cur, char *arg, int *i, t_quote *q);
 
 //Utils
 
@@ -396,6 +408,8 @@ int			ms_perr_exstat(char *err_src, int exstat);
 int			malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
+
+typedef struct termios			t_termios;
 
 typedef struct s_minishell
 {

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 18:35:54 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 23:11:16 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_array
 
 // utils/parse.c, utils/cell.c
 
-t_input		cell_read_input(const char *prompt);
+t_input		cell_read_input(const char *prompt, t_msh *ms);
 void		cell_exec(t_msh *ms);
 
 // builtins/
@@ -117,7 +117,7 @@ int			cell_exit(t_msh *ms);
 
 // utils/signal.c
 
-void		sigset_shell(int prompt_type);
+void		sigset_msh(int prompt_type);
 void		sigset_generic(int sig_type, int dispo);
 void		sigset_child_dfl(void);
 
@@ -411,7 +411,7 @@ int			malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
 
-typedef struct termios			t_termios;
+void		msh_if_sigint(t_msh *ms);
 
 typedef struct s_minishell
 {

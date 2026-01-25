@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/24 01:02:44 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 21:32:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ static void	tty_settings(void)
 {
 	struct termios	t;
 
+	(void)t;
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &t);
@@ -151,7 +152,7 @@ static void	init_state(t_msh *ms, int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	g_newsig = 0;
-	sigset_shell();
+	sigset_shell(0);
 	tty_settings();
 	ft_bzero(ms, sizeof(t_msh));
 	if (!init_env(ms, envp))

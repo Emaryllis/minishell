@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/23 23:06:09 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 21:31:58 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_input	cell_read_input(const char *prompt)
 		if (buf && ft_strchr(buf, '\n'))
 			buf[ft_strlen(buf) - 1] = '\0';
 	}
+	if (g_newsig == SIGINT)
+		rl_done = 0;
 	if (!buf)
 	{
 		exit_print_if(is_interactive);

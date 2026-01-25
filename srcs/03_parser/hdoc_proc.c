@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:23:57 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/24 01:38:24 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 21:38:28 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,37 @@ static void	heredoc_notatty(t_redir *r, t_msh *ms)
 }
 
 // Need to handle signals here
-static void	heredoc_isatty(t_redir *r, t_msh *ms)
+static void	heredoc_isatty(t_redir *r, t_msh *ms, bool *ret)
 {
 	t_hdoc	h;
+	pid_t	pid;
+	int		wstat;
+	int		xstat;
 
 	init_hdoc(&h, r);
+	pid = fork();
+	if (pid == 0)
+		sigset_generic(SIGINT, 0);
+	else
+	{
+		free(h.limiter);
+		close(h.hd_pipe[1]);
+		sigset_shell(1);
+		waitpid(pid, &wstat, 0);
+		sigset_shell(0);
+		xstat = interp_waitstat(wstat);
+		if (xstat != 0)
+		{
+			close(h.hd_pipe[0]);
+			*ret = false;
+		}
+		else
+			r->hdoc_pipefd_0 = h.hd_pipe[0];
+		return ;
+	}
 	while (1)
 	{
 		h.line = readline("> ");
-		if ((g_newsig == SIGINT) && (free(h.line), true))
-			break ;
 		if (!h.line
 			|| (ft_strcmp(h.line, h.limiter) == 0 && (free(h.line), true)))
 			break ;
@@ -109,27 +130,23 @@ static void	heredoc_isatty(t_redir *r, t_msh *ms)
 	}
 	if (free(h.limiter), close(h.hd_pipe[1]), true)
 		r->hdoc_pipefd_0 = h.hd_pipe[0];
+	exit(EXIT_SUCCESS);
 }
 
 // Input resolution of heredocs sequantially, from hdoc collection
 void	resolve_hdocs(t_redir *cur_hdoc, t_msh *ms)
 {
+	bool	ret;
+	
 	if (!cur_hdoc)
 		return ;
-	if (isatty(STDIN_FILENO))
-		sigset_hdoc();
-	while (cur_hdoc)
+	ret = true;
+	while (cur_hdoc && ret)
 	{
 		if (isatty(STDIN_FILENO))
-			heredoc_isatty(cur_hdoc, ms);
+			heredoc_isatty(cur_hdoc, ms, &ret);
 		else
 			heredoc_notatty(cur_hdoc, ms);
-		if (isatty(STDIN_FILENO) && g_newsig == SIGINT)
-		{
-			sigset_shell();
-			rl_done = 0;
-			return ;
-		}
 		cur_hdoc = cur_hdoc->hdoc_next;
 	}
 }

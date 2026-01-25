@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/24 01:02:14 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 18:35:54 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ int			cell_exit(t_msh *ms);
 
 // utils/signal.c
 
-void		sigset_shell(void);
-void		sigset_hdoc(void);
+void		sigset_shell(int prompt_type);
+void		sigset_generic(int sig_type, int dispo);
+void		sigset_child_dfl(void);
 
 // utils/prompt.c, utils/utils.c
 
@@ -392,6 +393,7 @@ void		exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 //Utils
 
+char		**format_envp(t_array *env);
 char		*str3join(const char *s1, const char *s2, const char *s3);
 
 //cleanup

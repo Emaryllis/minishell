@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:23:57 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 21:38:28 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 23:28:27 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,12 @@ static void	heredoc_isatty(t_redir *r, t_msh *ms, bool *ret)
 	init_hdoc(&h, r);
 	pid = fork();
 	if (pid == 0)
-		sigset_generic(SIGINT, 0);
+		sigset_generic(SIGINT, 1);
 	else
 	{
 		free(h.limiter);
 		close(h.hd_pipe[1]);
-		sigset_shell(1);
 		waitpid(pid, &wstat, 0);
-		sigset_shell(0);
 		xstat = interp_waitstat(wstat);
 		if (xstat != 0)
 		{

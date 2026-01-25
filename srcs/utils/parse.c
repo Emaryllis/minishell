@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/25 21:31:58 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 23:11:16 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,24 @@ static void	exit_print_if(int is_interactive)
  * - returns t_input with .line and .eof info for caller to action
  * - !buf handles Ctrl+D (EOF) with special print if inter
  */
-t_input	cell_read_input(const char *prompt)
+t_input	cell_read_input(const char *prompt, t_msh *ms)
 {
 	char	*buf;
 	int		is_interactive;
 
 	is_interactive = isatty(STDIN_FILENO);
-	if (is_interactive)
+	if (is_interactive && (sigset_msh(1), true))
+	{
 		buf = readline(prompt);
+		sigset_msh(0);
+	}
 	else
 	{
 		buf = get_next_line(STDIN_FILENO);
 		if (buf && ft_strchr(buf, '\n'))
 			buf[ft_strlen(buf) - 1] = '\0';
 	}
-	if (g_newsig == SIGINT)
-		rl_done = 0;
+	msh_if_sigint(ms);
 	if (!buf)
 	{
 		exit_print_if(is_interactive);

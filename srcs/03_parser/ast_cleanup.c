@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 23:58:07 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/17 23:59:03 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 22:33:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	clear_redirs(t_redir **redir_start)
 	{
 		tmp = rdr_cur;
 		rdr_cur = rdr_cur->next;
+		fd_cls_set(&tmp->hdoc_pipefd_0);
 		free(tmp);
 	}
 	*redir_start = NULL;

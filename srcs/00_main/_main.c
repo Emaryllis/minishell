@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/25 21:32:33 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/25 22:36:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	ms_prompt_loop(t_msh *ms)
 	while (!ms->shell_exit)
 	{
 		prompt = get_prompt();
-		ms->input = cell_read_input(prompt);
+		ms->input = cell_read_input(prompt, ms);
 		if (ms->input.eof)
 		{
 			ms->shell_exit = true;
@@ -84,11 +84,6 @@ static void	ms_prompt_loop(t_msh *ms)
 		else if (!ms->input.line)
 		{
 			free(prompt);
-			if (g_newsig == SIGINT)
-			{
-				ms->exit_status = 1;
-				g_newsig = 0;
-			}
 			continue ;
 		}
 
@@ -152,7 +147,7 @@ static void	init_state(t_msh *ms, int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	g_newsig = 0;
-	sigset_shell(0);
+	sigset_msh(0);
 	tty_settings();
 	ft_bzero(ms, sizeof(t_msh));
 	if (!init_env(ms, envp))

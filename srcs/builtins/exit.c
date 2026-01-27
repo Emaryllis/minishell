@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/20 10:53:27 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,5 @@ int	cell_exit(t_msh *ms)
 		printf("exit\n");
 	if (ms && code >= 0 && code <= 255)
 		return (code);
-	return (ms->exit_status);
+	return (ms->exstat);
 }

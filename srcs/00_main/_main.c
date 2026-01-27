@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/25 22:36:47 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:46 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ static void	init_state(t_msh *ms, int ac, char **av, char **envp)
  * The main function of the minishell program.
  * Sets everything up: struct, signals, env, prompt etc.
  * Prompts on loop until expected termination
- * @return The latest exit status denoted by {g_sig.status}.
+ * @return The latest exit status denoted by {ms.exstat}.
  */
 int	main(int ac, char *av[], char *envp[])
 {
@@ -166,5 +166,5 @@ int	main(int ac, char *av[], char *envp[])
 
 	init_state(&ms, ac, av, envp);
 	ms_prompt_loop(&ms);
-	return (ms.exit_status);
+	return (ms.exstat);
 }

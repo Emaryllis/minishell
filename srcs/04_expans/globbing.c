@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 19:26:12 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/17 01:41:54 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 16:50:23 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,27 @@ static bool	glob_match(char *d_name, t_globpat pat)
 {
 	int		i;
 	char	*match;
+	int		last_offset;
 
 	if (d_name[0] == '.' && !pat.bgn_dot)
 		return (false);
-	i = 0;
-	while (pat.chunks[i])
+	i = -1;
+	while (pat.chunks[++i])
 	{
 		match = ft_strstr(d_name, pat.chunks[i]);
 		if (!match)
 			return (false);
 		if ((i == 0) && pat.bgn_pat && (match != d_name))
 			return (false);
-		d_name = match + ft_strlen(pat.chunks[i]);
-		if (!pat.chunks[i + 1] && pat.end_pat && *d_name != '\0')
-			return (false);
-		i++;
+		if (!pat.chunks[i + 1] && pat.end_pat)
+		{
+			last_offset = ft_strlen(d_name) - ft_strlen(pat.chunks[i]);
+			if ((last_offset) < 0
+				|| (ft_strcmp(d_name + last_offset, pat.chunks[i]) != 0))
+				return (false);
+		}
+		else if (pat.chunks[i + 1])
+			match += + ft_strlen(pat.chunks[i]);
 	}
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/06 01:30:35 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static bool	lexically_valid(t_msh *msh, char *line)
 			{
 				ft_printfd(2, "minishell: "
 					"unexpected EOF while looking for matching `%c'\n", quote);
-				msh->exit_status = MS_ER_SYNTAX;
+				msh->exstat = MS_ER_SYNTAX;
 				return (false);
 			}
 		}

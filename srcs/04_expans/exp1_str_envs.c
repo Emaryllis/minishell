@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 22:55:31 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/23 01:37:10 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*exp_and_replace(char *str, t_expstr *v, t_msh *ms)
 	if (str[v->i] == '?')
 	{
 		v->j = 1;
-		v->expans = ft_itoa(ms->exit_status);
+		v->expans = ft_itoa(ms->exstat);
 	}
 	else
 	{

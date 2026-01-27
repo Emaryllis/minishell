@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/20 09:41:04 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:30:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	execute_input(t_msh *ms)
 			walk_ast(ms->ast_root, ctx, ms);
 		else if (pid == -1)
 		{
-			ms->exit_status = EXIT_FAILURE;
+			ms->exstat = EXIT_FAILURE;
 			return ;
 		}
 		waitpid(pid, &wstat, 0);
-		ms->exit_status = interp_waitstat(wstat);
+		ms->exstat = interp_waitstat(wstat);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 22:52:33 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 23:11:16 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	msh_if_sigint(t_msh *ms)
 {
 	if (g_newsig == SIGINT)
 	{
-		ms->exit_status = 1;
+		ms->exstat = 1;
 		g_newsig = 0;
 	}
 }

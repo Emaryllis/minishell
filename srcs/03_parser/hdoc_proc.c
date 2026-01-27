@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:23:57 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 23:28:27 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 21:29:29 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ static void	heredoc_isatty(t_redir *r, t_msh *ms, bool *ret)
 
 	init_hdoc(&h, r);
 	pid = fork();
-	if (pid == 0)
+	if (pid == 0 && close(h.hd_pipe[0]) == 0)
 		sigset_generic(SIGINT, 1);
 	else
 	{
-		free(h.limiter);
 		close(h.hd_pipe[1]);
+		free(h.limiter);
 		waitpid(pid, &wstat, 0);
 		xstat = interp_waitstat(wstat);
 		if (xstat != 0)
@@ -126,8 +126,8 @@ static void	heredoc_isatty(t_redir *r, t_msh *ms, bool *ret)
 		write(h.hd_pipe[1], "\n", 1);
 		free(h.line);
 	}
-	if (free(h.limiter), close(h.hd_pipe[1]), true)
-		r->hdoc_pipefd_0 = h.hd_pipe[0];
+	free(h.limiter);
+	close(h.hd_pipe[1]);
 	exit(EXIT_SUCCESS);
 }
 
@@ -135,7 +135,7 @@ static void	heredoc_isatty(t_redir *r, t_msh *ms, bool *ret)
 void	resolve_hdocs(t_redir *cur_hdoc, t_msh *ms)
 {
 	bool	ret;
-	
+
 	if (!cur_hdoc)
 		return ;
 	ret = true;

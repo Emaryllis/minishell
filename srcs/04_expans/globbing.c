@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 19:26:12 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 16:50:23 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 20:59:08 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static bool	glob_match(char *d_name, t_globpat pat)
 				return (false);
 		}
 		else if (pat.chunks[i + 1])
-			match += + ft_strlen(pat.chunks[i]);
+			match += ft_strlen(pat.chunks[i]);
 	}
 	return (true);
 }

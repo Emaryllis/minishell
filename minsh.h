@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 20:49:43 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_array
 
 // utils/parse.c, utils/cell.c
 
-t_input		cell_read_input(const char *prompt, t_msh *ms);
+t_input		cell_read_input(t_msh *ms);
 void		cell_exec(t_msh *ms);
 
 // builtins/
@@ -209,7 +209,7 @@ typedef struct s_redir
 	char		*target;				//reuse lexer strs
 	t_redir		*next;
 	t_redir		*hdoc_next;
-	int			hdoc_pipefd_0;			//TO check & close during cleanup
+	int			hdoc_pipefd_0;			//closed aft fork, if not with redir
 }	t_redir;
 
 typedef struct s_hdoc
@@ -411,7 +411,8 @@ int			malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
 
-void		msh_if_sigint(t_msh *ms);
+void		msh_consume_sigint(t_msh *ms);
+int			main_cleanup(t_msh *ms);
 
 typedef struct s_minishell
 {

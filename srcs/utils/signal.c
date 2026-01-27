@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/25 23:29:27 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 20:07:45 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	sigset_msh(int mode)
 
 	if (!isatty(STDIN_FILENO))
 		return ;
+	ft_bzero(&sa_int, sizeof(sa_int));
+	ft_bzero(&sa_quit, sizeof(sa_quit));
 	if (mode == 0)
 		sa_int.sa_handler = std_sigint_handler;
 	else
@@ -82,6 +84,8 @@ void	sigset_child_dfl(void)
 
 	if (!isatty(STDIN_FILENO))
 		return ;
+	ft_bzero(&sa_int, sizeof(sa_int));
+	ft_bzero(&sa_quit, sizeof(sa_quit));
 	sa_int.sa_handler = SIG_DFL;
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
@@ -97,13 +101,14 @@ void	sigset_child_dfl(void)
 /** Sets a signal disposition for sig_type 
  * dispo == 0 -> SIG_IGN
  * dispo == 1 -> SIG_DFL
- */ 
+ */
 void	sigset_generic(int sig_type, int dispo)
 {
 	struct sigaction	sa_sig;
-	
+
 	if (!isatty(STDIN_FILENO))
 		return ;
+	ft_bzero(&sa_sig, sizeof(sa_sig));
 	if (dispo == 0)
 		sa_sig.sa_handler = SIG_IGN;
 	else

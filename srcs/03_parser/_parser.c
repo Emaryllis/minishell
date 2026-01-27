@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 23:12:41 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 18:46:11 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_ast	*build_ast(t_msh *ms)
 		return (NULL);
 	}
 	resolve_hdocs(p_state.hdocs_start, ms);
-	if (g_newsig == SIGINT && (msh_if_sigint(ms), true))
+	if (g_newsig == SIGINT && (msh_consume_sigint(ms), true))
 		return (NULL);
 	return (ms->ast_root);
 }

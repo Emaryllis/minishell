@@ -6,19 +6,18 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/25 23:11:16 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 19:00:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-static void	exit_print_if(int is_interactive)
+static int	exit_print_if(int is_interactive)
 {
 	if (!is_interactive)
-		return ;
-	write(1, "\033[1A", 5);
-	rl_redisplay();
+		return (1);
 	ft_printf("exit\n");
+	return (1);
 }
 
 /** Interactive-aware reader of input from STDIN
@@ -27,11 +26,13 @@ static void	exit_print_if(int is_interactive)
  * - returns t_input with .line and .eof info for caller to action
  * - !buf handles Ctrl+D (EOF) with special print if inter
  */
-t_input	cell_read_input(const char *prompt, t_msh *ms)
+t_input	cell_read_input(t_msh *ms)
 {
+	char	*prompt;
 	char	*buf;
 	int		is_interactive;
 
+	prompt = get_prompt();
 	is_interactive = isatty(STDIN_FILENO);
 	if (is_interactive && (sigset_msh(1), true))
 	{
@@ -44,15 +45,12 @@ t_input	cell_read_input(const char *prompt, t_msh *ms)
 		if (buf && ft_strchr(buf, '\n'))
 			buf[ft_strlen(buf) - 1] = '\0';
 	}
-	msh_if_sigint(ms);
-	if (!buf)
-	{
-		exit_print_if(is_interactive);
-		return ((t_input){NULL, true});
-	}
-	if ((buf[0] == '\0' || all_isspace(buf)) && (free(buf), true))
-		return ((t_input){NULL, false});
+	msh_consume_sigint(ms);
+	if (!buf && exit_print_if(is_interactive))
+		return (free(prompt), (t_input){NULL, true});
+	if ((buf[0] == '\0' || all_isspace(buf)))
+		return (free(prompt), free(buf), (t_input){NULL, false});
 	if (is_interactive)
 		add_history(buf);
-	return ((t_input){buf, false});
+	return (free(prompt), (t_input){buf, false});
 }

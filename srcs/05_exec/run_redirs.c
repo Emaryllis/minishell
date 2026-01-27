@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:10:21 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/22 16:05:00 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	ctx_rdr_proc(t_redir *cur_redir, t_exctx *ctx, t_msh *ms)
 	}
 	if (new_fd == -1)
 	{
-		ms->exit_status = ms_perr_exstat(cur_redir->target, 1);
+		ms->exstat = ms_perr_exstat(cur_redir->target, 1);
 		return (fd_cleanup(ctx), false);
 	}
 	fd_cls_set(prev_fd);

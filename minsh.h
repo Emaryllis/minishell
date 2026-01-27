@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 23:11:16 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -429,7 +429,7 @@ typedef struct s_minishell
 	t_ast		*ast_root;
 	t_ast		*ast_garbc;
 
-	int			exit_status;
+	int			exstat;
 }	t_msh;
 
 #endif

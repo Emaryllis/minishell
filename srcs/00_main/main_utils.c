@@ -6,19 +6,21 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 22:52:33 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 21:05:37 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 18:18:43 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-void	msh_consume_sigint(t_msh *ms)
+int	msh_consume_sigint(t_msh *ms)
 {
 	if (g_newsig == SIGINT)
 	{
 		ms->exstat = 130;
 		g_newsig = 0;
+		return (1);
 	}
+	return (0);
 }
 
 /**

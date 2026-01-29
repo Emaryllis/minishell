@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/27 21:15:43 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:27:36 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	ms_prompt_loop(t_msh *ms)
 			if (!ms->ast_root && main_cleanup(ms))
 				continue ;
 			debug_print_ast(ms->ast_root, 0);
-			execute_input(ms);
+			execute_ast(ms);
 			main_cleanup(ms);
 		}
 		else if (!ms->shell_exit)

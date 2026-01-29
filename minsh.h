@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/29 17:13:00 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/30 00:35:52 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define MS_ER_SIGINT		130
 # define MS_ER_SIGQUIT		131
 # define MS_ER_SYNTAX		258
+# define MS_ER_AMBRDR		901
 
 //INCLUDES: Allowed External Functions ----------------------------------------
 # include <unistd.h>
@@ -365,7 +366,7 @@ typedef struct s_exctx
 {
 	int		fdin;
 	int		fdout;
-	bool	is_piped;
+	bool	in_minsh;
 	bool	in_subsh;
 }	t_exctx;
 
@@ -378,20 +379,20 @@ typedef struct s_excmd //curr left to exit in child, not freed
 
 //Top-level
 
-void		execute_input(t_msh *ms);
-bool		is_builtin(char *argv0);
-void		walk_ast(t_ast *cur_node, t_exctx ctx, t_msh *ms);
+void		execute_ast(t_msh *ms);
+int			proc_ast_node(t_ast *cur_node, t_exctx ctx, t_msh *ms);
 int			interp_wtstat(int wstat);
 
 //Btm-level
 
 bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
-void		exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
+int			exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
+int			exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 char		**dup_argv(char **av, int ac);
-void		exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 //Utils
 
+bool		is_builtin(char *argv0);
 char		**format_envp(t_array *env);
 char		*str3join(const char *s1, const char *s2, const char *s3);
 
@@ -410,7 +411,7 @@ int			malloc_fail_exit(void);
 
 //MAIN ------------------------------------------------------------------------
 
-void		msh_consume_sigint(t_msh *ms);
+int			msh_consume_sigint(t_msh *ms);
 int			main_cleanup(t_msh *ms);
 
 typedef struct s_minishell

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:23:57 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 21:29:29 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:13:00 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void	heredoc_isatty(t_redir *r, t_msh *ms, bool *ret)
 		close(h.hd_pipe[1]);
 		free(h.limiter);
 		waitpid(pid, &wstat, 0);
-		xstat = interp_waitstat(wstat);
+		xstat = interp_wtstat(wstat);
 		if (xstat != 0)
 		{
 			close(h.hd_pipe[0]);

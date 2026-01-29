@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/29 15:45:35 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:13:00 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,7 +381,7 @@ typedef struct s_excmd //curr left to exit in child, not freed
 void		execute_input(t_msh *ms);
 bool		is_builtin(char *argv0);
 void		walk_ast(t_ast *cur_node, t_exctx ctx, t_msh *ms);
-int			interp_waitstat(int wstat);
+int			interp_wtstat(int wstat);
 
 //Btm-level
 

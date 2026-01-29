@@ -4,13 +4,14 @@ minishell
 *.o
 *.a
 
+#Temp testing files
+test_exec
+infile
+outfile
+
 #CMake files
 cmake-build-debug/
 Minishell.sh
 
-#jul
+#Settings
 .vscode
-test_exec
-infile
-outfile
-output

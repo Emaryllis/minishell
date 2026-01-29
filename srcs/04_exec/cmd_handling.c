@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/29 17:13:00 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/30 00:38:22 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,34 +58,72 @@ char	**dup_argv(char **av, int ac)
 	return (dup);
 }
 
-void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
+/** Saves / Restores fd context for builtins in case of redirs
+ * save_restore == 0 -> save
+ * save_restore == 1 -> restore
+ */
+static bool	msh_fd_guard(int *ms_stdio, int save_restore)
+{
+	bool	flag;
+
+	if (save_restore == 0)
+	{
+		ms_stdio[0] = -1;
+		ms_stdio[1] = -1;
+		ms_stdio[0] = dup(STDIN_FILENO);
+		if (ms_stdio[0] == -1)
+			return (false);
+		ms_stdio[1] = dup(STDOUT_FILENO);
+		if (ms_stdio[1] == -1)
+			return (fd_cls_set(&ms_stdio[0]), false);
+		return (true);
+	}
+	flag = true;
+	if (dup2(ms_stdio[0], STDIN_FILENO) == -1)
+		flag = false;
+	if ((dup2(ms_stdio[1], STDOUT_FILENO) == -1))
+		flag = false;
+	fd_cls_set(&ms_stdio[0]);
+	fd_cls_set(&ms_stdio[1]);
+	return (flag);
+}
+
+int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 {
 	pid_t	pid;
-	int		exstat;
+	int		ms_stdio[2];
+	int		wstat;
 
-	if (is_builtin(cmd_node->cmd_av[0]))
+	ms->args = expand_argv(cmd_node->cmd_av, cmd_node->cmd_ac, ms);
+	debug_pr_fargv(ms->args);
+	if (is_builtin(ms->args[0]))
 	{
-		//save STD fds
-		//apply redris if any
-		ms->args = cmd_node->cmd_av;
-		cell_exec(ms);
+		if (!msh_fd_guard(ms_stdio, 0))
+			return (fd_cleanup(&ctx), EXIT_FAILURE);
+		if (!run_redirs(cmd_node->redir_start, &ctx, ms)
+			|| (ctx.fdin != -1 && dup2(ctx.fdin, STDIN_FILENO) == -1)
+			|| (ctx.fdout != -1 && dup2(ctx.fdout, STDOUT_FILENO) == -1))
+			return (fd_cleanup(&ctx), msh_fd_guard(ms_stdio, 1), EXIT_FAILURE);
 		fd_cleanup(&ctx);
-		//restore STD fds
-		exit(ms->exstat);
+		cell_exec(ms);
+		if (!msh_fd_guard(ms_stdio, 1))
+			return (EXIT_FAILURE);
+		return (ms->exstat);
 	}
-	else //fork and run externally
+	else
 	{
 		pid = fork();
-		if (pid == 0)
+		if (pid == 0 && (sigset_child_dfl(), true))
 		{
-			if (!run_redirs(cmd_node->redir_start, &ctx, ms))
-				exit(EXIT_FAILURE);	
-			exc_ext_cmd(cmd_node->cmd_av, ctx, ms);
+			if (!run_redirs(cmd_node->redir_start, &ctx, ms)
+				&& (fd_cleanup(&ctx), true) && main_cleanup(ms))
+				exit(EXIT_FAILURE);
+			exit (exc_ext_cmd(ms->args, ctx, ms));
 		}
 		else if (pid == -1)
-			exit(EXIT_FAILURE);
+			return (perror(NAME": fork"), EXIT_FAILURE);
 		fd_cleanup(&ctx);
-		waitpid(pid, &exstat, 0);
-		exit(interp_wtstat(exstat));
+		waitpid(pid, &wstat, 0);
+		return (interp_wtstat(wstat));
 	}
 }

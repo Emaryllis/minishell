@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:06:52 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 20:51:56 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	cell_echo(t_msh *ms)
 	{
 		if (ms->args[i][0] != '\0')
 		{
-			printf("%s", ms->args[i]);
+			ft_printf("%s", ms->args[i]);
 			if (ms->args[i + 1])
-				printf(" ");
+				ft_printf(" ");
 		}
 		i++;
 	}
 	if (nl)
-		printf("\n");
+		ft_printf("\n");
 	return (EXIT_SUCCESS);
 }

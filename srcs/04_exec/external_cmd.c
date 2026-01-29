@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 17:37:28 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 22:43:16 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	**get_path_arr(t_array *env)
 	return (path_arr);
 }
 
-static void	rdy_set_execve(char *argv[], t_excmd var)
+static int	rdy_set_execve(char *argv[], t_excmd var)
 {
 	int		exit_status;
 	int		i;
@@ -67,8 +67,8 @@ static void	rdy_set_execve(char *argv[], t_excmd var)
 	if (ft_strchr(argv[0], '/') && execve(argv[0], argv, var.envp) == -1)
 	{
 		if (errno == ENOENT)
-			exit(ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
-		exit(ms_perr_exstat(argv[0], MS_ER_NOTEXEC));
+			return (ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
+		return (ms_perr_exstat(argv[0], MS_ER_NOTEXEC));
 	}
 	i = -1;
 	exit_status = MS_ER_CMDNOTF;
@@ -83,7 +83,7 @@ static void	rdy_set_execve(char *argv[], t_excmd var)
 			continue ;
 		}
 	}
-	exit(ms_perr_exstat(argv[0], exit_status));
+	return (ms_perr_exstat(argv[0], exit_status));
 }
 
 /**
@@ -92,7 +92,7 @@ static void	rdy_set_execve(char *argv[], t_excmd var)
  * - Sets input/output & closes fds
  * - Uses provided path or walks PATH with execve
  */
-void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms)
+int	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms)
 {
 	t_excmd	var;
 
@@ -100,10 +100,10 @@ void	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms)
 	if (!var.envp
 		|| (ctx.fdin != -1 && dup2(ctx.fdin, STDIN_FILENO) == -1)
 		|| (ctx.fdout != -1 && dup2(ctx.fdout, STDOUT_FILENO) == -1))
-		return (fd_cleanup(&ctx), exit(EXIT_FAILURE));
+		return (EXIT_FAILURE);
 	fd_cleanup(&ctx);
 	var.path_arr = get_path_arr(ms->env);
 	if (!var.path_arr)
-		exit(ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
-	rdy_set_execve(argv, var);
+		return (ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
+	return (rdy_set_execve(argv, var));
 }

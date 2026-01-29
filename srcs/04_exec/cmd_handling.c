@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 15:30:49 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:13:00 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ void	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 			exit(EXIT_FAILURE);
 		fd_cleanup(&ctx);
 		waitpid(pid, &exstat, 0);
-		exit(interp_waitstat(exstat));
+		exit(interp_wtstat(exstat));
 	}
 }

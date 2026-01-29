@@ -6,20 +6,11 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 15:30:47 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:19:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
-
-int	interp_waitstat(int wstat)
-{
-	if (WIFEXITED(wstat))
-		return (WEXITSTATUS(wstat));
-	else if (WIFSIGNALED(wstat))
-		return (128 + WTERMSIG(wstat));
-	return (0);
-}
 
 static void	init_ctx(t_exctx *ctx)
 {
@@ -56,7 +47,7 @@ void	execute_input(t_msh *ms)
 			return ;
 		}
 		waitpid(pid, &wstat, 0);
-		ms->exstat = interp_waitstat(wstat);
+		ms->exstat = interp_wtstat(wstat);
 	}
 }
 
@@ -91,7 +82,7 @@ static void	exc_hdl_pipe(t_ast *cur_node, t_exctx ctx, t_msh *ms)
 	close(pipefds[RE_END]);
 	waitpid(left_pid, NULL, 0);
 	waitpid(right_pid, &wstat, 0);
-	exit(interp_waitstat(wstat));
+	exit(interp_wtstat(wstat));
 }
 
 void	walk_ast(t_ast *cur_node, t_exctx ctx, t_msh *ms)

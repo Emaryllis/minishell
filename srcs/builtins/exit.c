@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 15:58:43 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static int	parse_args(t_msh *ms)
 	code = ft_atoli(ms->args[1], &invalid);
 	if (invalid)
 	{
+		ft_printf("exit\n");
 		ft_printfd(2, NAME": exit: %s: numeric argument required\n",
 			ms->args[1]);
 		return (INT_MIN + 1);
@@ -129,7 +130,7 @@ int	cell_exit(t_msh *ms)
 	}
 	ms->shell_exit = true;
 	if (isatty(STDIN_FILENO))
-		printf("exit\n");
+		ft_printf("exit\n");
 	if (ms && code >= 0 && code <= 255)
 		return (code);
 	return (ms->exstat);

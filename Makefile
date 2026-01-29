@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/01/25 23:09:52 by julhong          ###   ########.fr        #
+#    Updated: 2026/01/29 15:53:15 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,22 +15,22 @@ NAME = minishell
 SRC_DIR = srcs
 
 MAIN_SRC_DIR = $(SRC_DIR)/00_main
-MAIN_FNAME = _main		main_utils
+MAIN_FNAME = _main		signals		input	main_utils
 MAIN_SRC_BASE =	$(MAIN_FNAME)
 
-LEX_SRC_DIR = $(SRC_DIR)/02_lexing
+LEX_SRC_DIR = $(SRC_DIR)/01_lexing
 LEX_SRC_BASE =	_lexer		tk_node_data	tk_make_op		lex_utils		\
 				tk_cleanup		debug_toks
 
-PARSE_SRC_DIR = $(SRC_DIR)/03_parser
+PARSE_SRC_DIR = $(SRC_DIR)/02_parser
 PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
 				hdoc_proc	ast_cleanup		debug_garbc		debug_ast
 
-EXPN_SRC_DIR = $(SRC_DIR)/04_expans
+EXPN_SRC_DIR = $(SRC_DIR)/03_expans
 EXPN_SRC_BASE =	exp1_str_envs	exp2_argv	globbing	exp_utils			\
 				debug_expans
 
-EXEC_SRC_DIR = $(SRC_DIR)/05_exec
+EXEC_SRC_DIR = $(SRC_DIR)/04_exec
 EXEC_SRC_BASE =	_exec	cmd_handling		external_cmd					\
 				run_redirs		exec_cleanup	exec_errs
 
@@ -42,7 +42,7 @@ BUILTIN_SRC_DIR = $(SRC_DIR)/builtins
 BUILTIN_SRC_BASE =	cd echo env exit export pwd unset
 
 UTILS_SRC_DIR = $(SRC_DIR)/utils
-UTILS_SRC_BASE =	cell parse prompt signal utils
+UTILS_SRC_BASE =	cell_exec	othr_utils
 
 SRCS = \
 	$(addprefix $(MAIN_SRC_DIR)/, $(addsuffix .c, $(MAIN_SRC_BASE)))		\

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 20:49:43 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void		sigset_child_dfl(void);
 
 // utils/prompt.c, utils/utils.c
 
-char		*get_prompt(void);
 int			malloc_error(int ret);
 int			handle_error(char *target, const char *format, t_msh *ms);
 void		debug_print(const char *format, ...);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/30 00:35:52 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:28:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,14 +361,23 @@ void		debug_pr_fargv(char **fargv);
 
 # define WR_END 1
 # define RE_END 0
+# define CH_LFT 0
+# define CH_RHT 1
 
 typedef struct s_exctx
 {
-	int		fdin;
-	int		fdout;
+	int		fdio[2];
 	bool	in_minsh;
 	bool	in_subsh;
 }	t_exctx;
+
+typedef struct s_chio
+{
+	t_exctx	ctx[2];
+	t_ast	*node[2];
+	pid_t	pid[2];
+	int		wstat;
+}	t_chio;
 
 typedef struct s_excmd //curr left to exit in child, not freed
 {
@@ -386,6 +395,7 @@ int			interp_wtstat(int wstat);
 //Btm-level
 
 bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
+int			exc_hdl_pipe(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 int			exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 int			exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 char		**dup_argv(char **av, int ac);
@@ -395,11 +405,13 @@ char		**dup_argv(char **av, int ac);
 bool		is_builtin(char *argv0);
 char		**format_envp(t_array *env);
 char		*str3join(const char *s1, const char *s2, const char *s3);
+int			fork_set_ch(t_exctx ctx);
 
 //cleanup
 
-void		fd_cls_set(int *fd);
-void		fd_cleanup(t_exctx *ctx);
+int			fd_clset(int *fd);
+int			fd_clstwo(int fd[2]);
+int			ch_msh_clean(t_exctx ctx, t_msh *ms);
 
 //Error handling
 

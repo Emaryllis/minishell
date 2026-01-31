@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:00:59 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 00:33:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 02:04:13 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ int	ch_msh_clean(t_exctx ctx, t_msh *ms)
 {
 	fd_clstwo(ctx.fdio);
 	if (!ctx.in_minsh)
+	{
+		ms->shell_exit = true;
 		main_cleanup(ms);
+	}
 	return (1);
 }

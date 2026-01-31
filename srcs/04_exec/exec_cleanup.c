@@ -6,25 +6,33 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:00:59 by julhong           #+#    #+#             */
-/*   Updated: 2025/12/24 08:40:10 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 00:33:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-void	fd_cls_set(int *fd)
+int	fd_clset(int *fd)
 {
 	if (*fd != -1)
 	{
 		close(*fd);
 		*fd = -1;
 	}
+	return (1);
 }
 
-void	fd_cleanup(t_exctx *ctx)
+int	fd_clstwo(int fd[2])
 {
-	fd_cls_set(&ctx->fdin);
-	fd_cls_set(&ctx->fdout);
-	// fd_cls_set(&ctx->pipe[WR_END]);
-	// fd_cls_set(&ctx->pipe[RE_END]);
+	fd_clset(&fd[0]);
+	fd_clset(&fd[1]);
+	return (1);
+}
+
+int	ch_msh_clean(t_exctx ctx, t_msh *ms)
+{
+	fd_clstwo(ctx.fdio);
+	if (!ctx.in_minsh)
+		main_cleanup(ms);
+	return (1);
 }

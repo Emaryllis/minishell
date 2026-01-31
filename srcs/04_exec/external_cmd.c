@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/29 22:43:16 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:43:54 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,25 @@ static int	rdy_set_execve(char *argv[], t_excmd var)
 int	exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms)
 {
 	t_excmd	var;
+	int		exstat;
 
 	var.envp = format_envp(ms->env);
 	if (!var.envp
-		|| (ctx.fdin != -1 && dup2(ctx.fdin, STDIN_FILENO) == -1)
-		|| (ctx.fdout != -1 && dup2(ctx.fdout, STDOUT_FILENO) == -1))
-		return (EXIT_FAILURE);
-	fd_cleanup(&ctx);
+		|| (ctx.fdio[0] != -1 && dup2(ctx.fdio[0], STDIN_FILENO) == -1)
+		|| (ctx.fdio[1] != -1 && dup2(ctx.fdio[1], STDOUT_FILENO) == -1))
+		return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
+	fd_clstwo(ctx.fdio);
 	var.path_arr = get_path_arr(ms->env);
 	if (!var.path_arr)
-		return (ms_perr_exstat(argv[0], MS_ER_CMDNOTF));
-	return (rdy_set_execve(argv, var));
+	{
+		ms_perr_exstat(argv[0], MS_ER_CMDNOTF);
+		free_2darr((void **)var.envp);
+		ch_msh_clean(ctx, ms);
+		return (MS_ER_CMDNOTF);
+	}
+	exstat = rdy_set_execve(argv, var);
+	free_2darr((void **)var.envp);
+	free_2darr((void **)var.path_arr);
+	ch_msh_clean(ctx, ms);
+	return (exstat);
 }

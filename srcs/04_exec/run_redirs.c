@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:10:21 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/29 23:31:40 by julhong          ###   ########.fr       */
+/*   Updated: 2026/01/31 22:21:18 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ static bool	rdr_ctx_proc(t_redir *cur_redir, t_exctx *ctx, t_msh *ms)
 	expd_rdr_tgt = expand_target(cur_redir->target, ms);
 	if (!expd_rdr_tgt)
 		return (false);
-	prev_fd = &ctx->fdin;
+	prev_fd = &ctx->fdio[0];
 	if (cur_redir->type == TK_RDR_IN)
 		new_fd = open(expd_rdr_tgt[0], O_RDONLY);
 	else if (cur_redir->type == TK_RDR_HERE)
 		new_fd = cur_redir->hdoc_pipefd_0;
 	else
 	{
-		prev_fd = &ctx->fdout;
+		prev_fd = &ctx->fdio[1];
 		o_outtype = O_TRUNC * (cur_redir->type == TK_RDR_OUT)
 			+ O_APPEND * (cur_redir->type == TK_RDR_APND);
 		new_fd = open(expd_rdr_tgt[0], O_WRONLY | o_outtype | O_CREAT, 0644);
@@ -51,7 +51,7 @@ static bool	rdr_ctx_proc(t_redir *cur_redir, t_exctx *ctx, t_msh *ms)
 		return (ms->exstat = ms_perr_exstat(expd_rdr_tgt[0], 1)
 			, free_2darr((void **)expd_rdr_tgt), false);
 	return (free_2darr((void **)expd_rdr_tgt)
-		, fd_cls_set(prev_fd), *prev_fd = new_fd, true);
+		, fd_clset(prev_fd), *prev_fd = new_fd, true);
 }
 
 /**

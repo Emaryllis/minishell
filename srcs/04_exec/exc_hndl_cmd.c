@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_handling.c                                     :+:      :+:    :+:   */
+/*   exc_hndl_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/30 00:38:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:45:33 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**dup_argv(char **av, int ac)
  * save_restore == 0 -> save
  * save_restore == 1 -> restore
  */
-static bool	msh_fd_guard(int *ms_stdio, int save_restore)
+static bool	ms_fdgate(int *ms_stdio, int save_restore)
 {
 	bool	flag;
 
@@ -75,7 +75,7 @@ static bool	msh_fd_guard(int *ms_stdio, int save_restore)
 			return (false);
 		ms_stdio[1] = dup(STDOUT_FILENO);
 		if (ms_stdio[1] == -1)
-			return (fd_cls_set(&ms_stdio[0]), false);
+			return (fd_clset(&ms_stdio[0]), false);
 		return (true);
 	}
 	flag = true;
@@ -83,8 +83,8 @@ static bool	msh_fd_guard(int *ms_stdio, int save_restore)
 		flag = false;
 	if ((dup2(ms_stdio[1], STDOUT_FILENO) == -1))
 		flag = false;
-	fd_cls_set(&ms_stdio[0]);
-	fd_cls_set(&ms_stdio[1]);
+	fd_clset(&ms_stdio[0]);
+	fd_clset(&ms_stdio[1]);
 	return (flag);
 }
 
@@ -96,34 +96,41 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 
 	ms->args = expand_argv(cmd_node->cmd_av, cmd_node->cmd_ac, ms);
 	debug_pr_fargv(ms->args);
+	if (!ms->args[0])
+	{
+		if (!run_redirs(cmd_node->redir_start, &ctx, ms))
+			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
+		return (ch_msh_clean(ctx, ms), EXIT_SUCCESS);
+	}
 	if (is_builtin(ms->args[0]))
 	{
-		if (!msh_fd_guard(ms_stdio, 0))
-			return (fd_cleanup(&ctx), EXIT_FAILURE);
+		if (!ms_fdgate(ms_stdio, 0))
+			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
 		if (!run_redirs(cmd_node->redir_start, &ctx, ms)
-			|| (ctx.fdin != -1 && dup2(ctx.fdin, STDIN_FILENO) == -1)
-			|| (ctx.fdout != -1 && dup2(ctx.fdout, STDOUT_FILENO) == -1))
-			return (fd_cleanup(&ctx), msh_fd_guard(ms_stdio, 1), EXIT_FAILURE);
-		fd_cleanup(&ctx);
+			|| (ctx.fdio[0] != -1 && dup2(ctx.fdio[0], STDIN_FILENO) == -1)
+			|| (ctx.fdio[1] != -1 && dup2(ctx.fdio[1], STDOUT_FILENO) == -1))
+			return (ch_msh_clean(ctx, ms), ms_fdgate(ms_stdio, 1)
+				, EXIT_FAILURE);
+		fd_clstwo(ctx.fdio);
 		cell_exec(ms);
-		if (!msh_fd_guard(ms_stdio, 1))
+		if (!ms_fdgate(ms_stdio, 1))
 			return (EXIT_FAILURE);
-		return (ms->exstat);
+		return (ch_msh_clean(ctx, ms), ms->exstat);
 	}
 	else
 	{
 		pid = fork();
-		if (pid == 0 && (sigset_child_dfl(), true))
+		if (pid == 0 && fork_set_ch(ctx))
 		{
 			if (!run_redirs(cmd_node->redir_start, &ctx, ms)
-				&& (fd_cleanup(&ctx), true) && main_cleanup(ms))
+				&& ch_msh_clean(ctx, ms))
 				exit(EXIT_FAILURE);
-			exit (exc_ext_cmd(ms->args, ctx, ms));
+			exit(exc_ext_cmd(ms->args, ctx, ms));
 		}
-		else if (pid == -1)
+		else if (pid == -1 && ch_msh_clean(ctx, ms))
 			return (perror(NAME": fork"), EXIT_FAILURE);
-		fd_cleanup(&ctx);
+		fd_clstwo(ctx.fdio);
 		waitpid(pid, &wstat, 0);
-		return (interp_wtstat(wstat));
+		return (ch_msh_clean(ctx, ms), interp_wtstat(wstat));
 	}
 }

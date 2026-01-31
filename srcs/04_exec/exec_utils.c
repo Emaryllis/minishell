@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 17:13:50 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:28:18 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:57:43 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	interp_wtstat(int wstat)
 	return (0);
 }
 
-int	fork_set_ch(t_exctx ctx)
+int	fork_set_ch(t_exctx *ctx)
 {
-	ctx.in_minsh = false;
+	ctx->in_minsh = false;
 	sigset_child_dfl();
 	return (1);
 }

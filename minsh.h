@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:28:14 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:58:22 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,7 +405,7 @@ char		**dup_argv(char **av, int ac);
 bool		is_builtin(char *argv0);
 char		**format_envp(t_array *env);
 char		*str3join(const char *s1, const char *s2, const char *s3);
-int			fork_set_ch(t_exctx ctx);
+int			fork_set_ch(t_exctx *ctx);
 
 //cleanup
 

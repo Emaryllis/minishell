@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 00:51:18 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:28:14 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:58:12 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exc_hdl_pipe(t_ast *cur_node, t_exctx p_ctx, t_msh *ms)
 				waitpid(ch.pid[CH_LFT], NULL, 0);
 			return (perror(NAME": fork"), EXIT_FAILURE);
 		}
-		if (ch.pid[i] == 0 && fd_clset(&pfds[i]) && fork_set_ch(ch.ctx[i]))
+		if (ch.pid[i] == 0 && fd_clset(&pfds[i]) && fork_set_ch(&ch.ctx[i]))
 		{
 			if (i == CH_LFT)
 				fd_clset(&p_ctx.fdio[WR_END]);

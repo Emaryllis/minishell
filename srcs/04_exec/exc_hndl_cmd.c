@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:45:33 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 01:58:22 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 	else
 	{
 		pid = fork();
-		if (pid == 0 && fork_set_ch(ctx))
+		if (pid == 0 && fork_set_ch(&ctx))
 		{
 			if (!run_redirs(cmd_node->redir_start, &ctx, ms)
 				&& ch_msh_clean(ctx, ms))

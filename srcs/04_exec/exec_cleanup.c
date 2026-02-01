@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:00:59 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 15:36:26 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/02 00:43:15 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int	ch_msh_clean(t_exctx ctx, t_msh *ms)
 	{
 		ms->shell_exit = true;
 		main_cleanup(ms);
+	}
+	else
+	{
+		if (ms->args && (free_2darr((void **)ms->args), true))
+			ms->args = NULL;
 	}
 	return (1);
 }

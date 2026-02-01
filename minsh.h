@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 23:38:27 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/02 00:05:13 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,10 +407,13 @@ int			interp_wtstat(int wstat);
 
 //Btm-level
 
-bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
-int			exc_hdl_pipe(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 int			exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
+bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 int			exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
+
+int			exc_hdl_pipe(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
+int			exc_hdl_and(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
+int			exc_hdl_orr(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 
 //Utils
 

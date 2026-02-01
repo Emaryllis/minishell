@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/22 21:47:50 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 23:39:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static t_strips	strip_split_gmark_nxt(char *str)
 	t_quote	quote;
 	int		i;
 
+	adv_ptr_isspace(&str);
 	arg = ft_strdup(str);
 	quote = NO_QUOTE;
 	i = 0;
@@ -51,11 +52,10 @@ static t_strips	strip_split_gmark_nxt(char *str)
 	{
 		if (ft_strchr("'\"", *str))
 			quote_filter(&str, arg, &i, &quote);
-		else if (*str == ' ' && quote == NO_QUOTE)
+		else if (ft_isspace(*str) && quote == NO_QUOTE)
 		{
+			adv_ptr_isspace(&str);
 			arg[i] = '\0';
-			while (*str == ' ')
-				str++;
 			break ;
 		}
 		else if ((*str == '*' && quote == NO_QUOTE) && str++)

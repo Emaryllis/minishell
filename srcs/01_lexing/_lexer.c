@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:35:56 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 23:38:10 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minsh.h>
 
-static void	adv_ptr_isspace(char **cur)
+void	adv_ptr_isspace(char **cur)
 {
 	char	*start;
 

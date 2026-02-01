@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:58:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 17:59:54 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,6 @@ bool	is_builtin(char *argv0)
 	else if (!ft_strcmp(argv0, "exit"))
 		return (true);
 	return (false);
-}
-
-/**
- * Deep copies a char** (null terminated array of strings e.g. argv)
- * - copies up to ac arguments if AV is not not NULL
- * -- if ac is > argc then more space will be allocated beyond NULL
- * -- ac should be actual argc for exact copy
- * - if AV is NULL, then NULL will occupy dup[0]
- * -- space is allocated, but nothing is copied
- */
-char	**dup_argv(char **av, int ac)
-{
-	char	**dup;
-	int		i;
-
-	dup = malloc((ac + 1) * sizeof(char *));
-	i = 0;
-	if (av)
-	{
-		while (av[i] && i < ac)
-		{
-			dup[i] = ft_strdup(av[i]);
-			i++;
-		}
-	}
-	dup[i] = NULL;
-	return (dup);
 }
 
 /** Saves / Restores fd context for builtins in case of redirs

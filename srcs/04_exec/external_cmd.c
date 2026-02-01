@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:43:54 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 16:22:03 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*str3join(const char *s1, const char *s2, const char *s3)
 	return (res_str);
 }
 
-char	**format_envp(t_array *env)
+static char	**format_envp(t_array *env)
 {
 	char	**envp;
 	size_t	i;

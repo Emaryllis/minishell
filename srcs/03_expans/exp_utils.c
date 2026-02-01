@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 14:42:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/17 01:34:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 16:19:04 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,33 @@ int	arr_len(void **arr)
 	while (arr[len])
 		len++;
 	return (len);
+}
+
+/**
+ * Deep copies a char** (null terminated array of strings e.g. argv)
+ * - copies up to ac arguments if AV is not not NULL
+ * -- if ac is > argc then more space will be allocated beyond NULL
+ * -- ac should be actual argc for exact copy
+ * - if AV is NULL, then NULL will occupy dup[0]
+ * -- space is allocated, but nothing is copied
+ */
+char	**dup_argv(char **av, int ac)
+{
+	char	**dup;
+	int		i;
+
+	dup = malloc((ac + 1) * sizeof(char *));
+	i = 0;
+	if (av)
+	{
+		while (av[i] && i < ac)
+		{
+			dup[i] = ft_strdup(av[i]);
+			i++;
+		}
+	}
+	dup[i] = NULL;
+	return (dup);
 }
 
 /** Increaes capacity of a fixed char *array[]

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:00:59 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 02:04:13 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 15:36:26 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ int	fd_clstwo(int fd[2])
 	return (1);
 }
 
+/** Generic main_cleanup++ in child
+ * - cleans up the main minishell allocations that fork with child
+ * - also closes the current fds (if any) used to redirect stdin/out
+ * 
+ * Note
+ * - any additional allocations in child will have to be handled separately
+ * - e.g. PIPE: internal pipe fds; CMD: allocated char** for execve
+ */
 int	ch_msh_clean(t_exctx ctx, t_msh *ms)
 {
 	fd_clstwo(ctx.fdio);

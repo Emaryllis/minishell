@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 01:58:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 18:22:07 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,9 +348,10 @@ void		quote_filter(char **cur, char *arg, int *i, t_quote *q);
 
 //Utils
 
-void		msh_lex_sort(char **argv);
+char		**dup_argv(char **av, int ac);
 char		**realloc_str_arr(char **input, int used, int *old_cap,
 				int new_cap);
+void		msh_lex_sort(char **argv);
 int			arr_len(void **arr);
 
 //Debug
@@ -398,12 +399,10 @@ bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 int			exc_hdl_pipe(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 int			exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 int			exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
-char		**dup_argv(char **av, int ac);
 
 //Utils
 
 bool		is_builtin(char *argv0);
-char		**format_envp(t_array *env);
 char		*str3join(const char *s1, const char *s2, const char *s3);
 int			fork_set_ch(t_exctx *ctx);
 

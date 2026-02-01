@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/02/01 00:54:30 by julhong          ###   ########.fr        #
+#    Updated: 2026/02/01 22:23:56 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LEX_SRC_BASE =	_lexer		tk_node_data	tk_make_op		lex_utils		\
 
 PARSE_SRC_DIR = $(SRC_DIR)/02_parser
 PARSE_SRC_BASE = _parser	pnode_data	 	parse_cmdseg	assert_syntax	\
-				hdoc_proc	ast_cleanup		debug_garbc		debug_ast
+				hdoc_proc	hdoc_proc2		ast_cleanup						\
+				debug_garbc		debug_ast
 
 EXPN_SRC_DIR = $(SRC_DIR)/03_expans
 EXPN_SRC_BASE =	exp1_str_envs	exp2_argv	globbing	exp_utils			\

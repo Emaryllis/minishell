@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:09:56 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/25 22:31:43 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 21:18:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_redir	*new_redir_node(t_toktype type)
 		return (malloc_fail_exit(), NULL);
 	ft_bzero(node, sizeof(t_redir));
 	node->type = type;
-	node->hdoc_pipefd_0 = -1;
+	node->hd_pfd_0 = -1;
 	return (node);
 }
 

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 18:50:58 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 22:34:10 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int			cell_exit(t_msh *ms);
 // utils/signal.c
 
 void		sigset_msh(int prompt_type);
-void		sigset_generic(int sig_type, int dispo);
+int			sigset_generic(int sig_type, int dispo);
 void		sigset_child_dfl(void);
 
 // utils/prompt.c, utils/utils.c
@@ -209,15 +209,15 @@ typedef struct s_redir
 	char		*target;				//reuse lexer strs
 	t_redir		*next;
 	t_redir		*hdoc_next;
-	int			hdoc_pipefd_0;			//closed aft fork, if not with redir
+	int			hd_pfd_0;			//closed aft fork, if not with redir
 }	t_redir;
 
 typedef struct s_hdoc
 {
-	int		hd_pipe[2];
-	char	*limiter;
+	int		pfds[2];
+	char	*lim;
 	int		lim_len;
-	bool	hd_expans;
+	bool	do_expans;
 	char	*line;
 }	t_hdoc;
 
@@ -268,7 +268,9 @@ t_ast		*new_ast_node(t_astype type, t_ast **garbc_start);
 t_redir		*new_redir_node(t_toktype type);
 void		append_redir(t_redir **start, t_redir *new);
 void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
-void		resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
+int			resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
+int			heredoc_isatty(t_redir *r, t_msh *ms);
+void		heredoc_notatty(t_redir *r, t_msh *ms);
 
 //Cleanup
 

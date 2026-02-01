@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 18:22:07 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 18:50:58 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,7 +404,7 @@ int			exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
 
 bool		is_builtin(char *argv0);
 char		*str3join(const char *s1, const char *s2, const char *s3);
-int			fork_set_ch(t_exctx *ctx);
+int			fork_set_ch(t_exctx *ctx, int type);
 
 //cleanup
 

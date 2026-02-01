@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 17:59:54 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 19:37:20 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 	int		ms_stdio[2];
 	int		wstat;
 
+	if (!ctx.in_minsh)
+		fork_set_ch(&ctx, 0);
 	ms->args = expand_argv(cmd_node->cmd_av, cmd_node->cmd_ac, ms);
 	debug_pr_fargv(ms->args);
 	if (!ms->args[0])
@@ -93,7 +95,7 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 	else
 	{
 		pid = fork();
-		if (pid == 0 && fork_set_ch(&ctx))
+		if (pid == 0 && fork_set_ch(&ctx, 0))
 		{
 			if (!run_redirs(cmd_node->redir_start, &ctx, ms)
 				&& ch_msh_clean(ctx, ms))

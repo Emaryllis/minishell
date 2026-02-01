@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 00:52:00 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 23:52:32 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int	proc_ast_node(t_ast *cur_node, t_exctx parent_ctx, t_msh *ms)
 		return (exc_hdl_cmd(cur_node, parent_ctx, ms));
 	else if (cur_node->type == AST_PIPE)
 		return (exc_hdl_pipe(cur_node, parent_ctx, ms));
+	else if (cur_node->type == AST_AND)
+		return (exc_hdl_and(cur_node, parent_ctx, ms));
+	else if (cur_node->type == AST_OR)
+		return (exc_hdl_orr(cur_node, parent_ctx, ms));
 	return (0);
 }
 

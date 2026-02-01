@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:10:21 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/31 22:21:18 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 21:18:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	rdr_ctx_proc(t_redir *cur_redir, t_exctx *ctx, t_msh *ms)
 	if (cur_redir->type == TK_RDR_IN)
 		new_fd = open(expd_rdr_tgt[0], O_RDONLY);
 	else if (cur_redir->type == TK_RDR_HERE)
-		new_fd = cur_redir->hdoc_pipefd_0;
+		new_fd = cur_redir->hd_pfd_0;
 	else
 	{
 		prev_fd = &ctx->fdio[1];

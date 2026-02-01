@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:02:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/27 20:07:45 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 21:09:46 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,12 @@ void	sigset_child_dfl(void)
  * dispo == 0 -> SIG_IGN
  * dispo == 1 -> SIG_DFL
  */
-void	sigset_generic(int sig_type, int dispo)
+int	sigset_generic(int sig_type, int dispo)
 {
 	struct sigaction	sa_sig;
 
 	if (!isatty(STDIN_FILENO))
-		return ;
+		return (1);
 	ft_bzero(&sa_sig, sizeof(sa_sig));
 	if (dispo == 0)
 		sa_sig.sa_handler = SIG_IGN;
@@ -117,4 +117,5 @@ void	sigset_generic(int sig_type, int dispo)
 	sigemptyset(&sa_sig.sa_mask);
 	if (sigaction(sig_type, &sa_sig, NULL) == -1)
 		perror("sigaction SIGINT");
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/29 16:18:28 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 18:24:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static long long	convert(const char *s, bool *i, long long r, int sign)
 		if ((sign == 1 && r > (LONG_MAX - (*s - '0')) / 10) || (sign == -1
 				&& (t_ull)r > ((t_ull)LONG_MAX + 1 - (*s - '0')) / 10))
 		{
-			if (isatty(STDIN_FILENO))
-				printf("exit\n");
 			*i = true;
 			return (0);
 		}
@@ -92,7 +90,7 @@ static int	parse_args(t_msh *ms)
 	if (ms->args[2])
 	{
 		if (isatty(STDIN_FILENO))
-			ft_printf("exit\n");
+			ft_printfd(2, "exit\n");
 		ft_printfd(2, NAME": exit: too many arguments\n");
 		return (INT_MIN + 2);
 	}
@@ -101,7 +99,7 @@ static int	parse_args(t_msh *ms)
 	if (invalid)
 	{
 		if (isatty(STDIN_FILENO))
-			ft_printf("exit\n");
+			ft_printfd(2, "exit\n");
 		ft_printfd(2, NAME": exit: %s: numeric argument required\n",
 			ms->args[1]);
 		return (INT_MIN + 1);
@@ -110,7 +108,6 @@ static int	parse_args(t_msh *ms)
 }
 
 /**
- * ms check since cell_exit is used in prompt.c as well
  * Functionalities:
  * - Exit code 2 if the argument is not numeric, or out of range
  * - Print "exit" if in interactive mode
@@ -120,20 +117,17 @@ int	cell_exit(t_msh *ms)
 {
 	int	code;
 
-	if (ms)
+	code = parse_args(ms);
+	if (code == INT_MIN + 2)
+		return (1);
+	if (code == INT_MIN + 1)
 	{
-		code = parse_args(ms);
-		if (code == INT_MIN + 2)
-			return (1);
-		if (code == INT_MIN + 1)
-		{
-			ms->shell_exit = true;
-			return (255);
-		}
+		ms->shell_exit = true;
+		return (2);
 	}
 	ms->shell_exit = true;
 	if (isatty(STDIN_FILENO))
-		ft_printf("exit\n");
+		ft_printfd(2, "exit\n");
 	if (ms && code >= 0 && code <= 255)
 		return (code);
 	return (ms->exstat);

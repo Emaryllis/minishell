@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 22:34:10 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/01 23:38:27 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void		clear_tokens(t_token **start);
 //Lex utils
 
 bool		all_isspace(const char *str);
+void		adv_ptr_isspace(char **cur);
 void		adv_indx_quote(char *start, int *i, char quote);
 
 //Debugging
@@ -366,6 +367,15 @@ void		debug_pr_fargv(char **fargv);
 # define RE_END 0
 # define CH_LFT 0
 # define CH_RHT 1
+
+typedef struct s_runrdr
+{
+	int		new_fd;
+	int		*prev_fd;
+	int		o_outtype;
+	char	**expd_rdr_tgt;
+}	t_runrdr;
+
 
 typedef struct s_exctx
 {

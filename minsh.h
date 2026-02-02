@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/02 00:05:13 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/03 01:37:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,7 +381,6 @@ typedef struct s_exctx
 {
 	int		fdio[2];
 	bool	in_minsh;
-	bool	in_subsh;
 }	t_exctx;
 
 typedef struct s_chio
@@ -410,6 +409,7 @@ int			interp_wtstat(int wstat);
 int			exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms);
 bool		run_redirs(t_redir *cur_redir, t_exctx *ctx, t_msh *ms);
 int			exc_ext_cmd(char *argv[], t_exctx ctx, t_msh *ms);
+int			exc_hdl_subsh(t_ast *cur_node, t_exctx ctx, t_msh *ms);
 
 int			exc_hdl_pipe(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 int			exc_hdl_and(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);

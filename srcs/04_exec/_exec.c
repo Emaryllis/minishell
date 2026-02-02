@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:29:19 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 23:52:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/03 01:37:41 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	proc_ast_node(t_ast *cur_node, t_exctx parent_ctx, t_msh *ms)
 		return (exc_hdl_and(cur_node, parent_ctx, ms));
 	else if (cur_node->type == AST_OR)
 		return (exc_hdl_orr(cur_node, parent_ctx, ms));
+	else if (cur_node->type == AST_SUBSH)
+		return (exc_hdl_subsh(cur_node, parent_ctx, ms));
 	return (0);
 }
 
@@ -34,7 +36,6 @@ void	execute_ast(t_msh *ms)
 	t_exctx	ctx;
 
 	ctx.in_minsh = true;
-	ctx.in_subsh = false;
 	ctx.fdio[0] = -1;
 	ctx.fdio[1] = -1;
 	ms->exstat = proc_ast_node(ms->ast_root, ctx, ms);

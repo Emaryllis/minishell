@@ -6,7 +6,7 @@
 #    By: julhong <julhong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 22:49:28 by julhong           #+#    #+#              #
-#    Updated: 2026/02/01 23:59:49 by julhong          ###   ########.fr        #
+#    Updated: 2026/02/03 00:28:14 by julhong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ EXPN_SRC_BASE =	exp1_str_envs	exp2_argv	globbing	exp_utils			\
 
 EXEC_SRC_DIR = $(SRC_DIR)/04_exec
 EXEC_SRC_BASE =	_exec	exc_hndl_cmd	run_redirs	external_cmd			\
-				exc_hndl_pipe	exc_hndl_logi								\
+				exc_hndl_pipe	exc_hndl_logi		exc_hndl_subsh			\
 				exec_utils		exec_cleanup	exec_errs
 
 ENV_SRC_DIR = $(SRC_DIR)/env

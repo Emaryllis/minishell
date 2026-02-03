@@ -71,22 +71,29 @@ static char	*get_target_directory(t_msh *ms)
 	return (target);
 }
 
-static int	set_new_pwd(t_msh *ms, char *cwd, char *target)
+static int	set_new_pwd(t_msh *ms, char *cwd, char *target, char *type)
 {
-	char	*tmp;
+	char	*key;
+	char	*val;
 
-	if (chdir(target) != 0)
-		return (handle_error(target, NULL, ms));
-	if (!getcwd(cwd, PATH_MAX))
-		return (handle_error(target, "getcwd() error\n", NULL));
-	if (!set_env(ms->env, "PWD", cwd))
+	if (!set_env(ms->env, type, cwd))
 	{
-		tmp = ft_strdup(cwd);
-		if (!tmp)
+		key = ft_strdup(type);
+		if (!key)
 			return (handle_error(target, NAME": cd: malloc failed\n", NULL));
-		if (!array_push(ms->env, (t_env){tmp, NULL}, true))
-			return (handle_error(target, NAME": cd: failed to set PWD\n",
-					NULL));
+		val = ft_strdup(cwd);
+		if (!val)
+			return (free(key), handle_error(target,
+					NAME": cd: malloc failed\n", NULL));
+		if (!array_push(ms->env, (t_env){key, val}, true))
+		{
+			if (ft_strcmp(type, "PWD") == 0)
+				return (free(key), free(val), handle_error(target,
+						NAME": cd: failed to set PWD\n", NULL));
+			else
+				return (free(key), free(val), handle_error(
+						target, NAME": cd: failed to set OLDPWD\n", NULL));
+		}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -94,7 +101,6 @@ static int	set_new_pwd(t_msh *ms, char *cwd, char *target)
 int	cell_cd(t_msh *ms)
 {
 	int		ret;
-	char	*tmp;
 	char	*target;
 	char	cwd[PATH_MAX];
 
@@ -104,18 +110,16 @@ int	cell_cd(t_msh *ms)
 	debug_print("%s", target);
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
-	ret = set_new_pwd(ms, cwd, target);
+	if (chdir(target) != 0)
+		return (handle_error(target, NULL, ms));
+	if (!getcwd(cwd, PATH_MAX))
+		return (handle_error(target, "getcwd() error\n", NULL));
+	ret = set_new_pwd(ms, cwd, target, "PWD");
 	if (ret != EXIT_SUCCESS)
 		return (ret);
-	if (!set_env(ms->env, "OLDPWD", cwd))
-	{
-		tmp = ft_strdup(cwd);
-		if (!tmp)
-			return (handle_error(target, NAME": cd: malloc failed\n", NULL));
-		if (!array_push(ms->env, (t_env){tmp, NULL}, true))
-			return (handle_error(target, NAME": cd: failed to set OLDPWD\n",
-					NULL));
-	}
+	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	free(target);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:23:57 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 22:34:51 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/03 20:21:31 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	resolve_hdocs(t_redir *cur_hdoc, t_msh *ms)
 		if (is_interactive)
 			exstat = heredoc_isatty(cur_hdoc, ms);
 		else
-			heredoc_notatty(cur_hdoc, ms);
+			heredoc_notatty(cur_hdoc, ms, STDIN_FILENO);
 		cur_hdoc = cur_hdoc->hdoc_next;
 	}
 	return (exstat);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/03 01:37:35 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/03 20:23:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,8 @@ typedef struct s_redir
 	char		*target;				//reuse lexer strs
 	t_redir		*next;
 	t_redir		*hdoc_next;
-	int			hd_pfd_0;			//closed aft fork, if not with redir
+	int			hd_pfd_0;				//closed aft fork, if not with redir
+	bool		hd_expans;
 }	t_redir;
 
 typedef struct s_hdoc
@@ -271,7 +272,7 @@ void		append_redir(t_redir **start, t_redir *new);
 void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
 int			resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
 int			heredoc_isatty(t_redir *r, t_msh *ms);
-void		heredoc_notatty(t_redir *r, t_msh *ms);
+void		heredoc_notatty(t_redir *r, t_msh *ms, int fd);
 
 //Cleanup
 

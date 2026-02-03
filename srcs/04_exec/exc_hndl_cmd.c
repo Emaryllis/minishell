@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 19:37:20 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/03 20:53:35 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 	pid_t	pid;
 	int		ms_stdio[2];
 	int		wstat;
+	bool	gate;
 
 	if (!ctx.in_minsh)
 		fork_set_ch(&ctx, 0);
@@ -77,10 +78,15 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
 		return (ch_msh_clean(ctx, ms), EXIT_SUCCESS);
 	}
+	gate = false;
 	if (is_builtin(ms->args[0]))
 	{
-		if (!ms_fdgate(ms_stdio, 0))
-			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
+		if (cmd_node->redir_start || ctx.fdio[0] != -1 || ctx.fdio[1] != -1)
+		{
+			gate = true;
+			if (!ms_fdgate(ms_stdio, 0))
+				return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
+		}
 		if (!run_redirs(cmd_node->redir_start, &ctx, ms)
 			|| (ctx.fdio[0] != -1 && dup2(ctx.fdio[0], STDIN_FILENO) == -1)
 			|| (ctx.fdio[1] != -1 && dup2(ctx.fdio[1], STDOUT_FILENO) == -1))
@@ -88,7 +94,7 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 				, EXIT_FAILURE);
 		fd_clstwo(ctx.fdio);
 		cell_exec(ms);
-		if (!ms_fdgate(ms_stdio, 1))
+		if (gate && !ms_fdgate(ms_stdio, 1))
 			return (EXIT_FAILURE);
 		return (ch_msh_clean(ctx, ms), ms->exstat);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dynamic_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/04 20:35:44 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ static int	check_env_key(const char *str, char **key, char **value,
  * @param str The string to split.
  * @param key Pointer to store the allocated key string.
  * @param value Pointer to store the allocated value string.
+ * @param isNull Pointer to store whether the value is NULL (no '=' found).
  * @return - 1 if successful, 0 if memory allocation fails,
  * -1 if the key is invalid.
  * @see check_env_key
  */
-int	split_env(const char *str, char **key, char **value)
+int	split_env(const char *str, char **key, char **value, bool *isNull)
 {
 	const char	*equal = ft_strchr(str, '=');
 	int			status;
@@ -75,11 +76,15 @@ int	split_env(const char *str, char **key, char **value)
 	if (equal)
 		*value = ft_strdup(equal + 1);
 	else
+	{
 		*value = ft_strdup("");
+		*isNull = true;
+	}
 	if (!*value)
 	{
 		free(*key);
 		*key = NULL;
+		*isNull = true;
 		return (malloc_error(0));
 	}
 	return (1);
@@ -131,7 +136,7 @@ bool	init_array(t_array *arr, char **data)
 		return (malloc_error(false));
 	while (data[i])
 	{
-		if (!split_env(data[i], &item.key, &item.value))
+		if (!split_env(data[i], &item.key, &item.value, &item.is_nul))
 			return (array_free(arr), false);
 		if (!array_push(arr, item, false))
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:29:17 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/04 20:52:43 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ static char	*handle_tilde(t_msh *ms)
 	home = get_env(ms->env, "HOME");
 	if (!home)
 		return (ft_printfd(2, NAME": cd: HOME not set\n"), NULL);
-	if (ms->args[0][1] == '\0')
-		return (ft_strdup(home));
-	result = malloc(strlen(home) + strlen(ms->args[1]) + 1);
+	result = malloc(ft_strlen(home) + ft_strlen(ms->args[1]) + 1);
 	if (!result)
 	{
 		malloc_error(0);
@@ -107,7 +105,7 @@ int	cell_cd(t_msh *ms)
 	target = get_target_directory(ms);
 	if (!target)
 		return (EXIT_FAILURE);
-	debug_print("%s", target);
+	printf("%s", target);
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
 	if (chdir(target) != 0)

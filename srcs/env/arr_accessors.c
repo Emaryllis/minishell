@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arr_accessors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/04 19:29:02 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,76 +48,18 @@ bool	set_env(t_array *env, const char *key, const char *value)
 		{
 			if (env->data[i].value)
 				free(env->data[i].value);
-			if (value)
+			env->data[i].is_nul = false;
+			if (!value)
 			{
-				env->data[i].value = ft_strdup(value);
-				if (!env->data[i].value)
-					return (malloc_error(false));
-			}
-			else
 				env->data[i].value = NULL;
+				return (env->data[i].is_nul = true, true);
+			}
+			env->data[i].value = ft_strdup(value);
+			if (!env->data[i].value)
+				return (malloc_error(false));
 			return (true);
 		}
 		i++;
 	}
 	return (false);
-}
-
-/** EMA SHOWCASE -- Not used
- * Converts simple env var str to corresponding value
- *
- * Notes:
- * - simple env var str == entire string is the env variable
- * - function only works in conjunction with convert_all_env
- */
-static char	*get_value(t_msh *ms, size_t i, bool *cont)
-{
-	char	*tmp;
-
-	if (!is_env_var(ms->args[i], true))
-	{
-		if (!ft_strcmp(ms->args[i], "$?"))
-			return (ft_itoa(ms->exstat));
-		*cont = true;
-	}
-	else
-	{
-		tmp = get_env(ms->env, ms->args[i] + 1);
-		if (tmp)
-			return (ft_strdup(tmp));
-		return (ft_strdup(""));
-	}
-	return (NULL);
-}
-
-/** EMA SHOWCASE -- Not used
- * Converts any simple env var str entries in argv array to corresponding values
- * 
- * Notes:
- * - simple env var str == entire string is the env variable
- */
-bool	convert_all_env(t_msh *ms)
-{
-	size_t	i;
-	char	*tmp;
-	bool	cont;
-
-	if (!ms || !ms->env || !ms->args)
-		return (false);
-	i = -1;
-	cont = false;
-	while (ms->args[++i])
-	{
-		tmp = get_value(ms, i, &cont);
-		if (cont)
-		{
-			cont = false;
-			continue ;
-		}
-		if (!tmp)
-			return (malloc_error(false));
-		free(ms->args[i]);
-		ms->args[i] = tmp;
-	}
-	return (true);
 }

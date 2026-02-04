@@ -15,6 +15,7 @@
 int	cell_env(t_msh *ms)
 {
 	size_t	i;
+	t_array *arr;
 
 	if (ms->args[1])
 	{
@@ -24,10 +25,11 @@ int	cell_env(t_msh *ms)
 	if (!ms->env || !ms->env->data)
 		return (EXIT_SUCCESS);
 	i = 0;
-	while (i < ms->env->used_slots)
+	arr = ms->env;
+	while (i < arr->used_slots)
 	{
-		if (ms->env->data[i].key && ms->env->data[i].value)
-			printf("%s=%s\n", ms->env->data[i].key, ms->env->data[i].value);
+		if (arr->data[i].key && arr->data[i].value && !arr->data[i].is_nul)
+			printf("%s=%s\n", arr->data[i].key, arr->data[i].value);
 		i++;
 	}
 	return (EXIT_SUCCESS);

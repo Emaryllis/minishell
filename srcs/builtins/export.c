@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
 /*   Updated: 2026/01/04 17:30:29 by julhong          ###   ########.fr       */
@@ -12,29 +12,29 @@
 
 #include "minsh.h"
 
-static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)
+static void	parse_args(t_msh *ms, t_env *i, size_t j, int *ret)
 {
-	const int	code_s = split_env(ms->args[i], &item->key, &item->value);
+	const int	s_cde = split_env(ms->args[j], &i->key, &i->value, &i->is_nul);
 	bool		code;
 
-	if (code_s == 0)
+	if (s_cde == 0)
 		*ret = -1;
-	else if (code_s == -1)
+	else if (s_cde == -1)
 		*ret = (ft_printfd(2, NAME": export: `%s': not a valid identifier\n",
-					ms->args[i]), 1);
-	if (code_s != 1)
+					ms->args[j]), 1);
+	if (s_cde != 1)
 		return ;
-	code = set_env(ms->env, item->key, item->value);
+	code = set_env(ms->env, i->key, i->value);
 	if (code)
 	{
-		free(item->key);
-		free(item->value);
+		free(i->key);
+		free(i->value);
 		return ;
 	}
-	if (get_env(ms->env, item->key) == NULL)
+	if (get_env(ms->env, i->key) == NULL)
 	{
-		if (!array_push(ms->env, *item, true))
-			free(item->key);
+		if (!array_push(ms->env, *i, true))
+			free(i->key);
 		else
 			return ;
 	}
@@ -52,9 +52,9 @@ static void	print_export(const t_array *arr)
 	i = 0;
 	while (i < arr->used_slots)
 	{
-		if (sorted[i].key && sorted[i].value)
+		if (sorted[i].key && sorted[i].value && !sorted[i].is_nul)
 			printf("declare -x %s=\"%s\"\n", sorted[i].key, sorted[i].value);
-		else if (sorted[i].key)
+		else if (sorted[i].key || (sorted[i].value && sorted[i].is_nul))
 			printf("declare -x %s\n", sorted[i].key);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/04 20:52:43 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/05 19:36:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	set_new_pwd(t_msh *ms, char *cwd, char *target, char *type)
 		if (!val)
 			return (free(key), handle_error(target,
 					NAME": cd: malloc failed\n", NULL));
-		if (!array_push(ms->env, (t_env){key, val, 0}, true))
+		if (!array_push(ms->env, (t_env){key, val, false}, true))
 		{
 			if (ft_strcmp(type, "PWD") == 0)
 				return (free(key), free(val), handle_error(target,
@@ -107,14 +107,14 @@ int	cell_cd(t_msh *ms)
 		return (EXIT_FAILURE);
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
+	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	if (chdir(target) != 0)
 		return (handle_error(target, NULL, ms));
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
 	ret = set_new_pwd(ms, cwd, target, "PWD");
-	if (ret != EXIT_SUCCESS)
-		return (ret);
-	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
 	if (ret != EXIT_SUCCESS)
 		return (ret);
 	free(target);

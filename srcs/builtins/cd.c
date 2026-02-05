@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:29:17 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 19:36:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ static char	*handle_tilde(t_msh *ms)
 	home = get_env(ms->env, "HOME");
 	if (!home)
 		return (ft_printfd(2, NAME": cd: HOME not set\n"), NULL);
-	if (ms->args[0][1] == '\0')
-		return (ft_strdup(home));
-	result = malloc(strlen(home) + strlen(ms->args[1]) + 1);
+	result = malloc(ft_strlen(home) + ft_strlen(ms->args[1]) + 1);
 	if (!result)
 	{
 		malloc_error(0);
@@ -85,7 +83,7 @@ static int	set_new_pwd(t_msh *ms, char *cwd, char *target, char *type)
 		if (!val)
 			return (free(key), handle_error(target,
 					NAME": cd: malloc failed\n", NULL));
-		if (!array_push(ms->env, (t_env){key, val}, true))
+		if (!array_push(ms->env, (t_env){key, val, false}, true))
 		{
 			if (ft_strcmp(type, "PWD") == 0)
 				return (free(key), free(val), handle_error(target,
@@ -107,17 +105,18 @@ int	cell_cd(t_msh *ms)
 	target = get_target_directory(ms);
 	if (!target)
 		return (EXIT_FAILURE);
-	debug_print("%s", target);
+	if (DEBUG)
+		printf("%s", target);
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
+	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	if (chdir(target) != 0)
 		return (handle_error(target, NULL, ms));
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
 	ret = set_new_pwd(ms, cwd, target, "PWD");
-	if (ret != EXIT_SUCCESS)
-		return (ret);
-	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
 	if (ret != EXIT_SUCCESS)
 		return (ret);
 	free(target);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/03 20:23:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 21:06:26 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,16 @@
 
 //Forward Declarations --------------------------------------------------------
 
-typedef struct s_minishell		t_msh;
+struct						s_minishell;
+typedef struct s_minishell	t_msh;
 
 //PART B: EMA -----------------------------------------------------------------
 
 // sig_atomic_t guarantees atomic read/write operations
+typedef sig_atomic_t		t_sat;
+typedef volatile t_sat		t_newsig;
 
-typedef volatile sig_atomic_t	t_newsig;
-
-extern t_newsig					g_newsig;
+extern t_newsig				g_newsig;
 
 typedef struct s_prompt
 {
@@ -86,12 +87,13 @@ typedef struct s_input
 	bool		eof;
 }	t_input;
 
-typedef unsigned long long		t_ull;
+typedef unsigned long long	t_ull;
 
 typedef struct s_env
 {
 	char		*key;
 	char		*value;
+	bool		is_nul;
 }	t_env;
 
 typedef struct s_array
@@ -126,7 +128,6 @@ void		sigset_child_dfl(void);
 
 int			malloc_error(int ret);
 int			handle_error(char *target, const char *format, t_msh *ms);
-void		debug_print(const char *format, ...);
 
 // Dynamic array functions (utils/array/)
 
@@ -136,8 +137,7 @@ bool		array_remove(t_array *arr, char *key);
 void		array_free(t_array *arr);
 char		*get_env(t_array *env, const char *key);
 bool		set_env(t_array *env, const char *key, const char *value);
-bool		convert_all_env(t_msh *ms);
-int			split_env(const char *str, char **key, char **value);
+int			split_env(const char *str, char **key, char **value, bool *isNull);
 bool		is_env_var(const char *str, bool dollar_sign);
 t_env		*quicksort_env(const t_array *arr);
 
@@ -158,13 +158,13 @@ typedef enum e_toktype
 	TK_OR
 }	t_toktype;
 
-typedef struct s_token			t_token;
-typedef struct s_token //FREE token node
+typedef struct s_token		t_token;
+struct s_token //FREE token node
 {
 	char		*str; //FREE string LATER (will be reused in AST)
 	t_toktype	type;
 	t_token		*next;
-}	t_token;
+};
 
 bool		lex_tokens(t_msh *minsh, char *cur);
 
@@ -203,8 +203,8 @@ typedef enum e_astype
 	AST_OR
 }	t_astype;
 
-typedef struct s_redir			t_redir;//FREE redir node
-typedef struct s_redir
+typedef struct s_redir		t_redir;//FREE redir node
+struct s_redir
 {
 	t_toktype	type;
 	char		*target;				//reuse lexer strs
@@ -212,7 +212,7 @@ typedef struct s_redir
 	t_redir		*hdoc_next;
 	int			hd_pfd_0;				//closed aft fork, if not with redir
 	bool		hd_expans;
-}	t_redir;
+};
 
 typedef struct s_hdoc
 {
@@ -223,9 +223,8 @@ typedef struct s_hdoc
 	char	*line;
 }	t_hdoc;
 
-
-typedef struct s_ast			t_ast;	//FREE ast node
-typedef struct s_ast
+typedef struct s_ast		t_ast;	//FREE ast node
+struct s_ast
 {
 	t_astype	type;
 	t_ast		*left;
@@ -237,7 +236,7 @@ typedef struct s_ast
 	t_redir		*redir_start;
 
 	t_ast		*garbc_nxt;
-}	t_ast;
+};
 
 typedef struct s_parse_state
 {
@@ -377,7 +376,6 @@ typedef struct s_runrdr
 	char	**expd_rdr_tgt;
 }	t_runrdr;
 
-
 typedef struct s_exctx
 {
 	int		fdio[2];
@@ -441,7 +439,7 @@ int			malloc_fail_exit(void);
 int			msh_consume_sigint(t_msh *ms);
 int			main_cleanup(t_msh *ms);
 
-typedef struct s_minishell
+struct s_minishell
 {
 	//ema original
 	char		**args;
@@ -458,6 +456,6 @@ typedef struct s_minishell
 	t_ast		*ast_garbc;
 
 	int			exstat;
-}	t_msh;
+};
 
 #endif

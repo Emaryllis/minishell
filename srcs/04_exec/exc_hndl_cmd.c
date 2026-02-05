@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/03 20:53:35 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/06 00:14:19 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool	ms_fdgate(int *ms_stdio, int save_restore)
 	flag = true;
 	if (dup2(ms_stdio[0], STDIN_FILENO) == -1)
 		flag = false;
-	if ((dup2(ms_stdio[1], STDOUT_FILENO) == -1))
+	if (dup2(ms_stdio[1], STDOUT_FILENO) == -1)
 		flag = false;
 	fd_clset(&ms_stdio[0]);
 	fd_clset(&ms_stdio[1]);

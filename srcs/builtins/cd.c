@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/05 19:36:55 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 21:20:26 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static char	*get_target_directory(t_msh *ms)
 {
 	char	*target;
 
-	if (ms->args[1] && ms->args[2])
-		return (ft_printfd(2, NAME": cd: too many arguments\n"), NULL);
 	if (!ms->args[1] || ms->args[1][0] == '\0')
 		target = handle_env_target(ms, "HOME");
 	else if (!ft_strcmp(ms->args[1], "-"))

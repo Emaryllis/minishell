@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/05 21:06:26 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 23:32:06 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ void		append_redir(t_redir **start, t_redir *new);
 void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
 int			resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
 int			heredoc_isatty(t_redir *r, t_msh *ms);
-void		heredoc_notatty(t_redir *r, t_msh *ms, int fd);
+int			heredoc_notatty(t_redir *r, t_msh *ms, int fd);
 
 //Cleanup
 

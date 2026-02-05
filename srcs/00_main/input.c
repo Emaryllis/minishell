@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 18:30:00 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/29 15:45:24 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/06 00:16:02 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*get_prompt(void)
 	}
 	p = (t_prompt){getenv("USER"), getenv("HOSTNAME"), getenv("HOME"), cwd};
 	if (!p.hostname)
-		p.hostname = "Minishell";
+		p.hostname = NAME;
 	total_len = 0;
 	if (p.user)
 		total_len += ft_strlen(p.user) + ft_strlen(p.hostname) + 20;

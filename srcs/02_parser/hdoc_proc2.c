@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 22:23:18 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/03 20:28:47 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 23:40:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,15 @@ static bool	init_hdoc(t_hdoc *hd, t_redir *r)
 	return (true);
 }
 
-void	heredoc_notatty(t_redir *r, t_msh *ms, int fd)
+int	heredoc_notatty(t_redir *r, t_msh *ms, int fd)
 {
 	t_hdoc	h;
 
-	init_hdoc(&h, r);
-	while (1)
+	if (!init_hdoc(&h, r))
+		return (EXIT_FAILURE);
+	h.line = get_next_line(fd);
+	while (h.line)
 	{
-		h.line = get_next_line(fd);
-		if (!h.line)
-			break ;
 		if (ft_strncmp(h.line, h.lim, h.lim_len) == 0
 			&& h.line[h.lim_len] == '\n')
 		{
@@ -67,9 +66,11 @@ void	heredoc_notatty(t_redir *r, t_msh *ms, int fd)
 			h.line = expand_str_envs(h.line, ms, 1);
 		write(h.pfds[1], h.line, ft_strlen(h.line));
 		free(h.line);
+		h.line = get_next_line(fd);
 	}
 	if (free(h.lim), fd_clset(&h.pfds[1]))
 		r->hd_pfd_0 = h.pfds[0];
+	return (EXIT_SUCCESS);
 }
 
 static void	hdoc_isatty_loop(t_hdoc hd)

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:06:52 by egoh              #+#    #+#             */
 /*   Updated: 2026/02/01 15:19:40 by julhong          ###   ########.fr       */
@@ -26,7 +26,6 @@ static int	is_n_flag(const char *arg)
 	return (arg[i] == '\0');
 }
 
- // Added checks for write (ft_printf) returning -1
 int	cell_echo(t_msh *ms)
 {
 	int		i;

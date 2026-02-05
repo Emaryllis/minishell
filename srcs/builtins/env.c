@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:26 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:29:24 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 16:47:02 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	cell_env(t_msh *ms)
 {
 	size_t	i;
+	t_array	*arr;
 
 	if (ms->args[1])
 	{
@@ -24,10 +25,11 @@ int	cell_env(t_msh *ms)
 	if (!ms->env || !ms->env->data)
 		return (EXIT_SUCCESS);
 	i = 0;
-	while (i < ms->env->used_slots)
+	arr = ms->env;
+	while (i < arr->used_slots)
 	{
-		if (ms->env->data[i].key && ms->env->data[i].value)
-			printf("%s=%s\n", ms->env->data[i].key, ms->env->data[i].value);
+		if (arr->data[i].key && arr->data[i].value && !arr->data[i].is_nul)
+			printf("%s=%s\n", arr->data[i].key, arr->data[i].value);
 		i++;
 	}
 	return (EXIT_SUCCESS);

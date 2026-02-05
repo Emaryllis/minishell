@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quick_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 00:55:12 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/04 18:17:44 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static size_t	partition(t_env *arr, size_t low, size_t high)
 	j = low;
 	while (j < high)
 	{
-		if (arr[j].key && (!pivot.key || strcmp(arr[j].key, pivot.key) <= 0))
+		if (arr[j].key && (!pivot.key || ft_strcmp(arr[j].key, pivot.key) <= 0))
 		{
 			tmp = arr[i];
 			arr[i++] = arr[j];

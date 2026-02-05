@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 20:47:59 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	check_env_key(const char *str, char **key, char **value,
 		return (malloc_error(0));
 	if (!is_env_var(*key, false))
 	{
-		printf("%s",*key);
+		if (DEBUG)
+			printf("%s",*key);
 		free(*key);
 		*key = NULL;
 		return (-1);
@@ -60,11 +61,12 @@ static int	check_env_key(const char *str, char **key, char **value,
  * @param str The string to split.
  * @param key Pointer to store the allocated key string.
  * @param value Pointer to store the allocated value string.
+ * @param isNull Pointer to store whether the value is NULL (no '=' found).
  * @return - 1 if successful, 0 if memory allocation fails,
  * -1 if the key is invalid.
  * @see check_env_key
  */
-int	split_env(const char *str, char **key, char **value)
+int	split_env(const char *str, char **key, char **value, bool *isNull)
 {
 	const char	*equal = ft_strchr(str, '=');
 	int			status;
@@ -73,13 +75,20 @@ int	split_env(const char *str, char **key, char **value)
 	if (status != 1)
 		return (status);
 	if (equal)
+	{
 		*value = ft_strdup(equal + 1);
+		*isNull = false;
+	}
 	else
+	{
 		*value = ft_strdup("");
+		*isNull = true;
+	}
 	if (!*value)
 	{
 		free(*key);
 		*key = NULL;
+		*isNull = true;
 		return (malloc_error(0));
 	}
 	return (1);
@@ -103,6 +112,7 @@ void	array_free(t_array *arr)
 			free(arr->data[i].key);
 		if (arr->data[i].value)
 			free(arr->data[i].value);
+		arr->data[i].is_nul = true;
 		i++;
 	}
 	free(arr->data);
@@ -120,26 +130,26 @@ void	array_free(t_array *arr)
  */
 bool	init_array(t_array *arr, char **data)
 {
-	size_t	i;
+	int		i;
 	t_env	item;
 
-	i = 0;
-	arr->used_slots = 0;
-	arr->capacity = 2;
-	arr->data = ft_calloc(arr->capacity, sizeof(t_env));
+	*arr = (t_array){ft_calloc(22, sizeof(t_env)), 0, 22};
 	if (!arr->data)
 		return (malloc_error(false));
+	i = 0;
 	while (data[i])
 	{
-		if (!split_env(data[i], &item.key, &item.value))
+		if (!split_env(data[i], &item.key, &item.value, &item.is_nul))
 			return (array_free(arr), false);
 		if (!array_push(arr, item, false))
-		{
-			free(item.key);
-			free(item.value);
-			return (array_free(arr), false);
-		}
+			return (free(item.key), free(item.value), array_free(arr), false);
 		i++;
+	}
+	if (get_env(arr, "OLDPWD") == NULL)
+	{
+		item = (t_env){ft_strdup("OLDPWD"), ft_strdup(""), true};
+		if (!array_push(arr, item, false))
+			return (free(item.key), free(item.value), array_free(arr), false);
 	}
 	return (true);
 }

@@ -6,39 +6,37 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:30:29 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 19:17:08 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-static void	parse_args(t_msh *ms, t_env *item, size_t i, int *ret)
+static void	parse_args(t_msh *ms, t_env *i, size_t j, int *ret)
 {
-	const int	code_s = split_env(ms->args[i], &item->key, &item->value);
-	bool		code;
+	const int	s_cde = split_env(ms->args[j], &i->key, &i->value, &i->is_nul);
 
-	if (code_s == 0)
+	if (s_cde == 0)
 		*ret = -1;
-	else if (code_s == -1)
+	else if (s_cde == -1)
 		*ret = (ft_printfd(2, NAME": export: `%s': not a valid identifier\n",
-					ms->args[i]), 1);
-	if (code_s != 1)
+					ms->args[j]), 1);
+	if (s_cde != 1)
 		return ;
-	code = set_env(ms->env, item->key, item->value);
-	if (code)
+	if (!ft_strchr(ms->args[j], '='))
 	{
-		free(item->key);
-		free(item->value);
-		return ;
-	}
-	if (get_env(ms->env, item->key) == NULL)
-	{
-		if (!array_push(ms->env, *item, true))
-			free(item->key);
-		else
+		if (get_env(ms->env, i->key) == NULL && array_push(ms->env, *i, true))
 			return ;
+		free(i->key);
+		free(i->value);
+		return ;
 	}
-	*ret = -1;
+	if (set_env(ms->env, i->key, i->value) && (free(i->key), free(i->value), 1))
+		return ;
+	if (get_env(ms->env, i->key) == NULL && array_push(ms->env, *i, true))
+		return ;
+	free(i->key);
+	free(i->value);
 }
 
 static void	print_export(const t_array *arr)
@@ -52,9 +50,9 @@ static void	print_export(const t_array *arr)
 	i = 0;
 	while (i < arr->used_slots)
 	{
-		if (sorted[i].key && sorted[i].value)
+		if (sorted[i].key && sorted[i].value && !sorted[i].is_nul)
 			printf("declare -x %s=\"%s\"\n", sorted[i].key, sorted[i].value);
-		else if (sorted[i].key)
+		else if (sorted[i].key && sorted[i].is_nul)
 			printf("declare -x %s\n", sorted[i].key);
 		i++;
 	}
@@ -84,7 +82,7 @@ int	cell_export(t_msh *ms)
 	{
 		parse_args(ms, &item, i, &code);
 		if (code == -1)
-			return (malloc_error(EXIT_FAILURE));
+			return (EXIT_FAILURE);
 	}
 	return (code);
 }

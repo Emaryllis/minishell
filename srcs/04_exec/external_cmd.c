@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 16:22:03 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 14:55:49 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,34 @@ char	*str3join(const char *s1, const char *s2, const char *s3)
 	return (res_str);
 }
 
+/**
+ * Formats evnp for execve from internal array of env kv-pairs
+ * - rightly interprets env array as a spare (not dense arr)
+ * - output evnp for execve is a dense array of char*
+ */
 static char	**format_envp(t_array *env)
 {
 	char	**envp;
 	size_t	i;
+	size_t	j;
 
 	envp = malloc((env->used_slots + 1) * sizeof(char *));
 	if (!envp)
 		return (NULL);
+	j = 0;
 	i = -1;
 	while (++i < env->used_slots)
 	{
-		envp[i] = str3join(env->data[i].key, "=", env->data[i].value);
-		if (!envp[i])
-			return (NULL);
+		if (env->data[i].key)
+		{
+			envp[j] = str3join(env->data[i].key, "=",
+					env->data[i].value);
+			if (!envp[j])
+				return (free_2darr((void **)envp), NULL);
+			j++;
+		}
 	}
-	envp[env->used_slots] = NULL;
+	envp[j] = NULL;
 	return (envp);
 }
 

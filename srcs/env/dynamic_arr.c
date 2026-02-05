@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dynamic_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/04 20:35:44 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/05 20:47:59 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	check_env_key(const char *str, char **key, char **value,
 		return (malloc_error(0));
 	if (!is_env_var(*key, false))
 	{
-		printf("%s",*key);
+		if (DEBUG)
+			printf("%s",*key);
 		free(*key);
 		*key = NULL;
 		return (-1);
@@ -74,7 +75,10 @@ int	split_env(const char *str, char **key, char **value, bool *isNull)
 	if (status != 1)
 		return (status);
 	if (equal)
+	{
 		*value = ft_strdup(equal + 1);
+		*isNull = false;
+	}
 	else
 	{
 		*value = ft_strdup("");
@@ -108,6 +112,7 @@ void	array_free(t_array *arr)
 			free(arr->data[i].key);
 		if (arr->data[i].value)
 			free(arr->data[i].value);
+		arr->data[i].is_nul = true;
 		i++;
 	}
 	free(arr->data);
@@ -125,26 +130,26 @@ void	array_free(t_array *arr)
  */
 bool	init_array(t_array *arr, char **data)
 {
-	size_t	i;
+	int		i;
 	t_env	item;
 
-	i = 0;
-	arr->used_slots = 0;
-	arr->capacity = 2;
-	arr->data = ft_calloc(arr->capacity, sizeof(t_env));
+	*arr = (t_array){ft_calloc(22, sizeof(t_env)), 0, 22};
 	if (!arr->data)
 		return (malloc_error(false));
+	i = 0;
 	while (data[i])
 	{
 		if (!split_env(data[i], &item.key, &item.value, &item.is_nul))
 			return (array_free(arr), false);
 		if (!array_push(arr, item, false))
-		{
-			free(item.key);
-			free(item.value);
-			return (array_free(arr), false);
-		}
+			return (free(item.key), free(item.value), array_free(arr), false);
 		i++;
+	}
+	if (get_env(arr, "OLDPWD") == NULL)
+	{
+		item = (t_env){ft_strdup("OLDPWD"), ft_strdup(""), true};
+		if (!array_push(arr, item, false))
+			return (free(item.key), free(item.value), array_free(arr), false);
 	}
 	return (true);
 }

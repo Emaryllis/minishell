@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 05:00:49 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 17:50:45 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ bool	array_remove(t_array *arr, char *key)
 			free(tmp->value);
 			tmp->key = NULL;
 			tmp->value = NULL;
+			tmp->is_nul = true;
 			return (true);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:26 by egoh              #+#    #+#             */
-/*   Updated: 2026/01/04 17:29:24 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/05 16:47:02 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	cell_env(t_msh *ms)
 {
 	size_t	i;
-	t_array *arr;
+	t_array	*arr;
 
 	if (ms->args[1])
 	{

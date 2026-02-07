@@ -103,7 +103,7 @@ typedef struct s_array
 	size_t		capacity;
 }	t_array;
 
-// utils/parse.c, utils/cell.c
+// Inputs
 
 t_input		cell_read_input(t_msh *ms);
 void		cell_exec(t_msh *ms);
@@ -118,16 +118,17 @@ int			cell_unset(t_msh *ms);
 int			cell_env(t_msh *ms);
 int			cell_exit(t_msh *ms);
 
-// utils/signal.c
+// Signals
 
 void		sigset_msh(int prompt_type);
 int			sigset_generic(int sig_type, int dispo);
 void		sigset_child_dfl(void);
 
-// utils/prompt.c, utils/utils.c
+// Misc
 
 int			malloc_error(int ret);
 int			handle_error(char *target, const char *format, t_msh *ms);
+int			parseCFlag(char *line, t_msh *ms);
 
 // Dynamic array functions (utils/array/)
 

@@ -76,15 +76,12 @@ int	split_env(const char *str, char **key, char **value, bool *isNull)
 	if (equal)
 		*value = ft_strdup(equal + 1);
 	else
-	{
 		*value = ft_strdup("");
-		*isNull = true;
-	}
+	*isNull = equal == NULL || !*value;
 	if (!*value)
 	{
 		free(*key);
 		*key = NULL;
-		*isNull = true;
 		return (malloc_error(0));
 	}
 	return (1);

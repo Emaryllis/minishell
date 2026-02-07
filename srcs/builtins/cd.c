@@ -105,7 +105,6 @@ int	cell_cd(t_msh *ms)
 	target = get_target_directory(ms);
 	if (!target)
 		return (EXIT_FAILURE);
-	printf("%s", target);
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
 	if (chdir(target) != 0)

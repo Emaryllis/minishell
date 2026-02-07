@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/07 17:10:01 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 02:30:46 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ static int	hndl_builtin(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 	if (!run_redirs(cmd_node->redir_start, &ctx, ms) || dup2ctxstdio(ctx))
 		return (ch_msh_clean(ctx, ms), ms_fdgate(ms_stdio, 1), EXIT_FAILURE);
 	fd_clstwo(ctx.fdio);
+	if (ft_strcmp(ms->args[0], "export") == 0)
+	{
+		free_2darr((void **)ms->args);
+		ms->args = export_expn_argv(cmd_node->cmd_av, cmd_node->cmd_ac, ms);
+		debug_pr_fargv(ms->args);
+	}
 	cell_exec(ms);
 	if (gate && !ms_fdgate(ms_stdio, 1))
 		return (EXIT_FAILURE);

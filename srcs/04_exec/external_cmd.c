@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:30:32 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/05 14:55:49 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 03:00:52 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ static int	rdy_set_execve(char *argv[], t_excmd var)
 		var.cmd_path = str3join(var.path_arr[i], "/", argv[0]);
 		if (execve(var.cmd_path, argv, var.envp) == -1)
 		{
-			free(var.cmd_path);
-			if (errno != ENOENT)
+			if (errno == EACCES || errno == ENOEXEC || errno == EISDIR)
 				exit_status = MS_ER_NOTEXEC;
+			free(var.cmd_path);
 			continue ;
 		}
 	}

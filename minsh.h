@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/05 23:32:06 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/07 17:10:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,7 +416,7 @@ int			exc_hdl_orr(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 
 //Utils
 
-bool		is_builtin(char *argv0);
+int			dup2ctxstdio(t_exctx ctx);
 char		*str3join(const char *s1, const char *s2, const char *s3);
 int			fork_set_ch(t_exctx *ctx, int type);
 

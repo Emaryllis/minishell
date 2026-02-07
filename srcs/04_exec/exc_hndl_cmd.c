@@ -6,13 +6,13 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/06 00:14:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/07 17:10:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
 
-bool	is_builtin(char *argv0)
+static bool	is_builtin(char *argv0)
 {
 	if (!ft_strcmp(argv0, "echo"))
 		return (true);
@@ -61,13 +61,49 @@ static bool	ms_fdgate(int *ms_stdio, int save_restore)
 	return (flag);
 }
 
-int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
+static int	hndl_builtin(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
+{
+	bool	gate;
+	int		ms_stdio[2];
+
+	gate = false;
+	if (cmd_node->redir_start || ctx.fdio[0] != -1 || ctx.fdio[1] != -1)
+	{
+		gate = true;
+		if (!ms_fdgate(ms_stdio, 0))
+			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
+	}
+	if (!run_redirs(cmd_node->redir_start, &ctx, ms) || dup2ctxstdio(ctx))
+		return (ch_msh_clean(ctx, ms), ms_fdgate(ms_stdio, 1), EXIT_FAILURE);
+	fd_clstwo(ctx.fdio);
+	cell_exec(ms);
+	if (gate && !ms_fdgate(ms_stdio, 1))
+		return (EXIT_FAILURE);
+	return (ch_msh_clean(ctx, ms), ms->exstat);
+}
+
+static int	hndl_external(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 {
 	pid_t	pid;
-	int		ms_stdio[2];
 	int		wstat;
-	bool	gate;
 
+	pid = fork();
+	if (pid == -1 && ch_msh_clean(ctx, ms))
+		return (perror(NAME": fork"), EXIT_FAILURE);
+	else if (pid == 0 && fork_set_ch(&ctx, 0))
+	{
+		if (!run_redirs(cmd_node->redir_start, &ctx, ms)
+			&& ch_msh_clean(ctx, ms))
+			exit(EXIT_FAILURE);
+		exit(exc_ext_cmd(ms->args, ctx, ms));
+	}
+	fd_clstwo(ctx.fdio);
+	waitpid(pid, &wstat, 0);
+	return (ch_msh_clean(ctx, ms), interp_wtstat(wstat));
+}
+
+int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
+{
 	if (!ctx.in_minsh)
 		fork_set_ch(&ctx, 0);
 	ms->args = expand_argv(cmd_node->cmd_av, cmd_node->cmd_ac, ms);
@@ -78,40 +114,8 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
 		return (ch_msh_clean(ctx, ms), EXIT_SUCCESS);
 	}
-	gate = false;
 	if (is_builtin(ms->args[0]))
-	{
-		if (cmd_node->redir_start || ctx.fdio[0] != -1 || ctx.fdio[1] != -1)
-		{
-			gate = true;
-			if (!ms_fdgate(ms_stdio, 0))
-				return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
-		}
-		if (!run_redirs(cmd_node->redir_start, &ctx, ms)
-			|| (ctx.fdio[0] != -1 && dup2(ctx.fdio[0], STDIN_FILENO) == -1)
-			|| (ctx.fdio[1] != -1 && dup2(ctx.fdio[1], STDOUT_FILENO) == -1))
-			return (ch_msh_clean(ctx, ms), ms_fdgate(ms_stdio, 1)
-				, EXIT_FAILURE);
-		fd_clstwo(ctx.fdio);
-		cell_exec(ms);
-		if (gate && !ms_fdgate(ms_stdio, 1))
-			return (EXIT_FAILURE);
-		return (ch_msh_clean(ctx, ms), ms->exstat);
-	}
+		return (hndl_builtin(cmd_node, ctx, ms));
 	else
-	{
-		pid = fork();
-		if (pid == 0 && fork_set_ch(&ctx, 0))
-		{
-			if (!run_redirs(cmd_node->redir_start, &ctx, ms)
-				&& ch_msh_clean(ctx, ms))
-				exit(EXIT_FAILURE);
-			exit(exc_ext_cmd(ms->args, ctx, ms));
-		}
-		else if (pid == -1 && ch_msh_clean(ctx, ms))
-			return (perror(NAME": fork"), EXIT_FAILURE);
-		fd_clstwo(ctx.fdio);
-		waitpid(pid, &wstat, 0);
-		return (ch_msh_clean(ctx, ms), interp_wtstat(wstat));
-	}
+		return (hndl_external(cmd_node, ctx, ms));
 }

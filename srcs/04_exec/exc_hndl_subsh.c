@@ -6,11 +6,24 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 00:27:45 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/03 03:00:01 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/07 17:10:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minsh.h"
+
+/** dup2 ctx.fdio -> STDIN & STDOUT if there is a ctx (fdio != -1)
+ * - Returns 0 on success
+ * - Returns 1 on failure
+ */
+int	dup2ctxstdio(t_exctx ctx)
+{
+	if (ctx.fdio[0] != -1 && dup2(ctx.fdio[0], STDIN_FILENO) == -1)
+		return (1);
+	if (ctx.fdio[1] != -1 && dup2(ctx.fdio[1], STDOUT_FILENO) == -1)
+		return (1);
+	return (0);
+}
 
 int	exc_hdl_subsh(t_ast *cur_node, t_exctx ctx, t_msh *ms)
 {
@@ -23,9 +36,7 @@ int	exc_hdl_subsh(t_ast *cur_node, t_exctx ctx, t_msh *ms)
 		return (perror(NAME": fork"), EXIT_FAILURE);
 	if (pid == 0 && fork_set_ch(&ctx, 1))
 	{
-		if ((!run_redirs(cur_node->redir_start, &ctx, ms)
-			|| ((ctx.fdio[0] != -1 && dup2(ctx.fdio[0], STDIN_FILENO) == -1)
-			|| (ctx.fdio[1] != -1 && dup2(ctx.fdio[1], STDOUT_FILENO) == -1)))
+		if ((!run_redirs(cur_node->redir_start, &ctx, ms) || dup2ctxstdio(ctx))
 			&& ch_msh_clean(ctx, ms))
 			exit(EXIT_FAILURE);
 		fd_clstwo(ctx.fdio);

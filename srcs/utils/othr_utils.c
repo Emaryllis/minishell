@@ -23,3 +23,18 @@ int	malloc_fail_exit(void)
 	perror("malloc");
 	exit(EXIT_FAILURE);
 }
+
+int	parseCFlag(char *line, t_msh *ms)
+{
+
+	if (lex_tokens(ms, line))
+	{
+		ms->ast_root = build_ast(ms);
+		if (!ms->ast_root && main_cleanup(ms))
+			return (ms->exstat);
+		debug_print_ast(ms->ast_root, 0);
+		execute_ast(ms);
+		main_cleanup(ms);
+	}
+	return (ms->exstat);
+}

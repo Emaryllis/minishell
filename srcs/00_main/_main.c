@@ -98,7 +98,7 @@ int	main(int ac, char *av[], char *envp[])
 
 	init_state(&ms, ac, av, envp);
 	if (ac == 3 && ft_strcmp(av[1], "-c") == 0 && av[2])
-		return (parseCFlag(av[2], &ms));
+		return (parse_c_flag(av[2], &ms));
 	ms_prompt_loop(&ms);
 	return (ms.exstat);
 }

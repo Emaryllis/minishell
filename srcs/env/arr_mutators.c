@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 05:00:49 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/05 17:50:45 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 02:04:11 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	*realloc_arr(void *ptr, size_t old_c, size_t new_c, size_t size)
  * @param arr The array to push to
  * @param elem The element to push
  * @param lazy If true, tries to fill empty slots first
- * @return true if successful, false otherwise
+ * @return true if successful, false on malloc error
  */
 bool	array_push(t_array *arr, t_env elem, bool lazy)
 {

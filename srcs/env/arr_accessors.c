@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/05 20:39:35 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 03:11:21 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @param env The env array
  * @param key The lookup key
  * @return A pointer to the value in the env array
- * - OR NULL if it does not exist there
+ * @return NULL if it does not exist
  */
 char	*get_env(t_array *env, const char *key)
 {
@@ -37,11 +37,14 @@ char	*get_env(t_array *env, const char *key)
 }
 
 /** Sets env for if that key already exists
- * Returns
- * - true: if it exists
- * - false: does not exist e.g. cannot set (or malloc error)
+ * @param env The env array
+ * @param key The lookup key
+ * @param value The new value to set
+ * @return 1 — success
+ * @return 0 — malloc error
+ * @return -1 — nonexistent key
  */
-bool	set_env(t_array *env, const char *key, const char *value)
+int	set_env(t_array *env, const char *key, const char *value)
 {
 	size_t	i;
 
@@ -54,18 +57,18 @@ bool	set_env(t_array *env, const char *key, const char *value)
 		{
 			if (env->data[i].value)
 				free(env->data[i].value);
-			env->data[i].is_nul = false;
+			env->data[i].is_nul = value == NULL;
 			if (!value)
 			{
 				env->data[i].value = NULL;
-				return (env->data[i].is_nul = true, true);
+				return (1);
 			}
 			env->data[i].value = ft_strdup(value);
 			if (!env->data[i].value)
-				return (malloc_error(false));
-			return (true);
+				return (malloc_error(0));
+			return (1);
 		}
 		i++;
 	}
-	return (false);
+	return (-1);
 }

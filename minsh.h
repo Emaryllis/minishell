@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/04 19:32:21 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/08 02:01:14 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ bool		array_push(t_array *arr, t_env elem, bool lazy);
 bool		array_remove(t_array *arr, char *key);
 void		array_free(t_array *arr);
 char		*get_env(t_array *env, const char *key);
-bool		set_env(t_array *env, const char *key, const char *value);
+int			set_env(t_array *env, const char *key, const char *value);
 int			split_env(const char *str, char **key, char **value, bool *isNull);
 bool		is_env_var(const char *str, bool dollar_sign);
 t_env		*quicksort_env(const t_array *arr);

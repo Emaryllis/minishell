@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:51:41 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 23:39:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 02:52:23 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,73 @@ char	**expand_argv(char **raw_argv, int ac, t_msh *ms)
 	free(v.tmp_argv);
 	v.output_argv[v.j] = NULL;
 	return (v.output_argv = globble_argv(v.output_argv));
+}
+
+char	**export_expn_argv(char **raw_argv, int ac, t_msh *ms)
+{
+	t_expav	v;
+	char	**av0_exp;
+	int		av0_exp_len;
+	char	*key;
+	char	*eql;
+	char	*val;
+	char	*tmp;
+
+	av0_exp = expand_argv(raw_argv, 1, ms);
+	av0_exp_len = arr_len((void **)av0_exp);
+	ac = ac - 1 + av0_exp_len;
+	v = (t_expav){.i = -1, .j = 1, .ac_max = ac * 2};
+	v.tmp_argv = malloc((ac + 1) * sizeof(char *));
+	v.tmp_argv[ac] = NULL;
+	while (++v.i < ac)
+	{
+		if (v.i < av0_exp_len)
+		{
+			v.tmp_argv[v.i] = av0_exp[v.i];
+			continue ;
+		}
+		v.tmp_argv[v.i] = ft_strdup(raw_argv[v.i - av0_exp_len + 1]);
+	}
+	v.output_argv = dup_argv(NULL, v.ac_max);
+	v.output_argv[0] = av0_exp[0];
+	free(av0_exp);
+	v.i = 1;
+	while (v.i < ac)
+	{
+		eql = ft_strchr(v.tmp_argv[v.i], '=');
+		if (eql)
+			key = ft_substr(v.tmp_argv[v.i], 0, eql - v.tmp_argv[v.i]);
+		if (!eql || (!is_env_var(key, false) && (free(key), true)))
+		{
+			v.tmp_argv[v.i] = expand_str_envs(v.tmp_argv[v.i], ms, 0);
+			if (!ft_strchr(v.tmp_argv[v.i], ' ')
+				&& !ft_strchr(v.tmp_argv[v.i], '"')
+				&& !ft_strchr(v.tmp_argv[v.i], '\'')
+				&& !ft_strchr(v.tmp_argv[v.i], '*'))
+			{
+				v.output_argv[v.j++] = v.tmp_argv[v.i++];
+				continue ;
+			}
+			strip_split_gmark_loop(&v);
+			free(v.tmp_argv[v.i++]);
+			continue ;
+		}
+		val = ft_strdup(eql + 1);
+		val = expand_str_envs(val, ms, 0);
+		tmp = NULL;
+		if (!(val[0] == '\'' || val[0] == '"'))
+		{
+			tmp = str3join("\"", val, "\"");
+			free(val);
+			val = tmp;
+		}
+		free(v.tmp_argv[v.i]);
+		v.tmp_argv[v.i] = val;
+		strip_split_gmark_loop(&v);
+		tmp = v.output_argv[v.j - 1];
+		v.output_argv[v.j - 1] = str3join(key, "=", tmp);
+		if (free(key), free(tmp), true)
+			free(v.tmp_argv[v.i++]);
+	}
+	return (free(v.tmp_argv), v.output_argv[v.j] = NULL, v.output_argv);
 }

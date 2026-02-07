@@ -83,12 +83,12 @@ static int	set_new_pwd(t_msh *ms, char *cwd, char *target, char *type)
 		if (!val)
 			return (free(key), handle_error(target,
 					NAME": cd: malloc failed\n", NULL));
-		if (!array_push(ms->env, (t_env){key, val}, true))
+		if (!array_push(ms->env, (t_env){key, val, 0}, true))
 		{
 			if (ft_strcmp(type, "PWD") == 0)
 				return (free(key), free(val), handle_error(target,
 						NAME": cd: failed to set PWD\n", NULL));
-			else
+			if (ft_strcmp(type, "OLDPWD") == 0)
 				return (free(key), free(val), handle_error(
 						target, NAME": cd: failed to set OLDPWD\n", NULL));
 		}

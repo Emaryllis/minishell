@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:35:21 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/22 15:43:13 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/07 15:31:20 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	build_simple_cmd(t_token **cur_tk, t_ast *cmd_node,
 	init_simple_cmd(cmd_node, p_state);
 	while (*cur_tk)
 	{
-		type = (*cur_tk)->type; 
+		type = (*cur_tk)->type;
 		if (type == TK_WORD)
 			add_next_word(cur_tk, cmd_node);
 		else if (type >= TK_RDR_IN && type <= TK_RDR_APND)

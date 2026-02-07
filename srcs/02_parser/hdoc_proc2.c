@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 22:23:18 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/05 23:40:01 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/07 15:31:53 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ static void	hdoc_isatty_loop(t_hdoc hd)
 		if (!hd.line
 			|| (ft_strcmp(hd.line, hd.lim) == 0 && (free(hd.line), true)))
 			break ;
-		// if (hd.do_expans)
-		// 	hd.line = expand_str_envs(hd.line, ms, 1);
 		write(hd.pfds[WR_END], hd.line, ft_strlen(hd.line));
 		write(hd.pfds[WR_END], "\n", 1);
 		free(hd.line);

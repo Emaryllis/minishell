@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/05 20:47:59 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 02:52:29 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
  * @param key Pointer to store the allocated key string.
  * @param value Pointer to store the allocated value string.
  * @param equal Pointer to the '=' character in the string, or NULL if not found.
- * @return 1 if successful, 0 if memory allocation fails,
- * -1 if the key is not a valid environment variable name.
+ * @return 1 if successful
+ * @return 0 if memory allocation fails,
+ * @return -1 if the key is not a valid environment variable name.
  * @see is_env_var
  */
 static int	check_env_key(const char *str, char **key, char **value,
@@ -44,8 +45,6 @@ static int	check_env_key(const char *str, char **key, char **value,
 		return (malloc_error(0));
 	if (!is_env_var(*key, false))
 	{
-		if (DEBUG)
-			printf("%s",*key);
 		free(*key);
 		*key = NULL;
 		return (-1);
@@ -62,8 +61,9 @@ static int	check_env_key(const char *str, char **key, char **value,
  * @param key Pointer to store the allocated key string.
  * @param value Pointer to store the allocated value string.
  * @param isNull Pointer to store whether the value is NULL (no '=' found).
- * @return - 1 if successful, 0 if memory allocation fails,
- * -1 if the key is invalid.
+ * @return 1 — success
+ * @return 0 — malloc error
+ * @return -1 — invalid key
  * @see check_env_key
  */
 int	split_env(const char *str, char **key, char **value, bool *isNull)

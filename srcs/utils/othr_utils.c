@@ -24,9 +24,8 @@ int	malloc_fail_exit(void)
 	exit(EXIT_FAILURE);
 }
 
-int	parseCFlag(char *line, t_msh *ms)
+int	parse_c_flag(char *line, t_msh *ms)
 {
-
 	if (lex_tokens(ms, line))
 	{
 		ms->ast_root = build_ast(ms);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/05 19:17:08 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/08 03:31:49 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	parse_args(t_msh *ms, t_env *i, size_t j, int *ret)
 		free(i->value);
 		return ;
 	}
-	if (set_env(ms->env, i->key, i->value) && (free(i->key), free(i->value), 1))
+	if (set_env(ms->env, i->key, i->value) == 1
+		&& (free(i->key), free(i->value), 1))
 		return ;
 	if (get_env(ms->env, i->key) == NULL && array_push(ms->env, *i, true))
 		return ;

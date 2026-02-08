@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/08 02:11:45 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/09 00:26:56 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,7 @@ char		**export_expn_argv(char **raw_argv, int ac, t_msh *ms);
 char		**globble_argv(char **input_argv);
 char		*expand_str_envs(char *str, t_msh *ms, int is_hdoc);
 void		quote_filter(char **cur, char *arg, int *i, t_quote *q);
+void		strip_split_gmark_loop(t_expav *v);
 
 //Utils
 

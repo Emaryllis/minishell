@@ -37,16 +37,44 @@ char	*get_wd(t_msh *ms, char **cwd, bool p_err)
 	return (NULL);
 }
 
+/**
+ * Follows /bin/pwd builtin behavior
+ */
+//int	cell_pwd(t_msh *ms)
+//{
+//	char	*cwd;
+//	char	*pwd;
+//
+//	pwd = get_wd(ms, &cwd, true);
+//	if (!pwd)
+//		return (EXIT_FAILURE);
+//	printf("%s\n", pwd);
+//	if (cwd)
+//		free(cwd);
+//	return (EXIT_SUCCESS);
+//}
+
+/**
+ * Simpler version: bash's pwd builtin
+ */
 int	cell_pwd(t_msh *ms)
 {
 	char	*cwd;
-	char	*pwd;
 
-	pwd = get_wd(ms, &cwd, true);
-	if (!pwd)
+	cwd = NULL;
+	cwd = get_env(ms->env, "PWD");
+	if (cwd && cwd[0] == '/')
+	{
+		printf("%s\n", cwd);
+		return (EXIT_SUCCESS);
+	}
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("pwd: error retrieving current directory");
 		return (EXIT_FAILURE);
-	printf("%s\n", pwd);
-	if (cwd)
-		free(cwd);
+	}
+	printf("%s\n", cwd);
+	free(cwd);
 	return (EXIT_SUCCESS);
 }

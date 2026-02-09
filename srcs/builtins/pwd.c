@@ -12,22 +12,41 @@
 
 #include "minsh.h"
 
-int	cell_pwd(t_msh *ms)
+static int	same_dir(const char *a, const char *b)
 {
-	char	cwd[PATH_MAX];
+	struct stat	sa;
+	struct stat	sb;
+
+	return (a && b && stat(a, &sa) == 0 && stat(b, &sb) == 0 && sa.st_ino
+		== sb.st_ino && sa.st_dev == sb.st_dev);
+}
+
+char	*get_wd(t_msh *ms, char **cwd, bool p_err)
+{
 	char	*pwd;
 
+	*cwd = NULL;
 	pwd = get_env(ms->env, "PWD");
-	if (pwd && pwd[0] == '/')
-	{
-		printf("%s\n", pwd);
-		return (EXIT_SUCCESS);
-	}
-	if (!getcwd(cwd, PATH_MAX))
-	{
-		perror("pwd");
+	if (pwd && pwd[0] == '/' && same_dir(pwd, "."))
+		return (pwd);
+	*cwd = getcwd(NULL, 0);
+	if (*cwd)
+		return (*cwd);
+	if (p_err)
+		perror("pwd: error retrieving current directory");
+	return (NULL);
+}
+
+int	cell_pwd(t_msh *ms)
+{
+	char	*cwd;
+	char	*pwd;
+
+	pwd = get_wd(ms, &cwd, true);
+	if (!pwd)
 		return (EXIT_FAILURE);
-	}
-	printf("%s\n", cwd);
+	printf("%s\n", pwd);
+	if (cwd)
+		free(cwd);
 	return (EXIT_SUCCESS);
 }

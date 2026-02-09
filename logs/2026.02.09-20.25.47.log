@@ -231,21 +231,13 @@ basic-no-env
 
 [022]----------------------------------------
 command: unset PATH; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [023]----------------------------------------
 command: unset PATH; echo hello
-stdout.................................. KO
---> Bash stdout:
-hello
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -253,7 +245,9 @@ exit code............................... OK
 command: unset PATH; /usr/bin/ls
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... OK
+exit code............................... KO
+--> Bash exit code: 0
+--> Minishell exit code: 127
 
 [025]----------------------------------------
 command: unset PATH; usr/bin/ls
@@ -263,10 +257,9 @@ stderr.................................. KO
 bash: line 1: usr/bin/ls: No such file or directory
 
 --> Minishell stderr:
+minishell: usr/bin/ls: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [026]----------------------------------------
 command: unset PATH; ./ls
@@ -276,10 +269,9 @@ stderr.................................. KO
 bash: line 1: ./ls: No such file or directory
 
 --> Minishell stderr:
+minishell: ./ls: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [027]----------------------------------------
 command: unset PATH; hello
@@ -289,10 +281,9 @@ stderr.................................. KO
 bash: line 1: hello: No such file or directory
 
 --> Minishell stderr:
+minishell: hello: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [028]----------------------------------------
 command: unset PATH; /usr/bin/hello
@@ -302,10 +293,9 @@ stderr.................................. KO
 bash: line 1: /usr/bin/hello: No such file or directory
 
 --> Minishell stderr:
+minishell: /usr/bin/hello: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [029]----------------------------------------
 command: unset PATH; ./hello
@@ -315,10 +305,9 @@ stderr.................................. KO
 bash: line 1: ./hello: No such file or directory
 
 --> Minishell stderr:
+minishell: ./hello: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [030]----------------------------------------
 command: unset PATH; ""
@@ -328,25 +317,15 @@ stderr.................................. KO
 bash: line 1: : No such file or directory
 
 --> Minishell stderr:
+minishell: : command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [031]----------------------------------------
 command: unset PATH; .
-Expected 'command not found' or 'is a directory' error
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: .: filename argument required
-.: usage: . filename [arguments]
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [032]----------------------------------------
 command: unset PATH; ..
@@ -356,10 +335,11 @@ stderr.................................. KO
 bash: line 1: ..: Is a directory
 
 --> Minishell stderr:
+minishell: ..: command not found
 
 exit code............................... KO
 --> Bash exit code: 126
---> Minishell exit code: 0
+--> Minishell exit code: 127
 
 [033]----------------------------------------
 command: unset PATH; $
@@ -369,10 +349,9 @@ stderr.................................. KO
 bash: line 1: $: No such file or directory
 
 --> Minishell stderr:
+minishell: $: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [034]----------------------------------------
 command: unset PATH; ./
@@ -382,10 +361,11 @@ stderr.................................. KO
 bash: line 1: ./: Is a directory
 
 --> Minishell stderr:
+minishell: ./: command not found
 
 exit code............................... KO
 --> Bash exit code: 126
---> Minishell exit code: 0
+--> Minishell exit code: 127
 
 [035]----------------------------------------
 command: unset PATH; ../
@@ -395,10 +375,11 @@ stderr.................................. KO
 bash: line 1: ../: Is a directory
 
 --> Minishell stderr:
+minishell: ../: command not found
 
 exit code............................... KO
 --> Bash exit code: 126
---> Minishell exit code: 0
+--> Minishell exit code: 127
 
 [036]----------------------------------------
 command: unset PATH; ./existing_dir
@@ -408,10 +389,9 @@ stderr.................................. KO
 bash: line 1: ./existing_dir: No such file or directory
 
 --> Minishell stderr:
+minishell: ./existing_dir: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [037]----------------------------------------
 command: unset PATH; ../fake_dir/
@@ -421,10 +401,9 @@ stderr.................................. KO
 bash: line 1: ../fake_dir/: No such file or directory
 
 --> Minishell stderr:
+minishell: ../fake_dir/: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [038]----------------------------------------
 command: unset PATH; ./existing_file
@@ -434,10 +413,9 @@ stderr.................................. KO
 bash: line 1: ./existing_file: No such file or directory
 
 --> Minishell stderr:
+minishell: ./existing_file: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [039]----------------------------------------
 command: unset PATH; ./nonexistant_file
@@ -447,10 +425,9 @@ stderr.................................. KO
 bash: line 1: ./nonexistant_file: No such file or directory
 
 --> Minishell stderr:
+minishell: ./nonexistant_file: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [040]----------------------------------------
 command: unset PATH; ./executable_file
@@ -460,10 +437,9 @@ stderr.................................. KO
 bash: line 1: ./executable_file: No such file or directory
 
 --> Minishell stderr:
+minishell: ./executable_file: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [041]----------------------------------------
 command: unset PATH; .executable_file
@@ -473,10 +449,9 @@ stderr.................................. KO
 bash: line 1: .executable_file: No such file or directory
 
 --> Minishell stderr:
+minishell: .executable_file: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 
 [042]----------------------------------------
 command: unset PATH; executable_file
@@ -486,10 +461,9 @@ stderr.................................. KO
 bash: line 1: executable_file: No such file or directory
 
 --> Minishell stderr:
+minishell: executable_file: command not found
 
-exit code............................... KO
---> Bash exit code: 127
---> Minishell exit code: 0
+exit code............................... OK
 ----------------------------------------
 
 
@@ -848,13 +822,27 @@ exit code............................... OK
 [096]----------------------------------------
 command: ls '"
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: -c: line 1: unexpected EOF while looking for matching `''
+bash: -c: line 2: syntax error: unexpected end of file
+
+--> Minishell stderr:
+minishell: unexpected EOF while looking for matching `''
+
 exit code............................... OK
 
 [097]----------------------------------------
 command: ls "'
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: -c: line 1: unexpected EOF while looking for matching `"'
+bash: -c: line 2: syntax error: unexpected end of file
+
+--> Minishell stderr:
+minishell: unexpected EOF while looking for matching `"'
+
 exit code............................... OK
 
 [098]----------------------------------------
@@ -1043,9 +1031,9 @@ exit code............................... OK
 command: echo hello $NOT_A_VAR $NOT_A_VAR $NOT_A_VAR $USER
 stdout.................................. KO
 --> Bash stdout:
-hello ubuntu
+hello egoh
 --> Minishell stdout:
-hello    ubuntu
+hello    egoh
 stderr.................................. OK
 exit code............................... OK
 
@@ -1053,9 +1041,9 @@ exit code............................... OK
 command: echo $NOT_A_VAR $NOT_A_VAR $NOT_A_VAR $USER
 stdout.................................. KO
 --> Bash stdout:
-ubuntu
+egoh
 --> Minishell stdout:
-   ubuntu
+   egoh
 stderr.................................. OK
 exit code............................... OK
 
@@ -1077,43 +1065,21 @@ exit code............................... OK
 
 [131]----------------------------------------
 command: export ECHO=echo; $ECHO $ECHO
-stdout.................................. KO
---> Bash stdout:
-echo
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [132]----------------------------------------
 command: export L="ls -la"; $L
-stdout.................................. KO
---> Bash stdout:
-total 8
-drwxr-xr-x 2 ubuntu ubuntu 4096 Feb  7 22:10 .
-drwxr-xr-x 4 ubuntu ubuntu 4096 Feb  7 22:10 ..
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [133]----------------------------------------
 command: export L='ls -la'; $L
-stdout.................................. KO
---> Bash stdout:
-total 8
-drwxr-xr-x 2 ubuntu ubuntu 4096 Feb  7 22:10 .
-drwxr-xr-x 4 ubuntu ubuntu 4096 Feb  7 22:10 ..
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 ----------------------------------------
 
 
@@ -1615,17 +1581,10 @@ exit code............................... OK
 [195]----------------------------------------
 command: echo hello | ;
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: -c: line 1: syntax error near unexpected token `;'
-bash: -c: line 1: `echo hello | ;'
-
---> Minishell stderr:
-minishell: ;: command not found
-
+stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
---> Minishell exit code: 127
+--> Minishell exit code: 0
 
 [196]----------------------------------------
 command: ls > <
@@ -1836,11 +1795,7 @@ echo-no-env
 
 [228]----------------------------------------
 command: unset PATH; echo hello world
-stdout.................................. KO
---> Bash stdout:
-hello world
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -1878,82 +1833,115 @@ exit code............................... OK
 command: env | sort | grep -v SHLVL | grep -v _=
 stdout.................................. KO
 --> Bash stdout:
-BROWSER=/home/ubuntu/.cache/JetBrains/CLion2025.2/tmp/remote-dev-browser.sh
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
 DEBUGINFOD_URLS=https://debuginfod.ubuntu.com 
+DESKTOP_SESSION=ubuntu
+DESKTOP_STARTUP_ID=gnome-shell/CLion/378525-0-c1r3s6.42singapore.sg_TIME421707157
 DISPLAY=:0
-FIG_TERM=1
-GPG_TTY=/dev/pts/2
-HOME=/home/ubuntu
-HOSTTYPE=x86_64
-IDEA_RESTART_VIA_EXIT_CODE=88
-INTELLIJ_TERMINAL_COMMAND_BLOCKS_REWORKED=1
-LANG=C.UTF-8
-LESSCLOSE=/usr/bin/lesspipe %s %s
-LESSOPEN=| /usr/bin/lesspipe %s
-LOGNAME=ubuntu
-LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
-NAME=_
-OLDPWD=/home/ubuntu/Github/Ecole42Minishell
-PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files/Anchor CLI/:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/usbipd-win/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/KeePassXC/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/Scripts/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/:/mnt/c/Users/user/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Local/JetBrains/Toolbox/scripts:/mnt/c/Users/user/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Roaming/npm:/snap/bin:/home/ubuntu/.local/share/JetBrains/Toolbox/scripts
-PROCESS_LAUNCHED_BY_CW=1
-PROCESS_LAUNCHED_BY_Q=1
-PULSE_SERVER=unix:/mnt/wslg/PulseServer
-PWD=/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
-REMOTE_DEV_LAUNCHER_NAME_FOR_USAGE=remote-dev-server.sh
-REMOTE_DEV_SERVER_IS_NATIVE_LAUNCHER=1
-SHELL=/bin/bash
-SSH_AUTH_SOCK=/tmp/saf025100fe-1d76-43cc-b3a8-8eb19734b6ac
-TERM=xterm-256color
+DOCKER_HOST=unix:///run/user/102611/docker.sock
+FT_HOOK_NAME=login-user
+FT_HOOK_PATHNAME=login-user.d
+GDMSESSION=ubuntu
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+GIO_LAUNCHED_DESKTOP_FILE_PID=379243
+GJS_DEBUG_OUTPUT=stderr
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GPG_AGENT_INFO=/run/user/102611/gnupg/S.gpg-agent:0:1
+GTK_IM_MODULE=ibus
+GTK_MODULES=gail:atk-bridge
+HOME=/home/egoh
+IM_CONFIG_PHASE=1
+INVOCATION_ID=0d29792210ea44fc89b3ae035196f29e
+JOURNAL_STREAM=8:2604825
+KRB5CCNAME=FILE:/tmp/krb5cc_102611_VtO4JE
+LANG=en_US.UTF-8
+LIBVIRT_DEFAULT_URI=qemu:///system
+LOGNAME=egoh
+MANAGERPID=377884
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PWD=/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash
+QT_ACCESSIBILITY=1
+QT_IM_MODULE=ibus
+SESSION_MANAGER=local/c1r3s6.42singapore.sg:@/tmp/.ICE-unix/378505,unix/c1r3s6.42singapore.sg:/tmp/.ICE-unix/378505
+SHELL=/bin/zsh
+SSH_AGENT_LAUNCHER=gnome-keyring
+SSH_AUTH_SOCK=/run/user/102611/keyring/ssh
+SYSTEMD_EXEC_PID=378525
 TERMINAL_EMULATOR=JetBrains-JediTerm
-TERM_SESSION_ID=ac0890f8-626f-41cd-b435-4bdeb461464f
-USER=ubuntu
-WAYLAND_DISPLAY=wayland-0
-WSL2_GUI_APPS_ENABLED=1
-WSLENV=
-WSL_DISTRO_NAME=Ubuntu
-WSL_INTEROP=/run/WSL/1257_interop
-XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
-XDG_RUNTIME_DIR=/run/user/1000/
+TERM_SESSION_ID=48e3d39d-951d-40fa-a607-02188bc963cf
+TERM=xterm-256color
+USER=egoh
+XAUTHORITY=/home/egoh/.Xauthority
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/egoh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/egoh
+XDG_MENU_PREFIX=gnome-
+XDG_RUNTIME_DIR=/run/user/102611
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+XDG_SESSION_CLASS=user
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
+XDG_SESSION_TYPE=x11
+XMODIFIERS=@im=ibus
 --> Minishell stdout:
-thub/Ecole42Minishell
-BROWSER=/home/ubuntu/.cache/JetBrains/CLion2025.2/tmp/remote-dev-browser.sh
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=379243
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
 DEBUGINFOD_URLS=https://debuginfod.ubuntu.com 
+DESKTOP_SESSION=ubuntu
+DESKTOP_STARTUP_ID=gnome-shell/CLion/378525-0-c1r3s6.42singapore.sg_TIME421707157
 DISPLAY=:0
-FIG_TERM=1
-GPG_TTY=/dev/pts/2
-HOME=/home/ubuntu
-HOSTTYPE=x86_64
-IDEA_RESTART_VIA_EXIT_CODE=88
-INTELLIJ_TERMINAL_COMMAND_BLOCKS_REWORKED=1
-LANG=C.UTF-8
-LESSCLOSE=/usr/bin/lesspipe %s %s
-LESSOPEN=| /usr/bin/lesspipe %s
-LOGNAME=ubuntu
-LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
-NAME=_
-OLDPWD=/home/ubuntu/Gi
-PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files/Anchor CLI/:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/usbipd-win/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/KeePassXC/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/Scripts/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/:/mnt/c/Users/user/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Local/JetBrains/Toolbox/scripts:/mnt/c/Users/user/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Roaming/npm:/snap/bin:/home/ubuntu/.local/share/JetBrains/Toolbox/scripts
-PROCESS_LAUNCHED_BY_CW=1
-PROCESS_LAUNCHED_BY_Q=1
-PULSE_SERVER=unix:/mnt/wslg/PulseServer
-PWD=/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
-REMOTE_DEV_LAUNCHER_NAME_FOR_USAGE=remote-dev-server.sh
-REMOTE_DEV_SERVER_IS_NATIVE_LAUNCHER=1
-SHELL=/bin/bash
-SSH_AUTH_SOCK=/tmp/saf025100fe-1d76-43cc-b3a8-8eb19734b6ac
-TERM=xterm-256color
+DOCKER_HOST=unix:///run/user/102611/docker.sock
+FT_HOOK_NAME=login-user
+FT_HOOK_PATHNAME=login-user.d
+GJS_DEBUG_OUTPUT=stderr
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GPG_AGENT_INFO=/run/user/102611/gnupg/S.gpg-agent:0:1
+GTK_IM_MODULE=ibus
+GTK_MODULES=gail:atk-bridge
+HOME=/home/egoh
+IM_CONFIG_PHASE=1
+INVOCATION_ID=0d29792210ea44fc89b3ae035196f29e
+JOURNAL_STREAM=8:2604825
+KRB5CCNAME=FILE:/tmp/krb5cc_102611_VtO4JE
+LANG=en_US.UTF-8
+LIBVIRT_DEFAULT_URI=qemu:///system
+LOGNAME=egoh
+MANAGERPID=377884
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:
+PWD=/home/egoh/Documents/Ecole42Minishell/tester
+QT_ACCESSIBILITY=1
+QT_IM_MODULE=ibus
+SESSION_MANAGER=local/c1r3s6.42singapore.sg:@/tmp/.ICE-unix/378505,unix/c1r3s6.42singapore.sg:/tmp/.ICE-unix/378505
+SHELL=/bin/zsh
+SSH_AGENT_LAUNCHER=gnome-keyring
+SSH_AUTH_SOCK=/run/user/102611/keyring/ssh
+SYSTEMD_EXEC_PID=378525
 TERMINAL_EMULATOR=JetBrains-JediTerm
-TERM_SESSION_ID=ac0890f8-626f-41cd-b435-4bdeb461464f
-USER=ubuntu
-WAYLAND_DISPLAY=wayland-0
-WSL2_GUI_APPS_ENABLED=1
-WSLENV=
-WSL_DISTRO_NAME=Ubuntu
-WSL_INTEROP=/run/WSL/1257_interop
-XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
-XDG_RUNTIME_DIR=/run/user/1000/
+TERM_SESSION_ID=48e3d39d-951d-40fa-a607-02188bc963cf
+TERM=xterm-256color
+USER=egoh
+XAUTHORITY=/home/egoh/.Xauthority
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/egoh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/egoh
+XDG_MENU_PREFIX=gnome-
+XDG_RUNTIME_DIR=/run/user/102611
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+XDG_SESSION_CLASS=user
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
+XDG_SESSION_TYPE=x11
+XMODIFIERS=@im=ibus
 stderr.................................. OK
 exit code............................... OK
 
@@ -1961,10 +1949,16 @@ exit code............................... OK
 command: env | wc -l
 stdout.................................. KO
 --> Bash stdout:
-39
+55
 --> Minishell stdout:
-thub/Ecole42Minishell
-38
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=379243
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+48
 stderr.................................. OK
 exit code............................... OK
 
@@ -1972,10 +1966,22 @@ exit code............................... OK
 command: env | grep PATH
 stdout.................................. KO
 --> Bash stdout:
-PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files/Anchor CLI/:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/usbipd-win/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/KeePassXC/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/Scripts/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/:/mnt/c/Users/user/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Local/JetBrains/Toolbox/scripts:/mnt/c/Users/user/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Roaming/npm:/snap/bin:/home/ubuntu/.local/share/JetBrains/Toolbox/scripts
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
+FT_HOOK_PATHNAME=login-user.d
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 --> Minishell stdout:
-thub/Ecole42Minishell
-PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files/Anchor CLI/:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/usbipd-win/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/KeePassXC/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/Scripts/:/mnt/c/Users/user/AppData/Local/Programs/Python/Python313/:/mnt/c/Users/user/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Local/JetBrains/Toolbox/scripts:/mnt/c/Users/user/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Roaming/npm:/snap/bin:/home/ubuntu/.local/share/JetBrains/Toolbox/scripts
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=379243
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
+FT_HOOK_PATHNAME=login-user.d
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:
 stderr.................................. OK
 exit code............................... OK
 ----------------------------------------
@@ -2069,7 +2075,17 @@ exit code............................... OK
 
 [244]----------------------------------------
 command: export 42; env | grep 42=
-stdout.................................. OK
+stdout.................................. KO
+--> Bash stdout:
+
+--> Minishell stdout:
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=379243
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
 stderr.................................. OK
 exit code............................... OK
 
@@ -2083,9 +2099,16 @@ exit code............................... OK
 command: export =; env | grep = | wc -l
 stdout.................................. KO
 --> Bash stdout:
-39
+55
 --> Minishell stdout:
-0
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=379243
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+49
 stderr.................................. OK
 exit code............................... OK
 
@@ -2099,237 +2122,121 @@ exit code............................... OK
 command: export A=; echo $A
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [249]----------------------------------------
 command: export A=a; echo $A
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [250]----------------------------------------
 command: export A=a B=b C=c; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-abc
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [251]----------------------------------------
 command: export A=a B=b C=c; export A=c B=a C=b; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-cab
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [252]----------------------------------------
 command: export A=a B=b C=c D=d E=e F=f G=g H=h I=i J=j K=k L=l M=m N=n O=o P=p Q=q R=r S=s T=t U=u V=v W=w X=x Y=y Z=z; echo $A$B$C$D$E$F$G$H$I$J$K$L$M$N$O$P$Q$R$S$T$U$V$W$X$Y$Z
-stdout.................................. KO
---> Bash stdout:
-abcdefghijklmnopqrstuvwxyz
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [253]----------------------------------------
 command: export A==a; echo $A
-stdout.................................. KO
---> Bash stdout:
-=a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [254]----------------------------------------
 command: export A===a; echo $A
-stdout.................................. KO
---> Bash stdout:
-==a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [255]----------------------------------------
 command: export A====a; echo $A
-stdout.................................. KO
---> Bash stdout:
-===a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [256]----------------------------------------
 command: export A=====a; echo $A
-stdout.................................. KO
---> Bash stdout:
-====a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [257]----------------------------------------
 command: export A======a; echo $A
-stdout.................................. KO
---> Bash stdout:
-=====a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [258]----------------------------------------
 command: export A=a=a=a=a=a; echo $A
-stdout.................................. KO
---> Bash stdout:
-a=a=a=a=a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [259]----------------------------------------
 command: export HELLOWORLD=a; echo $HELLOWORLD
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [260]----------------------------------------
 command: export helloworld=a; echo $helloworld
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [261]----------------------------------------
 command: export hello_world=a; echo $hello_world
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [262]----------------------------------------
 command: export HELLOWORLD1=a; echo $HELLOWORLD1
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [263]----------------------------------------
 command: export H1ELL_0_W123Orld_a=a; echo $H1ELL_0_W123Orld_a
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [264]----------------------------------------
 command: export a0123456789=a; echo $a0123456789
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [265]----------------------------------------
 command: export abcdefghijklmnopqrstuvwxyz=a; echo $abcdefghijklmnopqrstuvwxyz
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [266]----------------------------------------
 command: export __________________________=a; echo $__________________________
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [267]----------------------------------------
 command: export _hello_=a; echo $_hello_
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [268]----------------------------------------
 command: export 1
@@ -2339,21 +2246,13 @@ exit code............................... OK
 
 [269]----------------------------------------
 command: export 1=
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-1
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [270]----------------------------------------
 command: export 1=a
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-1
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -2395,199 +2294,117 @@ exit code............................... OK
 
 [277]----------------------------------------
 command: export A='hello this world is wonderful'; echo $A
-stdout.................................. KO
---> Bash stdout:
-hello this world is wonderful
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [278]----------------------------------------
 command: export A="hello this world is wonderful"; echo $A
-stdout.................................. KO
---> Bash stdout:
-hello this world is wonderful
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [279]----------------------------------------
 command: export A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [280]----------------------------------------
 command: export 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [281]----------------------------------------
 command: export A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '; echo $A$B$C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [282]----------------------------------------
 command: export A B C; echo $A$B$C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [283]----------------------------------------
 command: export 'HELLO@'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO@
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [284]----------------------------------------
 command: export "HELLO'"=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO'
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [285]----------------------------------------
 command: export 'HELLO"'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO"
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [286]----------------------------------------
 command: export 'HELLO$'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO$
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [287]----------------------------------------
 command: export 'HELLO!'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO!
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [288]----------------------------------------
 command: export 'HELLO|'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO|
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [289]----------------------------------------
 command: export 'HELLO&'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO&
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [290]----------------------------------------
 command: export 'HELLO\\'=hello
-stdout.................................. KO
---> Bash stdout:
-
---> Minishell stdout:
-HELLO\\
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [291]----------------------------------------
 command: export ALPHA="abc def ghi"; echo $ALPHA
-stdout.................................. KO
---> Bash stdout:
-abc def ghi
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [292]----------------------------------------
 command: export ALPHA='abc def ghi'; echo $ALPHA
-stdout.................................. KO
---> Bash stdout:
-abc def ghi
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [293]----------------------------------------
 command: export DIGITS="0 1 2 3 4 5 6 7 8 9"; echo $DIGITS
-stdout.................................. KO
---> Bash stdout:
-0 1 2 3 4 5 6 7 8 9
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [294]----------------------------------------
 command: export DIGITS='0 1 2 3 4 5 6 7 8 9'; echo $DIGITS
-stdout.................................. KO
---> Bash stdout:
-0 1 2 3 4 5 6 7 8 9
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [295]----------------------------------------
 command: export DIGITS=0 1 2 3 4 5 6 7 8 9; echo $DIGITS
-stdout.................................. KO
---> Bash stdout:
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 ----------------------------------------
 
 
@@ -2604,23 +2421,12 @@ exit code............................... OK
 [297]----------------------------------------
 command: unset PATH; export 42=hello
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: export: `42=hello': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [298]----------------------------------------
 command: unset PATH; export hello=42; echo $hello
-stdout.................................. KO
---> Bash stdout:
-42
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -2683,7 +2489,7 @@ bash: line 1: ls: No such file or directory
 
 exit code............................... KO
 --> Bash exit code: 127
---> Minishell exit code: 0
+--> Minishell exit code: 139
 
 [307]----------------------------------------
 command: unset NOT_A_VAR
@@ -2707,9 +2513,7 @@ exit code............................... OK
 command: export A=a; unset A; echo $A
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [311]----------------------------------------
 command: export A=a A2=a; unset A; echo $A $A2
@@ -2717,111 +2521,69 @@ stdout.................................. KO
 --> Bash stdout:
 a
 --> Minishell stdout:
-
+ a
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [312]----------------------------------------
 command: export A=a; unset 'A '; echo $A
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [313]----------------------------------------
 command: export A=a; unset A=; echo $A
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [314]----------------------------------------
 command: export A=a; unset 'A='; echo $A
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [315]----------------------------------------
 command: export A=a B=b C=c; unset A B C; echo $A$B$C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [316]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [317]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [318]----------------------------------------
 command: export A=a B=b C=c; unset 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [319]----------------------------------------
 command: export A=a B=b C=c; unset 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [320]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [321]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-c
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [322]----------------------------------------
 command: export A=a B=b C=c; unset A
@@ -2831,15 +2593,9 @@ exit code............................... OK
 
 [323]----------------------------------------
 command: export A=a B=b C=c; unset A; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-bc
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [324]----------------------------------------
 command: export A=a B=b C=c; unset B
@@ -2849,15 +2605,9 @@ exit code............................... OK
 
 [325]----------------------------------------
 command: export A=a B=b C=c; unset B; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-ac
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [326]----------------------------------------
 command: export A=a B=b C=c; unset C
@@ -2867,15 +2617,9 @@ exit code............................... OK
 
 [327]----------------------------------------
 command: export A=a B=b C=c; unset C; echo $A$B$C
-stdout.................................. KO
---> Bash stdout:
-ab
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [328]----------------------------------------
 command: unset 'HELLO@'
@@ -2975,11 +2719,7 @@ exit code............................... OK
 
 [342]----------------------------------------
 command: pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -2987,59 +2727,39 @@ exit code............................... OK
 command: pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
 [344]----------------------------------------
 command: pwd hello
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [345]----------------------------------------
 command: pwd 123
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [346]----------------------------------------
 command: pwd 1 2 x 3 hello
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [347]----------------------------------------
 command: pwd .
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [348]----------------------------------------
 command: pwd ..
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3047,39 +2767,45 @@ exit code............................... OK
 command: unset PWD; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
-exit code............................... OK
+exit code............................... KO
+--> Bash exit code: 0
+--> Minishell exit code: 139
 
 [350]----------------------------------------
 command: unset OLDPWD; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
-exit code............................... OK
+exit code............................... KO
+--> Bash exit code: 0
+--> Minishell exit code: 139
 
 [351]----------------------------------------
 command: unset PWD OLDPWD; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
-exit code............................... OK
+exit code............................... KO
+--> Bash exit code: 0
+--> Minishell exit code: 139
 
 [352]----------------------------------------
 command: export PWD='hello/world'; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -3087,9 +2813,9 @@ exit code............................... OK
 command: export PWD='/hello/world/'; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -3097,9 +2823,9 @@ exit code............................... OK
 command: export PWD='/usr/bin/'; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -3107,9 +2833,9 @@ exit code............................... OK
 command: export OLDPWD=abc/def; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -3117,9 +2843,9 @@ exit code............................... OK
 command: export PWD=hello/world OLDPWD=abc/def; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -3127,7 +2853,7 @@ exit code............................... OK
 command: mkdir a a/b; cd a/b; rm -rf ../../a; pwd
 stdout.................................. KO
 --> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash/a/b
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash/a/b
 --> Minishell stdout:
 
 stderr.................................. OK
@@ -3143,81 +2869,49 @@ pwd-no-env
 
 [358]----------------------------------------
 command: unset PATH; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [359]----------------------------------------
 command: unset PATH; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [360]----------------------------------------
 command: unset PATH; unset PWD; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [361]----------------------------------------
 command: unset PATH; unset OLDPWD; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [362]----------------------------------------
 command: unset PATH; unset PWD OLDPWD; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [363]----------------------------------------
 command: unset PATH; export PWD='hello/world'; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [364]----------------------------------------
 command: unset PATH; export PWD='/hello/world/'; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [365]----------------------------------------
 command: unset PATH; export PWD='/usr/bin/'; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 ----------------------------------------
@@ -3235,15 +2929,9 @@ exit code............................... OK
 
 [367]----------------------------------------
 command: CD; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 127
+exit code............................... OK
 
 [368]----------------------------------------
 command: Cd
@@ -3253,15 +2941,9 @@ exit code............................... OK
 
 [369]----------------------------------------
 command: Cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 127
+exit code............................... OK
 
 [370]----------------------------------------
 command: cd
@@ -3271,15 +2953,9 @@ exit code............................... OK
 
 [371]----------------------------------------
 command: cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 127
+exit code............................... OK
 
 [372]----------------------------------------
 command: cd .
@@ -3289,15 +2965,9 @@ exit code............................... OK
 
 [373]----------------------------------------
 command: cd .; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [374]----------------------------------------
 command: cd ..
@@ -3307,15 +2977,9 @@ exit code............................... OK
 
 [375]----------------------------------------
 command: cd ..; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [376]----------------------------------------
 command: cd existing_dir
@@ -3325,21 +2989,9 @@ exit code............................... OK
 
 [377]----------------------------------------
 command: cd existing_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_dir: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [378]----------------------------------------
 command: cd /dev
@@ -3349,15 +3001,9 @@ exit code............................... OK
 
 [379]----------------------------------------
 command: cd /dev; pwd
-stdout.................................. KO
---> Bash stdout:
-/dev
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [380]----------------------------------------
 command: cd /Users
@@ -3367,21 +3013,9 @@ exit code............................... OK
 
 [381]----------------------------------------
 command: cd /Users; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: /Users: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [382]----------------------------------------
 command: cd fake_dir
@@ -3391,21 +3025,9 @@ exit code............................... OK
 
 [383]----------------------------------------
 command: cd fake_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: fake_dir: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [384]----------------------------------------
 command: cd forbidden_dir
@@ -3415,21 +3037,9 @@ exit code............................... OK
 
 [385]----------------------------------------
 command: cd forbidden_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_dir: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [386]----------------------------------------
 command: cd existing_file
@@ -3439,21 +3049,9 @@ exit code............................... OK
 
 [387]----------------------------------------
 command: cd existing_file; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_file: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [388]----------------------------------------
 command: cd forbidden_file
@@ -3463,21 +3061,9 @@ exit code............................... OK
 
 [389]----------------------------------------
 command: cd forbidden_file; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_file: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [390]----------------------------------------
 command: cd ../../../../../../../../../../../../../../../../../../../../../../
@@ -3487,15 +3073,9 @@ exit code............................... OK
 
 [391]----------------------------------------
 command: cd ../../../../../../../../../../../../../../../../../../../../../../; pwd
-stdout.................................. KO
---> Bash stdout:
-/
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [392]----------------------------------------
 command: cd $HOME
@@ -3505,70 +3085,32 @@ exit code............................... OK
 
 [393]----------------------------------------
 command: cd $HOME; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [394]----------------------------------------
 command: unset HOME; cd $HOME
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [395]----------------------------------------
 command: unset HOME; cd $HOME; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [396]----------------------------------------
 command: unset HOME; cd
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [397]----------------------------------------
 command: unset HOME; cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [398]----------------------------------------
@@ -3579,8 +3121,7 @@ stderr.................................. KO
 cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
 
 --> Minishell stderr:
-mkdir: invalid option -- 'r'
-Try 'mkdir --help' for more information.
+getcwd() error
 
 exit code............................... KO
 --> Bash exit code: 0
@@ -3594,8 +3135,7 @@ stderr.................................. KO
 cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
 
 --> Minishell stderr:
-mkdir: invalid option -- 'r'
-Try 'mkdir --help' for more information.
+getcwd() error
 
 exit code............................... KO
 --> Bash exit code: 0
@@ -3610,29 +3150,13 @@ cd-no-env
 [400]----------------------------------------
 command: unset PATH; cd
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [401]----------------------------------------
 command: unset PATH; cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [402]----------------------------------------
@@ -3643,11 +3167,7 @@ exit code............................... OK
 
 [403]----------------------------------------
 command: unset PATH; cd .; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3659,40 +3179,20 @@ exit code............................... OK
 
 [405]----------------------------------------
 command: unset PATH; cd ..; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [406]----------------------------------------
 command: unset PATH; cd existing_dir
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_dir: No such file or directory
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [407]----------------------------------------
 command: unset PATH; cd existing_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_dir: No such file or directory
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [408]----------------------------------------
@@ -3703,236 +3203,104 @@ exit code............................... OK
 
 [409]----------------------------------------
 command: unset PATH; cd /dev; pwd
-stdout.................................. KO
---> Bash stdout:
-/dev
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [410]----------------------------------------
 command: unset PATH; cd /Users
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: /Users: No such file or directory
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [411]----------------------------------------
 command: unset PATH; cd /Users; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: /Users: No such file or directory
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [412]----------------------------------------
 command: unset PATH; cd fake_dir
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: fake_dir: No such file or directory
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [413]----------------------------------------
 command: unset PATH; cd fake_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: fake_dir: No such file or directory
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [414]----------------------------------------
 command: unset PATH; cd forbidden_dir
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_dir: No such file or directory
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [415]----------------------------------------
 command: unset PATH; cd forbidden_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_dir: No such file or directory
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [416]----------------------------------------
 command: unset PATH; cd existing_file
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_file: No such file or directory
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [417]----------------------------------------
 command: unset PATH; cd existing_file; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_file: No such file or directory
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [418]----------------------------------------
 command: unset PATH; cd forbidden_file
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_file: No such file or directory
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [419]----------------------------------------
 command: unset PATH; cd forbidden_file; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_file: No such file or directory
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [420]----------------------------------------
 command: unset PATH; cd $HOME
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [421]----------------------------------------
 command: unset PATH; cd $HOME; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [422]----------------------------------------
 command: unset PATH; unset HOME; cd $HOME
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [423]----------------------------------------
 command: unset PATH; unset HOME; cd $HOME; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 
 [424]----------------------------------------
 command: unset PATH; unset HOME; cd
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [425]----------------------------------------
 command: unset PATH; unset HOME; cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/home/ubuntu/Github/Ecole42Minishell/minitester-minishell-tester/test_cwd/bash
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: HOME not set
-
---> Minishell stderr:
-
+stdout.................................. OK
+stderr.................................. OK
 exit code............................... OK
 ----------------------------------------
 
@@ -3969,9 +3337,7 @@ exit code............................... OK
 command: exit 42; echo "Should have exited."
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 42
---> Minishell exit code: 1
+exit code............................... OK
 
 [431]----------------------------------------
 command: exit 240
@@ -4028,17 +3394,8 @@ exit code............................... OK
 [439]----------------------------------------
 command: exit abc; echo "Should have exited."
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: abc: numeric argument required
-
---> Minishell stderr:
-exit
-minishell: exit: too many arguments
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 1
+stderr.................................. OK
+exit code............................... OK
 
 [440]----------------------------------------
 command: exit --42
@@ -4412,25 +3769,19 @@ exit code............................... OK
 command: unset PATH; exit 42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 42
---> Minishell exit code: 0
+exit code............................... OK
 
 [488]----------------------------------------
 command: unset PATH; exit 42; echo "Should have exited."
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 42
---> Minishell exit code: 0
+exit code............................... OK
 
 [489]----------------------------------------
 command: unset PATH; exit +42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 42
---> Minishell exit code: 0
+exit code............................... OK
 
 [490]----------------------------------------
 command: unset PATH; exit -42
@@ -4438,15 +3789,13 @@ stdout.................................. OK
 stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 214
---> Minishell exit code: 0
+--> Minishell exit code: 42
 
 [491]----------------------------------------
 command: unset PATH; exit 00000000000000000000000000000000000000000000001
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+exit code............................... OK
 
 [492]----------------------------------------
 command: unset PATH; exit 00000000000000000000000000000000000000000000000
@@ -4457,54 +3806,26 @@ exit code............................... OK
 [493]----------------------------------------
 command: unset PATH; exit abc
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: abc: numeric argument required
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [494]----------------------------------------
 command: unset PATH; exit abc; echo "Should have exited."
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: abc: numeric argument required
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [495]----------------------------------------
 command: unset PATH; exit --42
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: --42: numeric argument required
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [496]----------------------------------------
 command: unset PATH; exit ++42
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: ++42: numeric argument required
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [497]----------------------------------------
 command: unset PATH; exit - 42
@@ -4514,10 +3835,12 @@ stderr.................................. KO
 bash: line 1: exit: -: numeric argument required
 
 --> Minishell stderr:
+exit
+minishell: exit: too many arguments
 
 exit code............................... KO
 --> Bash exit code: 2
---> Minishell exit code: 0
+--> Minishell exit code: 1
 
 [498]----------------------------------------
 command: unset PATH; exit + 42
@@ -4527,36 +3850,24 @@ stderr.................................. KO
 bash: line 1: exit: +: numeric argument required
 
 --> Minishell stderr:
+exit
+minishell: exit: too many arguments
 
 exit code............................... KO
 --> Bash exit code: 2
---> Minishell exit code: 0
+--> Minishell exit code: 1
 
 [499]----------------------------------------
 command: unset PATH; exit 9999999999999999999999999999999999999999999999
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: 9999999999999999999999999999999999999999999999: numeric argument required
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [500]----------------------------------------
 command: unset PATH; exit -9999999999999999999999999999999999999999999999
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: exit: -9999999999999999999999999999999999999999999999: numeric argument required
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 ----------------------------------------
 
 
@@ -4590,15 +3901,9 @@ exit code............................... OK
 
 [505]----------------------------------------
 command: < valid_infile_1; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [506]----------------------------------------
 command: < file_does_not_exist
@@ -4762,33 +4067,17 @@ outfile-trunc
 
 [530]----------------------------------------
 command: > outfile1; echo $?
-stdout.................................. KO
---> Bash stdout:
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'x', 'file', 'outfile1;'}
---> One or both files do not exist: test_cwd/bash/outfile1, test_cwd/minishell/outfile1
-output files............................ KO
+output files............................ OK
 
 [531]----------------------------------------
 command: > forbidden_file; echo $?
-stdout.................................. KO
---> Bash stdout:
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'x', 'forbidden_file;', 'file', 'outfile1;'}
---> One or both files do not exist: test_cwd/bash/outfile1, test_cwd/minishell/outfile1
-output files............................ KO
+output files............................ OK
 
 [532]----------------------------------------
 command: echo hello world >
@@ -4797,351 +4086,245 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'x', 'forbidden_file;', 'file', 'outfile1;'}
---> One or both files do not exist: test_cwd/bash/outfile1, test_cwd/minishell/outfile1
-output files............................ KO
+output files............................ OK
 
 [533]----------------------------------------
 command: echo hello world > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [534]----------------------------------------
 command: echo abcdefghijk >outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [535]----------------------------------------
 command: echo hello world> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [536]----------------------------------------
 command: > outfile1 echo abcdefghijk
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [537]----------------------------------------
 command: >outfile1 echo hello world
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [538]----------------------------------------
 command: echo hello world > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [539]----------------------------------------
 command: > outfile1 echo hi | echo bye
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [540]----------------------------------------
 command: echo ab | echo cde > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [541]----------------------------------------
 command: cat valid_infile_1 > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [542]----------------------------------------
 command: cat valid_infile_1 | wc -l > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [543]----------------------------------------
 command: cat valid_infile_1 | grep dream | sed s/e/../g | sed s/d/X/g > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'file'}
-output files............................ KO
+output files............................ OK
 
 [544]----------------------------------------
 command: echo abcdefghijk > outfile1 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [545]----------------------------------------
 command: echo hello world > outfile1 > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [546]----------------------------------------
 command: echo hello world > outfile1 > outfile1 > outfile1 > outfile1 > outfile1 > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [547]----------------------------------------
 command: echo hello world > outfile1 > outfile1 > outfile1 > outfile1 > outfile1 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [548]----------------------------------------
 command: echo abcdefghijk > forbidden_file > outfile1 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [549]----------------------------------------
 command: echo abcdefghijk > outfile1 > forbidden_file > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [550]----------------------------------------
 command: echo abcdefghijk > outfile1 > outfile2 > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [551]----------------------------------------
 command: echo > outfile1 a b c d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [552]----------------------------------------
 command: echo a > outfile1 b c d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [553]----------------------------------------
 command: echo a b > outfile1 c d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [554]----------------------------------------
 command: echo a b c > outfile1 d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [555]----------------------------------------
 command: echo a b c d > outfile1 e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [556]----------------------------------------
 command: echo a b c d e > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [557]----------------------------------------
 command: echo > outfile1 a b c d e > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [558]----------------------------------------
 command: echo a > outfile1 b c d e > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [559]----------------------------------------
 command: echo a b > outfile1 c d e > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [560]----------------------------------------
 command: echo a b c > outfile1 d e > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [561]----------------------------------------
 command: echo a b c d > outfile1 e > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [562]----------------------------------------
 command: echo a b c d e > outfile1 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [563]----------------------------------------
 command: echo hello > outfile1 | echo world > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [564]----------------------------------------
 command: echo 01234 > outfile1 | echo 56789 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [565]----------------------------------------
 command: echo hello > outfile1 | echo world > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [566]----------------------------------------
 command: echo 01234 > forbidden_file | echo 56789 > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 ----------------------------------------
 
 
@@ -5151,31 +4334,17 @@ outfile-append
 
 [567]----------------------------------------
 command: >> outfile1; echo $?
-stdout.................................. KO
---> Bash stdout:
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [568]----------------------------------------
 command: >> forbidden_file; echo $?
-stdout.................................. KO
---> Bash stdout:
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [569]----------------------------------------
 command: echo hello world >>
@@ -5184,350 +4353,245 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [570]----------------------------------------
 command: echo hello world >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [571]----------------------------------------
 command: echo abcdefghijk >>outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [572]----------------------------------------
 command: echo hello world>> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [573]----------------------------------------
 command: >> outfile1 echo abcdefghijk
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [574]----------------------------------------
 command: >>outfile1 echo hello world
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [575]----------------------------------------
 command: echo hello world >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [576]----------------------------------------
 command: >> outfile1 echo hi | echo bye
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [577]----------------------------------------
 command: echo ab | echo cde >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [578]----------------------------------------
 command: cat valid_infile_1 >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [579]----------------------------------------
 command: cat valid_infile_1 | wc -l >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [580]----------------------------------------
 command: cat valid_infile_1 | grep dream | sed s/e/../g | sed s/d/X/g >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [581]----------------------------------------
 command: echo abcdefghijk >> outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [582]----------------------------------------
 command: echo hello world >> outfile1 >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [583]----------------------------------------
 command: echo hello world >> outfile1 >> outfile1 >> outfile1 >> outfile1 >> outfile1 >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [584]----------------------------------------
 command: echo hello world >> outfile1 >> outfile1 >> outfile1 >> outfile1 >> outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [585]----------------------------------------
 command: echo abcdefghijk >> forbidden_file >> outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [586]----------------------------------------
 command: echo abcdefghijk >> outfile1 >> forbidden_file >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [587]----------------------------------------
 command: echo abcdefghijk >> outfile1 >> outfile2 >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [588]----------------------------------------
 command: echo >> outfile1 a b c d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [589]----------------------------------------
 command: echo a >> outfile1 b c d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [590]----------------------------------------
 command: echo a b >> outfile1 c d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [591]----------------------------------------
 command: echo a b c >> outfile1 d e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [592]----------------------------------------
 command: echo a b c d >> outfile1 e
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [593]----------------------------------------
 command: echo a b c d e >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [594]----------------------------------------
 command: echo >> outfile1 a b c d e >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [595]----------------------------------------
 command: echo a >> outfile1 b c d e >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [596]----------------------------------------
 command: echo a b >> outfile1 c d e >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [597]----------------------------------------
 command: echo a b c >> outfile1 d e >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [598]----------------------------------------
 command: echo a b c d >> outfile1 e >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [599]----------------------------------------
 command: echo a b c d e >> outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [600]----------------------------------------
 command: echo hello >> outfile1 | echo world >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [601]----------------------------------------
 command: echo 01234 >> outfile1 | echo 56789 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [602]----------------------------------------
 command: echo hello >> outfile1 | echo world >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [603]----------------------------------------
 command: echo 01234 >> forbidden_file | echo 56789 >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 ----------------------------------------
 
 
@@ -5542,10 +4606,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [605]----------------------------------------
 command: < > >>
@@ -5554,10 +4615,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [606]----------------------------------------
 command: > < >>
@@ -5566,10 +4624,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [607]----------------------------------------
 command: > >> <
@@ -5578,10 +4633,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [608]----------------------------------------
 command: >> > <
@@ -5590,10 +4642,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [609]----------------------------------------
 command: >> < >
@@ -5602,20 +4651,14 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [610]----------------------------------------
 command: echo hello > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [611]----------------------------------------
 command: cat < outfile1 >
@@ -5624,10 +4667,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [612]----------------------------------------
 command: cat < outfile1 >>
@@ -5636,10 +4676,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [613]----------------------------------------
 command: cat < > outfile1
@@ -5648,10 +4685,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [614]----------------------------------------
 command: cat < >> outfile1
@@ -5660,10 +4694,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [615]----------------------------------------
 command: cat > >> outfile1
@@ -5672,10 +4703,7 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [616]----------------------------------------
 command: cat >> > outfile1
@@ -5684,300 +4712,210 @@ stderr.................................. OK
 exit code............................... KO
 --> Bash exit code: 2
 --> Minishell exit code: 0
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [617]----------------------------------------
 command: < outfile1 cat > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [618]----------------------------------------
 command: < outfile1 cat >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [619]----------------------------------------
 command: cat > outfile1 < outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [620]----------------------------------------
 command: cat >> outfile1 < outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [621]----------------------------------------
 command: cat < outfile1 > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [622]----------------------------------------
 command: cat < outfile1 >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [623]----------------------------------------
 command: echo ABC > outfile1 | echo DEF >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [624]----------------------------------------
 command: echo GHI >> outfile1 | echo KLM > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [625]----------------------------------------
 command: echo OPQ > outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [626]----------------------------------------
 command: echo RST >> outfile1 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [627]----------------------------------------
 command: < valid_infile_1 cat | echo UVW > outfile1 | echo XYZ >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [628]----------------------------------------
 command: < valid_infile_1 cat > outfile1 | echo ABC >> outfile1 | echo DEF > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [629]----------------------------------------
 command: < valid_infile_1 < valid_infile_2 cat > outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [630]----------------------------------------
 command: < valid_infile_1 < valid_infile_2 cat >> outfile1 > outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [631]----------------------------------------
 command: < forbidden_file < valid_infile_2 cat > outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [632]----------------------------------------
 command: < valid_infile_1 < forbidden_file cat > outfile1 >> outfile2
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [633]----------------------------------------
 command: < valid_infile_1 < valid_infile_2 cat > forbidden_file >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [634]----------------------------------------
 command: < valid_infile_2 < valid_infile_1 cat > outfile1 >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [635]----------------------------------------
 command: < valid_infile_1 < valid_infile_2 cat >> forbidden_file > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [636]----------------------------------------
 command: < valid_infile_2 < valid_infile_1 cat >> outfile1 > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [637]----------------------------------------
 command: < forbidden_file cat > forbidden_file >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [638]----------------------------------------
 command: < forbidden_file cat >> forbidden_file > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [639]----------------------------------------
 command: cat >> forbidden_file > forbidden_file < forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [640]----------------------------------------
 command: < valid_infile_1 cat | grep dream > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [641]----------------------------------------
 command: < valid_infile_2 cat | grep dream >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [642]----------------------------------------
 command: < valid_infile_1 cat >> forbidden_file | wc -l > outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [643]----------------------------------------
 command: < valid_infile_2 cat > forbidden_file | wc -l >> outfile1
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [644]----------------------------------------
 command: < valid_infile_1 cat >> outfile1 | wc -l > forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 
 [645]----------------------------------------
 command: < valid_infile_2 cat > outfile1 | wc -l >> forbidden_file
 stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
-Bash and minishell have different output files!
-bash files: {'outfile1', 'outfile2', 'file', 'x'}
-mini files: {'forbidden_file;', 'outfile1;', 'x', 'outfile1', 'outfile2', 'file'}
-output files............................ KO
+output files............................ OK
 ----------------------------------------
 
 
@@ -5993,16 +4931,9 @@ exit code............................... OK
 
 [647]----------------------------------------
 command: echo; echo $?
-stdout.................................. KO
---> Bash stdout:
-
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 127
+exit code............................... OK
 
 [648]----------------------------------------
 command: $?
@@ -6018,173 +4949,75 @@ exit code............................... OK
 
 [650]----------------------------------------
 command: $?; echo $?
-stdout.................................. KO
---> Bash stdout:
-127
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 127
+exit code............................... OK
 
 [651]----------------------------------------
 command: fakecmd; echo $?
-stdout.................................. KO
---> Bash stdout:
-127
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 127
+exit code............................... OK
 
 [652]----------------------------------------
 command: cat < file_does_not_exist; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [653]----------------------------------------
 command: cat < forbidden_file; echo $?
-stdout.................................. KO
---> Bash stdout:
-0
-0
-0
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [654]----------------------------------------
 command: ./forbidden_file; echo $?
-stdout.................................. KO
---> Bash stdout:
-126
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 126
+exit code............................... OK
 
 [655]----------------------------------------
 command: cd existing_dir; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: existing_dir: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [656]----------------------------------------
 command: cd forbidden_dir; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: forbidden_dir: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [657]----------------------------------------
 command: cd dir_does_not_exist; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: dir_does_not_exist: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [658]----------------------------------------
 command: cd file_does_not_exist; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: file_does_not_exist: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [659]----------------------------------------
 command: cd valid_infile_1; echo $?
-stdout.................................. KO
---> Bash stdout:
-1
---> Minishell stdout:
-
-stderr.................................. KO
---> Bash stderr:
-bash: line 1: cd: valid_infile_1: No such file or directory
-
---> Minishell stderr:
-minishell: cd: too many arguments
-
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [660]----------------------------------------
 command: ls dir_does_not_exist; echo $?
-stdout.................................. KO
---> Bash stdout:
-2
---> Minishell stdout:
-
+stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 2
+exit code............................... OK
 
 ----------------------------------------
 
 
 RESULTS
-Total: 660; Fail: 401; Pass: 259
+Total: 660; Fail: 159; Pass: 501
 
 
 NOTICE

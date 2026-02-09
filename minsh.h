@@ -81,12 +81,6 @@ typedef struct s_prompt
 	char		*cwd;
 }	t_prompt;
 
-typedef struct s_input
-{
-	char		*line;
-	bool		eof;
-}	t_input;
-
 typedef unsigned long long	t_ull;
 
 typedef struct s_env
@@ -105,7 +99,7 @@ typedef struct s_array
 
 // Inputs
 
-t_input		cell_read_input(t_msh *ms);
+char		*cell_read_input(t_msh *ms);
 void		cell_exec(t_msh *ms);
 
 // builtins/
@@ -128,7 +122,8 @@ void		sigset_child_dfl(void);
 
 int			malloc_error(int ret);
 int			handle_error(char *target, const char *format, t_msh *ms);
-int			parse_c_flag(char *line, t_msh *ms);
+char		*parse_c_flag(t_msh *ms, char **cmd);
+char		*get_wd(t_msh *ms, char **cwd, bool p_err);
 
 // Dynamic array functions (utils/array/)
 
@@ -442,20 +437,20 @@ int			main_cleanup(t_msh *ms);
 struct s_minishell
 {
 	//ema original
-	char		**args;
-	t_array		*env;
-	bool		shell_exit;
+	char	**args;
+	t_array	*env;
+	bool	shell_exit;
 
 	//juls cont
-	t_input		input;
+	char	*input;
 
-	t_token		*tk_start;
-	int			tk_ttl;
+	t_token	*tk_start;
+	int		tk_ttl;
 
-	t_ast		*ast_root;
-	t_ast		*ast_garbc;
+	t_ast	*ast_root;
+	t_ast	*ast_garbc;
 
-	int			exstat;
+	int		exstat;
 };
 
 #endif

@@ -58,19 +58,19 @@ static void	init_state(t_msh *ms, int ac, char **av, char **envp)
  * @see cell_exec
  * @see cleanup
  */
-static void	ms_prompt_loop(t_msh *ms)
+static void	ms_prompt_loop(t_msh *ms, char *cmd)
 {
 	while (!ms->shell_exit)
 	{
-		ms->input = cell_read_input(ms);
-		if (ms->input.eof)
-		{
-			ms->shell_exit = true;
+		if (cmd)
+			ms->input = parse_c_flag(ms, &cmd);
+		else
+			ms->input = cell_read_input(ms);
+		if (ms->shell_exit)
 			main_cleanup(ms);
-		}
-		else if (!ms->input.line)
+		else if (!ms->input)
 			continue ;
-		if (!ms->shell_exit && lex_tokens(ms, ms->input.line))
+		if (!ms->shell_exit && lex_tokens(ms, ms->input))
 		{
 			debug_lex_pr_tk(ms);
 			ms->ast_root = build_ast(ms);
@@ -83,7 +83,6 @@ static void	ms_prompt_loop(t_msh *ms)
 		else if (!ms->shell_exit)
 			continue ;
 	}
-	rl_clear_history();
 }
 
 /**
@@ -95,10 +94,13 @@ static void	ms_prompt_loop(t_msh *ms)
 int	main(int ac, char *av[], char *envp[])
 {
 	t_msh	ms;
+	char	*cmd;
 
 	init_state(&ms, ac, av, envp);
+	cmd = NULL;
 	if (ac == 3 && ft_strcmp(av[1], "-c") == 0 && av[2])
-		return (parse_c_flag(av[2], &ms));
-	ms_prompt_loop(&ms);
+		cmd = av[2];
+	ms_prompt_loop(&ms, cmd);
+	rl_clear_history();
 	return (ms.exstat);
 }

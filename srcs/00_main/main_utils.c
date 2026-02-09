@@ -29,17 +29,16 @@ int	msh_consume_sigint(t_msh *ms)
  */
 int	main_cleanup(t_msh *ms)
 {
-	if (ms->input.line && (free(ms->input.line), true))
-		ms->input.line = NULL;
+	if (ms->input && (free(ms->input), true))
+		ms->input = NULL;
 	if (ms->args && (free_2darr((void **)ms->args), true))
 		ms->args = NULL;
 	if (ms->tk_start && (clear_tokens(&ms->tk_start), true))
 		ms->tk_start = NULL;
 	if (ms->ast_garbc && (clear_ast_garbage(&ms->ast_garbc), true))
 		ms->ast_garbc = NULL;
-	if ((ms->shell_exit || ms->input.eof) && ms->env)
+	if (ms->shell_exit && ms->env)
 	{
-		ms->shell_exit = true;
 		array_free(ms->env);
 		free(ms->env);
 	}

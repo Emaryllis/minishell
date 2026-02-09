@@ -207,6 +207,7 @@ struct s_redir
 	t_redir		*next;
 	t_redir		*hdoc_next;
 	int			hd_pfd_0;				//closed aft fork, if not with redir
+	bool		hd_expans;
 };
 
 typedef struct s_hdoc
@@ -266,7 +267,7 @@ void		append_redir(t_redir **start, t_redir *new);
 void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
 int			resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
 int			heredoc_isatty(t_redir *r, t_msh *ms);
-void		heredoc_notatty(t_redir *r, t_msh *ms);
+int			heredoc_notatty(t_redir *r, t_msh *ms, int fd);
 
 //Cleanup
 
@@ -340,9 +341,11 @@ typedef struct s_globout
 //Char** Expansion Phases
 
 char		**expand_argv(char **av, int ac, t_msh *ms);
+char		**export_expn_argv(char **raw_argv, int ac, t_msh *ms);
 char		**globble_argv(char **input_argv);
 char		*expand_str_envs(char *str, t_msh *ms, int is_hdoc);
 void		quote_filter(char **cur, char *arg, int *i, t_quote *q);
+void		strip_split_gmark_loop(t_expav *v);
 
 //Utils
 
@@ -411,7 +414,7 @@ int			exc_hdl_orr(t_ast *cur_node, t_exctx p_ctx, t_msh *ms);
 
 //Utils
 
-bool		is_builtin(char *argv0);
+int			dup2ctxstdio(t_exctx ctx);
 char		*str3join(const char *s1, const char *s2, const char *s3);
 int			fork_set_ch(t_exctx *ctx, int type);
 

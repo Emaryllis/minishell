@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:34:01 by julhong           #+#    #+#             */
-/*   Updated: 2025/09/25 22:36:49 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/03 20:00:50 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	free_2darr(void **arr)
 {
 	void	**tmp;
 
+	if (!arr)
+		return ;
 	tmp = arr;
 	while (*tmp)
 		free(*(tmp++));

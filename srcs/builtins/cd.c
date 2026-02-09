@@ -118,14 +118,18 @@ int	cell_cd(t_msh *ms)
 	if (!target)
 		return (EXIT_FAILURE);
 	if (!getcwd(cwd, PATH_MAX))
-		return (handle_error(target, "getcwd() error\n", NULL));
+		return (handle_error(target, "cd: error retrieving current directory: "
+				"getcwd: cannot access parent directories: "
+				"No such file or directory\n", NULL), 0);
 	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
 	if (ret != EXIT_SUCCESS)
 		return (ret);
 	if (chdir(target) != 0)
 		return (handle_error(target, NULL, ms));
 	if (!getcwd(cwd, PATH_MAX))
-		return (handle_error(target, "getcwd() error\n", NULL));
+		return (handle_error(target, "cd: error retrieving current directory: "
+				"getcwd: cannot access parent directories: "
+				"No such file or directory\n", NULL), 0);
 	ret = set_new_pwd(ms, cwd, target, "PWD");
 	if (ret != EXIT_SUCCESS)
 		return (ret);

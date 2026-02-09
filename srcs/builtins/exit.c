@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/01 18:24:19 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/07 17:22:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,6 @@ static int	parse_args(t_msh *ms)
 
 	if (!ms->args || !ms->args[1])
 		return (INT_MIN);
-	if (ms->args[2])
-	{
-		if (isatty(STDIN_FILENO))
-			ft_printfd(2, "exit\n");
-		ft_printfd(2, NAME": exit: too many arguments\n");
-		return (INT_MIN + 2);
-	}
 	invalid = false;
 	code = ft_atoli(ms->args[1], &invalid);
 	if (invalid)
@@ -103,6 +96,13 @@ static int	parse_args(t_msh *ms)
 		ft_printfd(2, NAME": exit: %s: numeric argument required\n",
 			ms->args[1]);
 		return (INT_MIN + 1);
+	}
+	if (ms->args[2])
+	{
+		if (isatty(STDIN_FILENO))
+			ft_printfd(2, "exit\n");
+		ft_printfd(2, NAME": exit: too many arguments\n");
+		return (INT_MIN + 2);
 	}
 	return ((code % 256 + 256) % 256);
 }

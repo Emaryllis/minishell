@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 22:55:31 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/27 15:29:42 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/06 00:02:34 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ static void	hdl_evnlvl_quotes(char *str, t_expstr *v)
 {
 	if (str[v->i] == '"')
 	{
-		if (!v->in_dquote)
-			v->in_dquote = true;
-		else
-			v->in_dquote = false;
+		v->in_dquote = !v->in_dquote;
 		v->i++;
 	}
 	else if (str[v->i] == '\'' && !v->in_dquote)

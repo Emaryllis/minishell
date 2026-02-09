@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   dynamic_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
 /*   Updated: 2026/02/08 02:52:29 by egoh             ###   ########.fr       */

@@ -119,14 +119,14 @@ int	cell_cd(t_msh *ms)
 		return (EXIT_FAILURE);
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
+	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
+	if (ret != EXIT_SUCCESS)
+		return (ret);
 	if (chdir(target) != 0)
 		return (handle_error(target, NULL, ms));
 	if (!getcwd(cwd, PATH_MAX))
 		return (handle_error(target, "getcwd() error\n", NULL));
 	ret = set_new_pwd(ms, cwd, target, "PWD");
-	if (ret != EXIT_SUCCESS)
-		return (ret);
-	ret = set_new_pwd(ms, cwd, target, "OLDPWD");
 	if (ret != EXIT_SUCCESS)
 		return (ret);
 	free(target);

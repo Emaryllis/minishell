@@ -12,6 +12,22 @@
 
 #include "minsh.h"
 
+char	*str3join(const char *s1, const char *s2, const char *s3)
+{
+	int		ttl_len;
+	char	*res_str;
+
+	ttl_len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	res_str = malloc(ttl_len + 1);
+	if (!res_str)
+		return (NULL);
+	res_str[0] = '\0';
+	ft_strcpy(res_str, s1);
+	ft_strcat(res_str, s2);
+	ft_strcat(res_str, s3);
+	return (res_str);
+}
+
 int	interp_wtstat(int wstat)
 {
 	if (WIFEXITED(wstat))

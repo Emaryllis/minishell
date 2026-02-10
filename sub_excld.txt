@@ -1,0 +1,14 @@
+.assets
+.idea
+libft/test*
+libft/.rsync_exclude
+logs
+tester
+very_long*
+.gitmodules
+CMakeL*
+new_subj*
+readline.supp
+README.html
+runtester.sh
+sub_excld.txt

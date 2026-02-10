@@ -17,15 +17,15 @@ void	quote_filter(char **cur, char *arg, int *i, t_quote *q)
 	char	*start;
 
 	start = *cur;
-	if ((*start == '\'' && *q == D_QUOTE) || (*start == '"' && *q == S_QUOTE))
+	if ((*start == '\'' && *q == D_QT) || (*start == '"' && *q == S_QT))
 		arg[(*i)++] = *start;
-	else if ((*start == '\'' && *q == S_QUOTE)
-		|| (*start == '"' && *q == D_QUOTE))
-		*q = NO_QUOTE;
-	else if (*start == '\'' && *q == NO_QUOTE)
-		*q = S_QUOTE;
-	else if (*start == '"' && *q == NO_QUOTE)
-		*q = D_QUOTE;
+	else if ((*start == '\'' && *q == S_QT)
+		|| (*start == '"' && *q == D_QT))
+		*q = NO_QT;
+	else if (*start == '\'' && *q == NO_QT)
+		*q = S_QT;
+	else if (*start == '"' && *q == NO_QT)
+		*q = D_QT;
 	*cur = ++start;
 }
 
@@ -41,26 +41,25 @@ void	quote_filter(char **cur, char *arg, int *i, t_quote *q)
 static t_strips	strip_split_gmark_nxt(char *str)
 {
 	char	*arg;
-	t_quote	quote;
+	t_quote	qt;
 	int		i;
 
 	adv_ptr_isspace(&str);
 	arg = ft_strdup(str);
-	quote = NO_QUOTE;
+	qt = NO_QT;
 	i = 0;
 	while (*str)
 	{
 		if (ft_strchr("'\"", *str)
-			|| (*str == '$' && quote == NO_QUOTE
+			|| (*str == '$' && qt == NO_QT
 				&& ft_strchr("'\"", *(str + 1)) && (str++, true)))
-			quote_filter(&str, arg, &i, &quote);
-		else if (ft_isspace(*str) && quote == NO_QUOTE)
+			quote_filter(&str, arg, &i, &qt);
+		else if (ft_isspace(*str) && qt == NO_QT && (adv_ptr_isspace(&str), 1))
 		{
 			arg[i] = '\0';
-			adv_ptr_isspace(&str);
 			break ;
 		}
-		else if ((*str == '*' && quote == NO_QUOTE) && str++)
+		else if ((*str == '*' && qt == NO_QT) && str++)
 			arg[i++] = JAMES_BOND;
 		else
 			arg[i++] = *str++;

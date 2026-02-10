@@ -300,9 +300,9 @@ typedef struct s_expstr
 
 typedef enum e_quote
 {
-	NO_QUOTE,
-	S_QUOTE,
-	D_QUOTE
+	NO_QT,
+	S_QT,
+	D_QT
 }	t_quote;
 
 typedef struct s_strip_split
@@ -390,9 +390,10 @@ typedef struct s_chio
 
 typedef struct s_excmd //curr left to exit in child, not freed
 {
-	char	**path_arr;
-	char	**envp;
-	char	*cmd_path;
+	struct stat	sst;
+	char		**path_arr;
+	char		**envp;
+	char		*cmd_path;
 }	t_excmd;
 
 //Top-level

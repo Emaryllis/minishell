@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:58:22 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/01 22:12:22 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/10 13:09:11 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_ast	*build_ast(t_msh *ms)
 		set_pstate_err(&p_state);
 	if (p_state.parse_error)
 	{
-		pr_syntax_err(p_state);
+		ms->exstat = pr_syntax_err(p_state);
 		return (NULL);
 	}
 	resolve_hdocs(p_state.hdocs_start, ms);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:49:02 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/08 02:01:14 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/10 02:47:53 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,6 +426,7 @@ int			ch_msh_clean(t_exctx ctx, t_msh *ms);
 
 //Error handling
 
+int			gen_perr(char *tgt, char *msg, int exstat);
 int			ms_perr_exstat(char *err_src, int exstat);
 
 //UTILS -----------------------------------------------------------------------

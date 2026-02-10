@@ -13,8 +13,6 @@
 #include "minsh.h"
 
 /** dup2 ctx.fdio -> STDIN & STDOUT if there is a ctx (fdio != -1)
- * - Returns 0 on success
- * - Returns 1 on failure
  */
 int	dup2ctxstdio(t_exctx ctx)
 {

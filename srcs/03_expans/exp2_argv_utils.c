@@ -50,14 +50,10 @@ static t_strips	strip_split_gmark_nxt(char *str)
 	i = 0;
 	while (*str)
 	{
-		if (ft_strchr("'\"", *str))
+		if (ft_strchr("'\"", *str)
+			|| (*str == '$' && quote == NO_QUOTE
+				&& ft_strchr("'\"", *(str + 1)) && (str++, true)))
 			quote_filter(&str, arg, &i, &quote);
-		else if (*str == '$' && quote == NO_QUOTE
-			&& ft_strchr("'\"", *(str + 1)))
-		{
-			str++;
-			quote_filter(&str, arg, &i, &quote);
-		}
 		else if (ft_isspace(*str) && quote == NO_QUOTE)
 		{
 			arg[i] = '\0';

@@ -65,7 +65,7 @@ Expected 'command not found' or 'is a directory' error
 stdout.................................. OK
 stderr.................................. KO
 --> Bash stderr:
-bash: line 0: .: filename argument required
+bash: line 1: .: filename argument required
 .: usage: . filename [arguments]
 
 --> Minishell stderr:
@@ -88,13 +88,25 @@ exit code............................... OK
 [013]----------------------------------------
 command: ./
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ./: Is a directory
+
+--> Minishell stderr:
+minishell: ./: is a directory
+
 exit code............................... OK
 
 [014]----------------------------------------
 command: ../
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ../: Is a directory
+
+--> Minishell stderr:
+minishell: ../: is a directory
+
 exit code............................... OK
 
 [015]----------------------------------------
@@ -205,7 +217,7 @@ Expected 'command not found' or 'is a directory' error
 stdout.................................. OK
 stderr.................................. KO
 --> Bash stderr:
-bash: line 0: .: filename argument required
+bash: line 1: .: filename argument required
 .: usage: . filename [arguments]
 
 --> Minishell stderr:
@@ -216,7 +228,13 @@ exit code............................... OK
 [032]----------------------------------------
 command: unset PATH; ..
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ..: Is a directory
+
+--> Minishell stderr:
+minishell: ..: is a directory
+
 exit code............................... OK
 
 [033]----------------------------------------
@@ -228,13 +246,25 @@ exit code............................... OK
 [034]----------------------------------------
 command: unset PATH; ./
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ./: Is a directory
+
+--> Minishell stderr:
+minishell: ./: is a directory
+
 exit code............................... OK
 
 [035]----------------------------------------
 command: unset PATH; ../
 stdout.................................. OK
-stderr.................................. OK
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ../: Is a directory
+
+--> Minishell stderr:
+minishell: ../: is a directory
+
 exit code............................... OK
 
 [036]----------------------------------------
@@ -581,21 +611,13 @@ exit code............................... OK
 
 [090]----------------------------------------
 command: echo $""USER
-stdout.................................. KO
---> Bash stdout:
-USER
---> Minishell stdout:
-$USER
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [091]----------------------------------------
 command: echo $''USER
-stdout.................................. KO
---> Bash stdout:
-USER
---> Minishell stdout:
-$USER
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -628,27 +650,13 @@ exit code............................... OK
 [096]----------------------------------------
 command: ls '"
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: -c: line 0: unexpected EOF while looking for matching `''
-bash: -c: line 1: syntax error: unexpected end of file
-
---> Minishell stderr:
-minishell: unexpected EOF while looking for matching `''
-
+stderr.................................. OK
 exit code............................... OK
 
 [097]----------------------------------------
 command: ls "'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: -c: line 0: unexpected EOF while looking for matching `"'
-bash: -c: line 1: syntax error: unexpected end of file
-
---> Minishell stderr:
-minishell: unexpected EOF while looking for matching `"'
-
+stderr.................................. OK
 exit code............................... OK
 
 [098]----------------------------------------
@@ -835,31 +843,19 @@ exit code............................... OK
 
 [127]----------------------------------------
 command: echo hello $NOT_A_VAR $NOT_A_VAR $NOT_A_VAR $USER
-stdout.................................. KO
---> Bash stdout:
-hello juls
---> Minishell stdout:
-hello    juls
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [128]----------------------------------------
 command: echo $NOT_A_VAR $NOT_A_VAR $NOT_A_VAR $USER
-stdout.................................. KO
---> Bash stdout:
-juls
---> Minishell stdout:
-   juls
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [129]----------------------------------------
 command: echo hello $NOT_A_VAR $NOT_A_VAR $NOT_A_VAR
-stdout.................................. KO
---> Bash stdout:
-hello
---> Minishell stdout:
-hello   
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -897,121 +893,104 @@ syntax
 command: |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [135]----------------------------------------
 command: ||
 Note: '||' implementation not required in minishell: bash output differs; 'syntax error' expected for minishell stderr
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [136]----------------------------------------
 command: |||
 Note: '||' implementation not required in minishell: bash output differs; 'syntax error' expected for minishell stderr
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [137]----------------------------------------
 command: <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [138]----------------------------------------
 command: <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [139]----------------------------------------
 command: <<<<<<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [140]----------------------------------------
 command: >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [141]----------------------------------------
 command: >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [142]----------------------------------------
 command: >>>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [143]----------------------------------------
 command: >>>>>>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [144]----------------------------------------
 command: ls |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [145]----------------------------------------
 command: ls ||
 Note: '||' implementation not required in minishell: bash output differs; 'syntax error' expected for minishell stderr
+stdout.................................. OK
+stderr.................................. OK
+exit code............................... OK
 
 [146]----------------------------------------
 command: ls | |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [147]----------------------------------------
 command: | ls
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [148]----------------------------------------
 command: | ls | cat
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [149]----------------------------------------
 command: ls | cat |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [150]----------------------------------------
 command: ls || cat
@@ -1021,25 +1000,19 @@ Note: '||' implementation not required in minishell: bash output differs; 'synta
 command: ls | | cat
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [152]----------------------------------------
 command: fake_cmd |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [153]----------------------------------------
 command: | fake_cmd
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [154]----------------------------------------
 command: fake_cmd || ls
@@ -1049,9 +1022,7 @@ Note: '||' implementation not required in minishell: bash output differs; 'synta
 command: fake_cmd | | ls
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [156]----------------------------------------
 command: ls || fake_cmd
@@ -1061,315 +1032,235 @@ Note: '||' implementation not required in minishell: bash output differs; 'synta
 command: ls | | fake_cmd
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [158]----------------------------------------
 command: ls >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [159]----------------------------------------
 command: ls >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [160]----------------------------------------
 command: ls <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [161]----------------------------------------
 command: ls <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [162]----------------------------------------
 command: ls < |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [163]----------------------------------------
 command: ls << |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [164]----------------------------------------
 command: ls > |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [165]----------------------------------------
 command: ls >> |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [166]----------------------------------------
 command: ls | <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [167]----------------------------------------
 command: ls | <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [168]----------------------------------------
 command: ls | >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [169]----------------------------------------
 command: ls | >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [170]----------------------------------------
 command: ls > >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [171]----------------------------------------
 command: ls > >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [172]----------------------------------------
 command: ls > <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [173]----------------------------------------
 command: ls > <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [174]----------------------------------------
 command: ls >> >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [175]----------------------------------------
 command: ls >> >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [176]----------------------------------------
 command: ls >> <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [177]----------------------------------------
 command: ls >> <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [178]----------------------------------------
 command: ls < >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [179]----------------------------------------
 command: ls < >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [180]----------------------------------------
 command: ls < <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [181]----------------------------------------
 command: ls < <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [182]----------------------------------------
 command: ls << >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [183]----------------------------------------
 command: ls << >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [184]----------------------------------------
 command: ls << <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [185]----------------------------------------
 command: ls << <<
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [186]----------------------------------------
 command: ls > >> |
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [187]----------------------------------------
 command: < < valid_infile_1 cat
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [188]----------------------------------------
 command: << << valid_infile_1 cat
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [189]----------------------------------------
 command: << < valid_infile_1 cat
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [190]----------------------------------------
 command: < << valid_infile_1 cat
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [191]----------------------------------------
 command: < $FAKE_VAR cat
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: $FAKE_VAR: ambiguous redirect
-
---> Minishell stderr:
-minishell: : No such file or directory
-
+stderr.................................. OK
 exit code............................... OK
 
 [192]----------------------------------------
 command: cat < $FAKE_VAR
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: $FAKE_VAR: ambiguous redirect
-
---> Minishell stderr:
-minishell: : No such file or directory
-
+stderr.................................. OK
 exit code............................... OK
 
 [193]----------------------------------------
@@ -1388,17 +1279,13 @@ exit code............................... OK
 command: echo hello | ;
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [196]----------------------------------------
 command: ls > <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 ----------------------------------------
 
@@ -1625,103 +1512,13 @@ env
 
 [231]----------------------------------------
 command: ENV | sort | grep -v SHLVL | grep -v _=
-stdout.................................. KO
---> Bash stdout:
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-__CFBundleIdentifier=com.apple.Terminal
-HOME=/Users/juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-HOMEBREW_PREFIX=/opt/homebrew
-HOMEBREW_REPOSITORY=/opt/homebrew
-INFOPATH=/opt/homebrew/share/info
-LANG=en_SG.UTF-8
-LOGNAME=juls
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-PWD=/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
-SHELL=/usr/local/bin/fish
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-TERM_PROGRAM_VERSION=455.1
-TERM_PROGRAM=Apple_Terminal
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-TERM=xterm-256color
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-USER=juls
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
---> Minishell stdout:
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-__CFBundleIdentifier=com.apple.Terminal
-HOME=/Users/juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-HOMEBREW_PREFIX=/opt/homebrew
-HOMEBREW_REPOSITORY=/opt/homebrew
-INFOPATH=/opt/homebrew/share/info
-LANG=en_SG.UTF-8
-LOGNAME=juls
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-SHELL=/usr/local/bin/fish
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-TERM_PROGRAM_VERSION=455.1
-TERM_PROGRAM=Apple_Terminal
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-TERM=xterm-256color
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-USER=juls
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [232]----------------------------------------
 command: Env | sort | grep -v SHLVL | grep -v _=
-stdout.................................. KO
---> Bash stdout:
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-__CFBundleIdentifier=com.apple.Terminal
-HOME=/Users/juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-HOMEBREW_PREFIX=/opt/homebrew
-HOMEBREW_REPOSITORY=/opt/homebrew
-INFOPATH=/opt/homebrew/share/info
-LANG=en_SG.UTF-8
-LOGNAME=juls
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-PWD=/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
-SHELL=/usr/local/bin/fish
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-TERM_PROGRAM_VERSION=455.1
-TERM_PROGRAM=Apple_Terminal
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-TERM=xterm-256color
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-USER=juls
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
---> Minishell stdout:
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-__CFBundleIdentifier=com.apple.Terminal
-HOME=/Users/juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-HOMEBREW_PREFIX=/opt/homebrew
-HOMEBREW_REPOSITORY=/opt/homebrew
-INFOPATH=/opt/homebrew/share/info
-LANG=en_SG.UTF-8
-LOGNAME=juls
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-SHELL=/usr/local/bin/fish
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-TERM_PROGRAM_VERSION=455.1
-TERM_PROGRAM=Apple_Terminal
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-TERM=xterm-256color
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-USER=juls
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -1729,88 +1526,132 @@ exit code............................... OK
 command: env | sort | grep -v SHLVL | grep -v _=
 stdout.................................. KO
 --> Bash stdout:
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-__CFBundleIdentifier=com.apple.Terminal
-HOME=/Users/juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-HOMEBREW_PREFIX=/opt/homebrew
-HOMEBREW_REPOSITORY=/opt/homebrew
-INFOPATH=/opt/homebrew/share/info
-LANG=en_SG.UTF-8
-LOGNAME=juls
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-PWD=/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
-SHELL=/usr/local/bin/fish
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-TERM_PROGRAM_VERSION=455.1
-TERM_PROGRAM=Apple_Terminal
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+DEBUGINFOD_URLS=https://debuginfod.ubuntu.com 
+DESKTOP_SESSION=ubuntu
+DESKTOP_STARTUP_ID=gnome-shell/CLion/613585-0-c2r4s9.42singapore.sg_TIME512108720
+DISPLAY=:0
+DOCKER_HOST=unix:///run/user/102611/docker.sock
+FT_HOOK_NAME=login-user
+FT_HOOK_PATHNAME=login-user.d
+GDMSESSION=ubuntu
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+GIO_LAUNCHED_DESKTOP_FILE_PID=614064
+GJS_DEBUG_OUTPUT=stderr
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GPG_AGENT_INFO=/run/user/102611/gnupg/S.gpg-agent:0:1
+GTK_IM_MODULE=ibus
+GTK_MODULES=gail:atk-bridge
+HOME=/home/egoh
+IM_CONFIG_PHASE=1
+INVOCATION_ID=dc4c9e8224a441a7985510429d395df0
+JOURNAL_STREAM=8:3311943
+KRB5CCNAME=FILE:/tmp/krb5cc_102611_vi8gl2
+LANG=en_US.UTF-8
+LIBVIRT_DEFAULT_URI=qemu:///system
+LOGNAME=egoh
+MANAGERPID=612953
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PWD=/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash
+QT_ACCESSIBILITY=1
+QT_IM_MODULE=ibus
+SESSION_MANAGER=local/c2r4s9.42singapore.sg:@/tmp/.ICE-unix/613566,unix/c2r4s9.42singapore.sg:/tmp/.ICE-unix/613566
+SHELL=/bin/zsh
+SSH_AGENT_LAUNCHER=gnome-keyring
+SSH_AUTH_SOCK=/run/user/102611/keyring/ssh
+SYSTEMD_EXEC_PID=613585
+TERMINAL_EMULATOR=JetBrains-JediTerm
+TERM_SESSION_ID=379f0ac8-0bb2-4ca4-8350-051af43b3545
 TERM=xterm-256color
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-USER=juls
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
+USER=egoh
+XAUTHORITY=/home/egoh/.Xauthority
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/egoh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/egoh
+XDG_MENU_PREFIX=gnome-
+XDG_RUNTIME_DIR=/run/user/102611
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+XDG_SESSION_CLASS=user
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+XDG_SESSION_TYPE=x11
+XMODIFIERS=@im=ibus
 --> Minishell stdout:
-TERM_PROGRAM=Apple_Terminal
-SHELL=/usr/local/bin/fish
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=614064
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+DEBUGINFOD_URLS=https://debuginfod.ubuntu.com 
+DESKTOP_SESSION=ubuntu
+DESKTOP_STARTUP_ID=gnome-shell/CLion/613585-0-c2r4s9.42singapore.sg_TIME512108720
+DISPLAY=:0
+DOCKER_HOST=unix:///run/user/102611/docker.sock
+FT_HOOK_NAME=login-user
+FT_HOOK_PATHNAME=login-user.d
+GJS_DEBUG_OUTPUT=stderr
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GPG_AGENT_INFO=/run/user/102611/gnupg/S.gpg-agent:0:1
+GTK_IM_MODULE=ibus
+GTK_MODULES=gail:atk-bridge
+HOME=/home/egoh
+IM_CONFIG_PHASE=1
+INVOCATION_ID=dc4c9e8224a441a7985510429d395df0
+JOURNAL_STREAM=8:3311943
+KRB5CCNAME=FILE:/tmp/krb5cc_102611_vi8gl2
+LANG=en_US.UTF-8
+LIBVIRT_DEFAULT_URI=qemu:///system
+LOGNAME=egoh
+MANAGERPID=612953
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:
+PWD=/home/egoh/Documents/Ecole42Minishell/tester
+QT_ACCESSIBILITY=1
+QT_IM_MODULE=ibus
+SESSION_MANAGER=local/c2r4s9.42singapore.sg:@/tmp/.ICE-unix/613566,unix/c2r4s9.42singapore.sg:/tmp/.ICE-unix/613566
+SHELL=/bin/zsh
+SSH_AGENT_LAUNCHER=gnome-keyring
+SSH_AUTH_SOCK=/run/user/102611/keyring/ssh
+SYSTEMD_EXEC_PID=613585
+TERMINAL_EMULATOR=JetBrains-JediTerm
+TERM_SESSION_ID=379f0ac8-0bb2-4ca4-8350-051af43b3545
 TERM=xterm-256color
-HOMEBREW_REPOSITORY=/opt/homebrew
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-TERM_PROGRAM_VERSION=455.1
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-USER=juls
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-__CFBundleIdentifier=com.apple.Terminal
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-LANG=en_SG.UTF-8
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
-SHLVL=2
-HOME=/Users/juls
-HOMEBREW_PREFIX=/opt/homebrew
-LOGNAME=juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-INFOPATH=/opt/homebrew/share/info
-_=/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
+USER=egoh
+XAUTHORITY=/home/egoh/.Xauthority
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/egoh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/egoh
+XDG_MENU_PREFIX=gnome-
+XDG_RUNTIME_DIR=/run/user/102611
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+XDG_SESSION_CLASS=user
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+XDG_SESSION_TYPE=x11
+XMODIFIERS=@im=ibus
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 
 [234]----------------------------------------
 command: env | wc -l
 stdout.................................. KO
 --> Bash stdout:
-      23
+55
 --> Minishell stdout:
-TERM_PROGRAM=Apple_Terminal
-SHELL=/usr/local/bin/fish
-TERM=xterm-256color
-HOMEBREW_REPOSITORY=/opt/homebrew
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-TERM_PROGRAM_VERSION=455.1
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-USER=juls
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-__CFBundleIdentifier=com.apple.Terminal
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-LANG=en_SG.UTF-8
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
-SHLVL=2
-HOME=/Users/juls
-HOMEBREW_PREFIX=/opt/homebrew
-LOGNAME=juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-INFOPATH=/opt/homebrew/share/info
-_=/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-       0
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=614064
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+48
 stderr.................................. OK
 exit code............................... OK
 
@@ -1818,37 +1659,24 @@ exit code............................... OK
 command: env | grep PATH
 stdout.................................. KO
 --> Bash stdout:
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-INFOPATH=/opt/homebrew/share/info
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+FT_HOOK_PATHNAME=login-user.d
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 --> Minishell stdout:
-TERM_PROGRAM=Apple_Terminal
-SHELL=/usr/local/bin/fish
-TERM=xterm-256color
-HOMEBREW_REPOSITORY=/opt/homebrew
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-TERM_PROGRAM_VERSION=455.1
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-USER=juls
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-__CFBundleIdentifier=com.apple.Terminal
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-LANG=en_SG.UTF-8
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
-SHLVL=2
-HOME=/Users/juls
-HOMEBREW_PREFIX=/opt/homebrew
-LOGNAME=juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-INFOPATH=/opt/homebrew/share/info
-_=/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=614064
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+FT_HOOK_PATHNAME=login-user.d
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PATH=/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 0
---> Minishell exit code: 1
+exit code............................... OK
 ----------------------------------------
 
 
@@ -1916,30 +1744,13 @@ stdout.................................. KO
 --> Bash stdout:
 
 --> Minishell stdout:
-TERM_PROGRAM=Apple_Terminal
-SHELL=/usr/local/bin/fish
-TERM=xterm-256color
-HOMEBREW_REPOSITORY=/opt/homebrew
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-TERM_PROGRAM_VERSION=455.1
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-USER=juls
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-__CFBundleIdentifier=com.apple.Terminal
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-LANG=en_SG.UTF-8
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
-SHLVL=2
-HOME=/Users/juls
-HOMEBREW_PREFIX=/opt/homebrew
-LOGNAME=juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-INFOPATH=/opt/homebrew/share/info
-_=/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=614064
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
 stderr.................................. OK
 exit code............................... OK
 
@@ -1953,33 +1764,16 @@ exit code............................... OK
 command: export =; env | grep = | wc -l
 stdout.................................. KO
 --> Bash stdout:
-      23
+55
 --> Minishell stdout:
-TERM_PROGRAM=Apple_Terminal
-SHELL=/usr/local/bin/fish
-TERM=xterm-256color
-HOMEBREW_REPOSITORY=/opt/homebrew
-TMPDIR=/var/folders/gh/xh5cqj8s71jfqw1cxm02v7nr0000gn/T/
-TERM_PROGRAM_VERSION=455.1
-TERM_SESSION_ID=F8D5C5C4-87F7-410E-903F-239F009CCD31
-USER=juls
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.CtTTjCnvWD/Listeners
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-__CFBundleIdentifier=com.apple.Terminal
-PWD=/Users/juls/desktop/42/M3/Minsh_group/tester
-LANG=en_SG.UTF-8
-XPC_FLAGS=0x0
-XPC_SERVICE_NAME=0
-SHLVL=2
-HOME=/Users/juls
-HOMEBREW_PREFIX=/opt/homebrew
-LOGNAME=juls
-HOMEBREW_CELLAR=/opt/homebrew/Cellar
-INFOPATH=/opt/homebrew/share/info
-_=/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
-OLDPWD=/Users/juls/desktop/42/M3/Minsh_group
-__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0
-       0
+/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/.local/bin:/home/egoh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/102611/bus
+GIO_LAUNCHED_DESKTOP_FILE_PID=614064
+GIO_LAUNCHED_DESKTOP_FILE=/home/egoh/.local/share/applications/jetbrains-clion.desktop
+OLDPWD=/home/egoh/Documents/Ecole42Minishell
+_=/usr/bin/python3
+49
 stderr.................................. OK
 exit code............................... OK
 
@@ -2364,28 +2158,14 @@ exit code............................... OK
 [308]----------------------------------------
 command: unset ""
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [309]----------------------------------------
 command: unset ''
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [310]----------------------------------------
 command: export A=a; unset A; echo $A
@@ -2395,45 +2175,26 @@ exit code............................... OK
 
 [311]----------------------------------------
 command: export A=a A2=a; unset A; echo $A $A2
-stdout.................................. KO
---> Bash stdout:
-a
---> Minishell stdout:
- a
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [312]----------------------------------------
 command: export A=a; unset 'A '; echo $A
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `A ': not a valid identifier
-
---> Minishell stderr:
-
+stderr.................................. OK
 exit code............................... OK
 
 [313]----------------------------------------
 command: export A=a; unset A=; echo $A
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `A=': not a valid identifier
-
---> Minishell stderr:
-
+stderr.................................. OK
 exit code............................... OK
 
 [314]----------------------------------------
 command: export A=a; unset 'A='; echo $A
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `A=': not a valid identifier
-
---> Minishell stderr:
-
+stderr.................................. OK
 exit code............................... OK
 
 [315]----------------------------------------
@@ -2445,97 +2206,37 @@ exit code............................... OK
 [316]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `asdf ': not a valid identifier
-bash: line 0: unset: ` asdf asdf asd f': not a valid identifier
-bash: line 0: unset: ` asdf ': not a valid identifier
-bash: line 0: unset: `': not a valid identifier
-bash: line 0: unset: `asdf ': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [317]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `asdf ': not a valid identifier
-bash: line 0: unset: ` asdf asdf asd f': not a valid identifier
-bash: line 0: unset: ` asdf ': not a valid identifier
-bash: line 0: unset: `': not a valid identifier
-bash: line 0: unset: `asdf ': not a valid identifier
-
---> Minishell stderr:
-
+stderr.................................. OK
 exit code............................... OK
 
 [318]----------------------------------------
 command: export A=a B=b C=c; unset 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `asdf ': not a valid identifier
-bash: line 0: unset: ` asdf asdf asd f': not a valid identifier
-bash: line 0: unset: ` asdf ': not a valid identifier
-bash: line 0: unset: `': not a valid identifier
-bash: line 0: unset: `asdf ': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [319]----------------------------------------
 command: export A=a B=b C=c; unset 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `asdf ': not a valid identifier
-bash: line 0: unset: ` asdf asdf asd f': not a valid identifier
-bash: line 0: unset: ` asdf ': not a valid identifier
-bash: line 0: unset: `': not a valid identifier
-bash: line 0: unset: `asdf ': not a valid identifier
-
---> Minishell stderr:
-
+stderr.................................. OK
 exit code............................... OK
 
 [320]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `asdf ': not a valid identifier
-bash: line 0: unset: ` asdf asdf asd f': not a valid identifier
-bash: line 0: unset: ` asdf ': not a valid identifier
-bash: line 0: unset: `': not a valid identifier
-bash: line 0: unset: `asdf ': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [321]----------------------------------------
 command: export A=a B=b C=c; unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '; echo $A$B$C
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `asdf ': not a valid identifier
-bash: line 0: unset: ` asdf asdf asd f': not a valid identifier
-bash: line 0: unset: ` asdf ': not a valid identifier
-bash: line 0: unset: `': not a valid identifier
-bash: line 0: unset: `asdf ': not a valid identifier
-
---> Minishell stderr:
-
+stderr.................................. OK
 exit code............................... OK
 
 [322]----------------------------------------
@@ -2577,106 +2278,50 @@ exit code............................... OK
 [328]----------------------------------------
 command: unset 'HELLO@'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO@': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [329]----------------------------------------
 command: unset "HELLO'"
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO'': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [330]----------------------------------------
 command: unset 'HELLO"'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO"': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [331]----------------------------------------
 command: unset 'HELLO$'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO$': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [332]----------------------------------------
 command: unset 'HELLO!'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO!': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [333]----------------------------------------
 command: unset 'HELLO|'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO|': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [334]----------------------------------------
 command: unset 'HELLO&'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO&': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [335]----------------------------------------
 command: unset 'HELLO\\'
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: unset: `HELLO\\': not a valid identifier
-
---> Minishell stderr:
-
-exit code............................... KO
---> Bash exit code: 1
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 ----------------------------------------
 
 
@@ -2728,11 +2373,7 @@ exit code............................... OK
 
 [342]----------------------------------------
 command: pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -2740,59 +2381,39 @@ exit code............................... OK
 command: pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
 [344]----------------------------------------
 command: pwd hello
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [345]----------------------------------------
 command: pwd 123
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [346]----------------------------------------
 command: pwd 1 2 x 3 hello
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [347]----------------------------------------
 command: pwd .
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [348]----------------------------------------
 command: pwd ..
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -2800,9 +2421,9 @@ exit code............................... OK
 command: unset PWD; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/minishell
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2810,9 +2431,9 @@ exit code............................... OK
 command: unset OLDPWD; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2820,9 +2441,9 @@ exit code............................... OK
 command: unset PWD OLDPWD; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/minishell
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2830,9 +2451,9 @@ exit code............................... OK
 command: export PWD='hello/world'; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/minishell
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2840,9 +2461,9 @@ exit code............................... OK
 command: export PWD='/hello/world/'; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/hello/world/
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2850,9 +2471,9 @@ exit code............................... OK
 command: export PWD='/usr/bin/'; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/usr/bin/
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2860,9 +2481,9 @@ exit code............................... OK
 command: export OLDPWD=abc/def; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
@@ -2870,15 +2491,19 @@ exit code............................... OK
 command: export PWD=hello/world OLDPWD=abc/def; pwd | cat -e
 stdout.................................. KO
 --> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash$
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash$
 --> Minishell stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/minishell
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 
 [357]----------------------------------------
 command: mkdir a a/b; cd a/b; rm -rf ../../a; pwd
-stdout.................................. OK
+stdout.................................. KO
+--> Bash stdout:
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash/a/b
+--> Minishell stdout:
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/minishell
 stderr.................................. OK
 exit code............................... OK
 ----------------------------------------
@@ -2926,21 +2551,13 @@ exit code............................... OK
 
 [364]----------------------------------------
 command: unset PATH; export PWD='/hello/world/'; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/hello/world/
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
 [365]----------------------------------------
 command: unset PATH; export PWD='/usr/bin/'; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/usr/bin/
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 ----------------------------------------
@@ -2958,11 +2575,7 @@ exit code............................... OK
 
 [367]----------------------------------------
 command: CD; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -2974,11 +2587,7 @@ exit code............................... OK
 
 [369]----------------------------------------
 command: Cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3026,11 +2635,7 @@ exit code............................... OK
 
 [377]----------------------------------------
 command: cd existing_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3066,11 +2671,7 @@ exit code............................... OK
 
 [383]----------------------------------------
 command: cd fake_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3082,11 +2683,7 @@ exit code............................... OK
 
 [385]----------------------------------------
 command: cd forbidden_dir; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3098,11 +2695,7 @@ exit code............................... OK
 
 [387]----------------------------------------
 command: cd existing_file; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3114,11 +2707,7 @@ exit code............................... OK
 
 [389]----------------------------------------
 command: cd forbidden_file; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3154,11 +2743,7 @@ exit code............................... OK
 
 [395]----------------------------------------
 command: unset HOME; cd $HOME; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3170,11 +2755,7 @@ exit code............................... OK
 
 [397]----------------------------------------
 command: unset HOME; cd; pwd
-stdout.................................. KO
---> Bash stdout:
-/Users/juls/Desktop/42/M3/Minsh_group/tester/test_cwd/bash
---> Minishell stdout:
-/Users/juls/desktop/42/M3/Minsh_group/tester
+stdout.................................. OK
 stderr.................................. OK
 exit code............................... OK
 
@@ -3404,9 +2985,7 @@ exit code............................... OK
 command: exit -42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 214
---> Minishell exit code: 42
+exit code............................... OK
 
 [434]----------------------------------------
 command: exit 00000000000000000000000000000000000000000000001
@@ -3424,9 +3003,7 @@ exit code............................... OK
 command: exit -00000000000000000000000000000000000000000000001
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 1
+exit code............................... OK
 
 [437]----------------------------------------
 command: exit -00000000000000000000000000000000000000000000000
@@ -3438,63 +3015,37 @@ exit code............................... OK
 command: exit abc
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [439]----------------------------------------
 command: exit abc; echo "Should have exited."
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [440]----------------------------------------
 command: exit --42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [441]----------------------------------------
 command: exit ++42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [442]----------------------------------------
 command: exit - 42
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit: -: numeric argument required
-
---> Minishell stderr:
-exit
-minishell: exit: too many arguments
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 1
+stderr.................................. OK
+exit code............................... OK
 
 [443]----------------------------------------
 command: exit + 42
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit: +: numeric argument required
-
---> Minishell stderr:
-exit
-minishell: exit: too many arguments
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 1
+stderr.................................. OK
+exit code............................... OK
 
 [444]----------------------------------------
 command: exit "0"
@@ -3511,58 +3062,26 @@ exit code............................... OK
 [446]----------------------------------------
 command: exit ""
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit: : numeric argument required
-
---> Minishell stderr:
-exit
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [447]----------------------------------------
 command: exit ''
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit: : numeric argument required
-
---> Minishell stderr:
-exit
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [448]----------------------------------------
 command: exit " "
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit:  : numeric argument required
-
---> Minishell stderr:
-exit
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [449]----------------------------------------
 command: exit ' '
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit:  : numeric argument required
-
---> Minishell stderr:
-exit
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 0
+stderr.................................. OK
+exit code............................... OK
 
 [450]----------------------------------------
 command: exit ' 5'
@@ -3574,57 +3093,43 @@ exit code............................... OK
 command: exit '\t5'
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [452]----------------------------------------
 command: exit '\t\f\r5'
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [453]----------------------------------------
 command: exit '5 '
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 5
---> Minishell exit code: 2
+exit code............................... OK
 
 [454]----------------------------------------
 command: exit '5\t'
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [455]----------------------------------------
 command: exit '5\t\f\r'
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [456]----------------------------------------
 command: exit '5     x'
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [457]----------------------------------------
 command: exit '5\t\t\tx'
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [458]----------------------------------------
 command: exit 42 41
@@ -3642,9 +3147,7 @@ exit code............................... OK
 command: exit abc 42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [461]----------------------------------------
 command: exit 2147483647
@@ -3668,9 +3171,7 @@ exit code............................... OK
 command: exit -2147483649
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 1
+exit code............................... OK
 
 [465]----------------------------------------
 command: exit 9223372036854775807
@@ -3688,49 +3189,37 @@ exit code............................... OK
 command: exit 9223372036854775808
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [468]----------------------------------------
 command: exit -9223372036854775810
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [469]----------------------------------------
 command: exit 9999999999999999999999999999999999999999999999
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [470]----------------------------------------
 command: exit -9999999999999999999999999999999999999999999999
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [471]----------------------------------------
 command: exit _0
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [472]----------------------------------------
 command: exit 0_
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [473]----------------------------------------
 command: exit 5 < valid_infile_1
@@ -3772,9 +3261,7 @@ exit code............................... OK
 command: ls | exit abc 12
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [480]----------------------------------------
 command: exit | ls
@@ -3848,9 +3335,7 @@ exit code............................... OK
 command: unset PATH; exit -42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 214
---> Minishell exit code: 42
+exit code............................... OK
 
 [491]----------------------------------------
 command: unset PATH; exit 00000000000000000000000000000000000000000000001
@@ -3868,79 +3353,49 @@ exit code............................... OK
 command: unset PATH; exit abc
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [494]----------------------------------------
 command: unset PATH; exit abc; echo "Should have exited."
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [495]----------------------------------------
 command: unset PATH; exit --42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [496]----------------------------------------
 command: unset PATH; exit ++42
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [497]----------------------------------------
 command: unset PATH; exit - 42
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit: -: numeric argument required
-
---> Minishell stderr:
-exit
-minishell: exit: too many arguments
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 1
+stderr.................................. OK
+exit code............................... OK
 
 [498]----------------------------------------
 command: unset PATH; exit + 42
 stdout.................................. OK
-stderr.................................. KO
---> Bash stderr:
-bash: line 0: exit: +: numeric argument required
-
---> Minishell stderr:
-exit
-minishell: exit: too many arguments
-
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 1
+stderr.................................. OK
+exit code............................... OK
 
 [499]----------------------------------------
 command: unset PATH; exit 9999999999999999999999999999999999999999999999
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 
 [500]----------------------------------------
 command: unset PATH; exit -9999999999999999999999999999999999999999999999
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 255
---> Minishell exit code: 2
+exit code............................... OK
 ----------------------------------------
 
 
@@ -3994,9 +3449,7 @@ exit code............................... OK
 command: cat <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [509]----------------------------------------
 command: cat < file_does_not_exist
@@ -4068,9 +3521,7 @@ exit code............................... OK
 command: cat < valid_infile_1 <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [521]----------------------------------------
 command: cat < valid_infile_1 < valid_infile_2
@@ -4088,25 +3539,19 @@ exit code............................... OK
 command: cat << < valid_infile_1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [524]----------------------------------------
 command: cat << << valid_infile_1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [525]----------------------------------------
 command: cat <<<< valid_infile_1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 
 [526]----------------------------------------
 command: cat < forbidden_file < valid_infile_1
@@ -4156,9 +3601,7 @@ output files............................ OK
 command: echo hello world >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [533]----------------------------------------
@@ -4423,9 +3866,7 @@ output files............................ OK
 command: echo hello world >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [570]----------------------------------------
@@ -4676,54 +4117,42 @@ infile-outfile
 command: < >> >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [605]----------------------------------------
 command: < > >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [606]----------------------------------------
 command: > < >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [607]----------------------------------------
 command: > >> <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [608]----------------------------------------
 command: >> > <
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [609]----------------------------------------
 command: >> < >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [610]----------------------------------------
@@ -4737,54 +4166,42 @@ output files............................ OK
 command: cat < outfile1 >
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [612]----------------------------------------
 command: cat < outfile1 >>
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [613]----------------------------------------
 command: cat < > outfile1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [614]----------------------------------------
 command: cat < >> outfile1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [615]----------------------------------------
 command: cat > >> outfile1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [616]----------------------------------------
 command: cat >> > outfile1
 stdout.................................. OK
 stderr.................................. OK
-exit code............................... KO
---> Bash exit code: 2
---> Minishell exit code: 0
+exit code............................... OK
 output files............................ OK
 
 [617]----------------------------------------
@@ -5090,7 +4507,7 @@ exit code............................... OK
 
 
 RESULTS
-Total: 660; Fail: 179; Pass: 481
+Total: 660; Fail: 25; Pass: 635
 
 
 NOTICE

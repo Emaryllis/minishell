@@ -55,26 +55,21 @@ char	*get_wd(t_msh *ms, char **cwd, bool p_err)
 //}
 
 /**
- * Simpler version: bash's pwd builtin
+ * Idk why but it seems to check if env PWD is set
+ * & valid dir, then tries to getcwd if it fails...
+ * Then it prints PWD if it isn't empty?
  */
 int	cell_pwd(t_msh *ms)
 {
 	char	*cwd;
+	char	*wd;
 
-	cwd = NULL;
-	cwd = get_env(ms->env, "PWD");
-	if (cwd && cwd[0] == '/')
-	{
-		printf("%s\n", cwd);
-		return (EXIT_SUCCESS);
-	}
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		perror("pwd: error retrieving current directory");
-		return (EXIT_FAILURE);
-	}
-	printf("%s\n", cwd);
-	free(cwd);
+	wd = get_wd(ms, &cwd, false);
+	if (!wd)
+		wd = get_env(ms->env, "PWD");
+	if (wd)
+		printf("%s\n", wd);
+	if (cwd)
+		free(cwd);
 	return (EXIT_SUCCESS);
 }

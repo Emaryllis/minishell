@@ -69,6 +69,11 @@ static long long	ft_atoli(const char *s, bool *invalid)
 	}
 	else if (*s == '+')
 		s++;
+	if (!ft_strlen(s))
+	{
+		*invalid = true;
+		return (0);
+	}
 	r = convert(s, invalid, 0, sign);
 	if (*invalid)
 		return (0);

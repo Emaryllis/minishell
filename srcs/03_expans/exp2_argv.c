@@ -12,6 +12,20 @@
 
 #include "minsh.h"
 
+static void	std_ptr_or_expan(t_expav *v)
+{
+	if (!ft_strchr(v->tmp_argv[v->i], ' ')
+		&& !ft_strchr(v->tmp_argv[v->i], '"')
+		&& !ft_strchr(v->tmp_argv[v->i], '\'')
+		&& !ft_strchr(v->tmp_argv[v->i], '*'))
+		v->output_argv[v->j++] = v->tmp_argv[v->i++];
+	else
+	{
+		strip_split_gmark_loop(v);
+		free(v->tmp_argv[v->i++]);
+	}
+}
+
 /**
  * Expansion of char **argv
  * - Dups raw parser cmd-node argv (unexpanded, with quotes)
@@ -39,16 +53,7 @@ char	**expand_argv(char **raw_argv, int ac, t_msh *ms)
 			v.i++;
 			continue ;
 		}
-		if (!ft_strchr(v.tmp_argv[v.i], ' ')
-			&& !ft_strchr(v.tmp_argv[v.i], '"')
-			&& !ft_strchr(v.tmp_argv[v.i], '\'')
-			&& !ft_strchr(v.tmp_argv[v.i], '*'))
-		{
-			v.output_argv[v.j++] = v.tmp_argv[v.i++];
-			continue ;
-		}
-		strip_split_gmark_loop(&v);
-		free(v.tmp_argv[v.i++]);
+		std_ptr_or_expan(&v);
 	}
 	free(v.tmp_argv);
 	v.output_argv[v.j] = NULL;
@@ -78,20 +83,6 @@ static void	stage_export_tmpav(t_expav *v, char **raw_argv, int *ac, t_msh *ms)
 	v->output_argv = dup_argv(NULL, v->ac_max);
 	v->output_argv[0] = av0_exp[0];
 	free(av0_exp);
-}
-
-static void	std_ptr_or_expan(t_expav *v)
-{
-	if (!ft_strchr(v->tmp_argv[v->i], ' ')
-		&& !ft_strchr(v->tmp_argv[v->i], '"')
-		&& !ft_strchr(v->tmp_argv[v->i], '\'')
-		&& !ft_strchr(v->tmp_argv[v->i], '*'))
-		v->output_argv[v->j++] = v->tmp_argv[v->i++];
-	else
-	{
-		strip_split_gmark_loop(v);
-		free(v->tmp_argv[v->i++]);
-	}
 }
 
 static void	enforce_assgnm_wrap(char *value, t_expav *v)

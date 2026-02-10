@@ -1,0 +1,286 @@
+[009]----------------------------------------
+command: ""
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: : command not found
+
+--> Minishell stderr:
+minishell: : Permission denied
+
+exit code............................... KO
+--> Bash exit code: 127
+--> Minishell exit code: 126
+
+--> Repeated errors: 011
+--> Duplicate of: 043
+
+[010]----------------------------------------
+command: .
+Expected 'command not found' or 'is a directory' error
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: .: filename argument required
+.: usage: . filename [arguments]
+
+--> Minishell stderr:
+minishell: .: Permission denied
+
+exit code............................... KO
+--> Bash exit code: 2
+--> Minishell exit code: 126
+
+[012]----------------------------------------
+command: $
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: $: command not found
+
+--> Minishell stderr:
+minishell: $: No such file or directory
+
+--> Repeated errors: 044, 102, 240, 241, 231, 232, 300, 301, 340, 341, 367 to 369, 427, 428, 648 to 651
+
+[013]----------------------------------------
+command: ./
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ./: Is a directory
+
+--> Minishell stderr:
+minishell: ./: Permission denied
+
+--> Repeated errors: 014, 032
+
+[020]----------------------------------------
+command: .executable_file
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: .executable_file: command not found
+
+--> Minishell stderr:
+minishell: .executable_file: No such file or directory
+
+--> Repeated errors: 021
+
+[024]----------------------------------------
+command: unset PATH; /usr/bin/ls
+exit code............................... KO
+--> Bash exit code: 0
+--> Minishell exit code: 127
+
+[032]----------------------------------------
+command: unset PATH; ..
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: ..: Is a directory
+
+--> Minishell stderr:
+minishell: ..: command not found
+
+exit code............................... KO
+--> Bash exit code: 126
+--> Minishell exit code: 127
+
+--> Repeated errors: 034, 035
+
+[045]----------------------------------------
+command: \t\t\t\t\t\t\t\t\t\t
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: tttttttttt: command not found
+
+--> Minishell stderr:
+minishell: \t\t\t\t\t\t\t\t\t\t: No such file or directory
+
+--> Suspected cause: Not removing backslashes (Not sure if needed since subject says don't need to parse it so idk)
+--> Repeated errors: 046, 047, 051 to 057
+
+[064]----------------------------------------
+command: x | cat valid_infile_1 | grep dream | wc -l
+stderr.................................. KO
+--> Bash stderr:
+cat: valid_infile_1: No such file or directory
+bash: line 1: x: command not found
+
+--> Minishell stderr:
+cat: valid_infile_1: No such file or directory
+minishell: x: No such file or directory
+
+--> Repeated errors: 065, 066
+
+[068]----------------------------------------
+command: x | x | x | x | x
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: x: command not found
+bash: line 1: x: command not found
+bash: line 1: x: command not found
+bash: line 1: x: command not found
+bash: line 1: x: command not found
+
+--> Minishell stderr:
+minishellminishellminishell:::   xxx:::   No such file or directoryNo such file or directory
+No such file or directory
+
+minishell: x: No such file or directory
+minishell: x: No such file or directory
+
+--> Repeated errors: 069
+
+[127]----------------------------------------
+command: echo hello $NOT_A_VAR $NOT_A_VAR $NOT_A_VAR $USER
+stdout.................................. KO
+--> Bash stdout:
+hello egoh
+--> Minishell stdout:
+hello    egoh
+
+--> Suspected cause: Not eliminating empty arguments in variable expansion for non quoted variables
+--> Repeated errors: 128, 129 (Similar: 311)
+
+[134]----------------------------------------
+command: |
+exit code............................... KO
+--> Bash exit code: 2
+--> Minishell exit code: 0
+
+--> Repeated errors: 135 to 190, 195, 196, 508, 520, 523 to 525, 532, 604 to 616
+
+[191]----------------------------------------
+command: < $FAKE_VAR cat
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: $FAKE_VAR: ambiguous redirect
+
+--> Minishell stderr:
+minishell: : No such file or directory
+
+--> Repeated errors: 192
+
+[233]----------------------------------------
+command: env | sort | grep -v SHLVL | grep -v _=
+stdout.................................. KO
+--> Bash stdout:
+<env output>
+--> Minishell stdout:
+
+<env output>
+
+--> Cause: Something is adding a newline at the start of the non builtin commands
+--> Repeated errors: 235, 246
+
+[234]----------------------------------------
+command: env | wc -l
+stdout.................................. KO
+--> Bash stdout:
+39
+--> Minishell stdout:
+
+38
+
+[235]----------------------------------------
+command: env | grep PATH
+stdout.................................. KO
+--> Bash stdout:
+<path>
+--> Minishell stdout:
+
+<path>
+
+[236]----------------------------------------
+command: unset PATH; env | grep PATH
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: env: No such file or directory
+bash: line 1: grep: No such file or directory
+
+--> Minishell stderr:
+minishell: grep: command not found
+
+--> Repeated errors: 237 to 239
+
+[246]----------------------------------------
+command: export =; env | grep = | wc -l
+stdout.................................. KO
+--> Bash stdout:
+39
+--> Minishell stdout:
+
+39
+
+[342]----------------------------------------
+command: pwd
+stdout.................................. KO
+--> Bash stdout:
+/home/ubuntu/Github/Ecole42Minishell/tester/test_cwd/bash
+--> Minishell stdout:
+/home/ubuntu/Github/Ecole42Minishell/tester
+
+--> Suspected cause: Not sure why is this happening, but manually testing reveals no differences
+--> Repeated errors: 343 to 348, 355, 369, 377, 381, 383, 385, 387, 389, 395, 397
+
+[349]----------------------------------------
+command: unset PWD; pwd | cat -e
+stdout.................................. KO
+--> Bash stdout:
+/home/ubuntu/Github/Ecole42Minishell/tester/test_cwd/bash$
+--> Minishell stdout:
+/home/ubuntu/Github/Ecole42Minishell/tester/test_cwd/minishell
+
+--> Suspected cause: Tester running in different directories causing differences
+--> Repeated errors: 351, 352, 356
+
+[353]----------------------------------------
+command: export PWD='/hello/world/'; pwd | cat -e
+stdout.................................. KO
+--> Bash stdout:
+/home/ubuntu/Github/Ecole42Minishell/tester/test_cwd/bash$
+--> Minishell stdout:
+/hello/world/
+
+--> Suspected cause: Outputting pwd env variable when invalid, should fall back to getcwd
+--> Repeated errors: 354, 364, 365, 367
+
+[357]----------------------------------------
+command: mkdir a a/b; cd a/b; rm -rf ../../a; pwd
+stdout.................................. KO
+--> Bash stdout:
+/home/egoh/Documents/Ecole42Minishell/tester/test_cwd/bash/a/b
+--> Minishell stdout:
+
+exit code............................... KO
+--> Bash exit code: 0
+--> Minishell exit code: 1
+----------------------------------------
+
+[442]----------------------------------------
+command: exit - 42
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: exit: -: numeric argument required
+
+--> Minishell stderr:
+exit
+minishell: exit: too many arguments
+
+exit code............................... KO
+--> Bash exit code: 2
+--> Minishell exit code: 1
+
+--> Repeated errors: 443, 497, 498
+
+[446]----------------------------------------
+command: exit ""
+stderr.................................. KO
+--> Bash stderr:
+bash: line 1: exit: : numeric argument required
+
+--> Minishell stderr:
+exit
+
+exit code............................... KO
+--> Bash exit code: 2
+--> Minishell exit code: 0
+
+--> Suspected cause: Not handling empty string as requiring numeric argument
+--> Repeated errors: 447 to 449

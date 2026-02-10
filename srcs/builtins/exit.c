@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:05:29 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/07 17:22:47 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/10 14:55:05 by egoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static long long	convert(const char *s, bool *i, long long r, int sign)
  * @param invalid Pointer to invalid flag
  * @return The converted long integer
  */
-static long int	ft_atoli(const char *s, bool *invalid)
+static long long	ft_atoli(const char *s, bool *invalid)
 {
 	int			sign;
 	long long	r;
@@ -72,7 +72,7 @@ static long int	ft_atoli(const char *s, bool *invalid)
 	r = convert(s, invalid, 0, sign);
 	if (*invalid)
 		return (0);
-	return (sign * r);
+	return (r);
 }
 
 /**
@@ -88,7 +88,7 @@ static int	parse_args(t_msh *ms)
 	if (!ms->args || !ms->args[1])
 		return (INT_MIN);
 	invalid = false;
-	code = ft_atoli(ms->args[1], &invalid);
+	code = ft_atoli(ft_strtrim(ms->args[1], " "), &invalid);
 	if (invalid)
 	{
 		if (isatty(STDIN_FILENO))

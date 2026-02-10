@@ -28,7 +28,7 @@ int	malloc_fail_exit(void)
  * Sets a line from cmd into ms->input.line
  * If semicolon found, sets line up to it
  * If cmd is empty, set eof to true
- * If cmd is has no semicolon, set line to entire cmd
+ * If cmd has no semicolon, set line to entire cmd
  * Updates the cmd pointer to after the processed line
  * @param cmd The string that holds unparsed commands
  */

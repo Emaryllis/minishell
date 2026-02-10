@@ -24,7 +24,7 @@ static char	*hdoc_lim_strip(char *raw_lim)
 	int		i;
 
 	out_lim = ft_strdup(raw_lim);
-	quote = NO_QUOTE;
+	quote = NO_QT;
 	i = 0;
 	while (*raw_lim)
 	{

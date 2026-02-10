@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:10:21 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/07 17:03:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/10 13:16:14 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static char	**expand_target(char *target, t_msh *ms)
 	tmp_argv[0] = target;
 	tmp_argv[1] = NULL;
 	expd_rdr_tgt = expand_argv(tmp_argv, 1, ms);
-	if ((expd_rdr_tgt[1] != NULL) && ms_perr_exstat(target, MS_ER_AMBRDR))
+	if ((expd_rdr_tgt[0] == NULL || expd_rdr_tgt[1] != NULL)
+		&& ms_perr_exstat(target, MS_ER_AMBRDR))
 		return (free_2darr((void **)expd_rdr_tgt), NULL);
 	return (expd_rdr_tgt);
 }

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 17:09:24 by julhong           #+#    #+#             */
-/*   Updated: 2026/02/08 02:30:46 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/10 10:23:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,13 @@ int	exc_hdl_cmd(t_ast *cmd_node, t_exctx ctx, t_msh *ms)
 		fork_set_ch(&ctx, 0);
 	ms->args = expand_argv(cmd_node->cmd_av, cmd_node->cmd_ac, ms);
 	debug_pr_fargv(ms->args);
-	if (!ms->args[0])
+	if (!ms->args[0] || ft_strcmp(ms->args[0], ".") == 0)
 	{
 		if (!run_redirs(cmd_node->redir_start, &ctx, ms))
 			return (ch_msh_clean(ctx, ms), EXIT_FAILURE);
+		if (ms->args[0] && ft_strcmp(ms->args[0], ".") == 0)
+			return (gen_perr(ms->args[0], "is a directory", MS_ER_BADBLTIN)
+				, ch_msh_clean(ctx, ms), MS_ER_BADBLTIN);
 		return (ch_msh_clean(ctx, ms), EXIT_SUCCESS);
 	}
 	if (is_builtin(ms->args[0]))

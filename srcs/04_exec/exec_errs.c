@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 16:11:53 by julhong           #+#    #+#             */
-/*   Updated: 2026/01/29 22:05:44 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/10 10:08:55 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,13 @@ int	ms_perr_exstat(char *err_src, int exstat)
 	else if (exstat == MS_ER_NOTEXEC)
 		err_msg = "Permission denied";
 	ft_printfd(2, "%s: %s: %s\n", NAME, err_src, err_msg);
+	return (exstat);
+}
+
+int	gen_perr(char *tgt, char *msg, int exstat)
+{
+	if (!msg)
+		msg = strerror(errno);
+	ft_printfd(2, NAME": %s: %s\n", tgt, msg);
 	return (exstat);
 }

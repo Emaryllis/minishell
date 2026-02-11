@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dynamic_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 03:25:27 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/08 02:52:29 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/12 00:08:29 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,33 @@ void	array_free(t_array *arr)
 	arr->capacity = 0;
 }
 
+static bool	xtra_env_settings(t_array *arr)
+{
+	t_env	item;
+	char	*shlvl;
+
+	if (get_env(arr, "OLDPWD") == NULL)
+	{
+		item = (t_env){ft_strdup("OLDPWD"), ft_strdup(""), true};
+		if (!array_push(arr, item, false))
+			return (free(item.key), free(item.value), array_free(arr), false);
+	}
+	shlvl = get_env(arr, "SHLVL");
+	if (!shlvl)
+	{
+		item = (t_env){ft_strdup("SHLVL"), ft_strdup("1"), true};
+		if (!array_push(arr, item, false))
+			return (free(item.key), free(item.value), array_free(arr), false);
+	}
+	else
+	{
+		shlvl = ft_itoa(ft_atoi(shlvl) + 1);
+		set_env(arr, "SHLVL", shlvl);
+		free(shlvl);
+	}
+	return (true);
+}
+
 /**
  * Initializes a dynamic array with
  * environment variables using [data].
@@ -142,11 +169,7 @@ bool	init_array(t_array *arr, char **data)
 			return (free(item.key), free(item.value), array_free(arr), false);
 		i++;
 	}
-	if (get_env(arr, "OLDPWD") == NULL)
-	{
-		item = (t_env){ft_strdup("OLDPWD"), ft_strdup(""), true};
-		if (!array_push(arr, item, false))
-			return (free(item.key), free(item.value), array_free(arr), false);
-	}
+	if (!xtra_env_settings(arr))
+		return (false);
 	return (true);
 }

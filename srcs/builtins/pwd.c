@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:06:27 by egoh              #+#    #+#             */
-/*   Updated: 2025/12/30 14:24:32 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/13 01:07:05 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int	cell_pwd(t_msh *ms)
 	if (!wd)
 		wd = get_env(ms->env, "PWD");
 	if (wd)
-		printf("%s\n", wd);
+	{
+		if (ft_printf("%s\n", wd) == -1)
+			return (perror(NAME": write error"), EXIT_FAILURE);
+	}
 	if (cwd)
 		free(cwd);
 	return (EXIT_SUCCESS);

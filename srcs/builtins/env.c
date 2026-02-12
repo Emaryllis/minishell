@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:26 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/05 16:47:02 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/13 01:00:36 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ int	cell_env(t_msh *ms)
 	while (i < arr->used_slots)
 	{
 		if (arr->data[i].key && arr->data[i].value && !arr->data[i].is_nul)
-			printf("%s=%s\n", arr->data[i].key, arr->data[i].value);
+		{
+			if (ft_printf("%s=%s\n"
+					, arr->data[i].key, arr->data[i].value) == -1)
+				return (perror(NAME": write error"), EXIT_FAILURE);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);

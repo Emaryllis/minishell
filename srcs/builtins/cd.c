@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:08:37 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/04 20:52:43 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/13 01:40:47 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ static char	*handle_tilde(t_msh *ms)
 
 static char	*handle_env_target(t_msh *ms, char *key)
 {
+	t_env	*tgt_env;
 	char	*target;
 
-	target = get_env(ms->env, key);
-	if (!target)
+	tgt_env = get_env_struct(ms->env, key);
+	if (!tgt_env || tgt_env->is_nul)
 		return (ft_printfd(2, NAME": cd: %s not set\n", key), NULL);
-	target = ft_strdup(target);
+	target = ft_strdup(tgt_env->value);
 	if (!target)
 		return (malloc_error(0), NULL);
 	return (target);

@@ -6,7 +6,7 @@
 /*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:32:31 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/08 03:11:21 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/13 01:31:01 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,24 @@ char	*get_env(t_array *env, const char *key)
 		item = &env->data[i];
 		if (item->key && !ft_strcmp(item->key, key))
 			return (item->value);
+		i++;
+	}
+	return (NULL);
+}
+
+t_env	*get_env_struct(t_array *env, const char *key)
+{
+	size_t	i;
+	t_env	*item;
+
+	if (!env || !key)
+		return (NULL);
+	i = 0;
+	while (i < env->used_slots)
+	{
+		item = &env->data[i];
+		if (item->key && !ft_strcmp(item->key, key))
+			return (item);
 		i++;
 	}
 	return (NULL);

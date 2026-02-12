@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:07:46 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/08 03:31:49 by egoh             ###   ########.fr       */
+/*   Updated: 2026/02/13 01:12:04 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,32 @@ static void	parse_args(t_msh *ms, t_env *i, size_t j, int *ret)
 	free(i->value);
 }
 
-static void	print_export(const t_array *arr)
+static int	print_export(const t_array *arr)
 {
 	t_env	*sorted;
 	size_t	i;
 
 	sorted = quicksort_env(arr);
 	if (!sorted)
-		return ;
+		return (EXIT_FAILURE);
 	i = 0;
 	while (i < arr->used_slots)
 	{
 		if (sorted[i].key && sorted[i].value && !sorted[i].is_nul)
-			printf("declare -x %s=\"%s\"\n", sorted[i].key, sorted[i].value);
+		{
+			if (ft_printf("declare -x %s=\"%s\"\n"
+					, sorted[i].key, sorted[i].value) == -1)
+				return (perror(NAME": write error"), EXIT_FAILURE);
+		}
 		else if (sorted[i].key && sorted[i].is_nul)
-			printf("declare -x %s\n", sorted[i].key);
+		{
+			if (ft_printf("declare -x %s\n", sorted[i].key) == -1)
+				return (perror(NAME": write error"), EXIT_FAILURE);
+		}
 		i++;
 	}
 	free(sorted);
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -73,10 +81,7 @@ int	cell_export(t_msh *ms)
 	if (!ms->env || !ms->args)
 		return (EXIT_SUCCESS);
 	if (ms->args[0] && !ms->args[1])
-	{
-		print_export(ms->env);
-		return (EXIT_SUCCESS);
-	}
+		return (print_export(ms->env));
 	i = 0;
 	code = EXIT_SUCCESS;
 	while (ms->args[++i])

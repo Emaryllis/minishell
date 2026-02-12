@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egoh <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: julhong <julhong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 13:06:52 by egoh              #+#    #+#             */
-/*   Updated: 2026/02/01 15:19:40 by julhong          ###   ########.fr       */
+/*   Updated: 2026/02/13 01:09:46 by julhong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	cell_echo(t_msh *ms)
 	while (ms->args[i])
 	{
 		if (ft_printf("%s", ms->args[i]) == -1)
-			return (perror(NAME": echo: write error"), EXIT_FAILURE);
+			return (perror(NAME": write error"), EXIT_FAILURE);
 		if (ms->args[i + 1] && ft_printf(" ") == -1)
-			return (perror(NAME": echo: write error"), EXIT_FAILURE);
+			return (perror(NAME": write error"), EXIT_FAILURE);
 		i++;
 	}
 	if (nl && ft_printf("\n") == -1)
-		return (perror(NAME": echo: write error"), EXIT_FAILURE);
+		return (perror(NAME": write error"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

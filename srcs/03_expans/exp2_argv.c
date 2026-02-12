@@ -106,7 +106,8 @@ char	**export_expn_argv(char **raw_argv, int ac, t_msh *ms)
 	v.i = 1;
 	while (v.i < ac)
 	{
-		if (split_env(v.tmp_argv[v.i], &env.key, &env.value, &env.is_nul) != 1)
+		if (split_env(v.tmp_argv[v.i], &env.key, &env.value, &env.is_nul) != 1
+			|| (env.is_nul == true && (free(env.key), free(env.value), true)))
 		{
 			v.tmp_argv[v.i] = expand_str_envs(v.tmp_argv[v.i], ms, 0);
 			std_ptr_or_expan(&v);

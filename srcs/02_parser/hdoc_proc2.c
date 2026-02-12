@@ -17,7 +17,7 @@
  * - since the delim is a word token str and is not expanded,
  * 	it will not contain non-quoted spaces and will not be split
  */
-static char	*hdoc_lim_strip(char *raw_lim)
+char	*quote_strip(char *raw_lim)
 {
 	char	*out_lim;
 	t_quote	quote;
@@ -42,7 +42,7 @@ static bool	init_hdoc(t_hdoc *hd, t_redir *r)
 		return (perror(NAME": pipe"), false);
 	hd->do_expans = !(ft_strchr(r->target, '\'') || ft_strchr(r->target, '"'));
 	r->hd_expans = hd->do_expans;
-	hd->lim = hdoc_lim_strip(r->target);
+	hd->lim = quote_strip(r->target);
 	hd->lim_len = ft_strlen(hd->lim);
 	return (true);
 }

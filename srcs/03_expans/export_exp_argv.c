@@ -62,23 +62,10 @@ static void	stage_export_tmpav(t_expav *v, char **raw_argv, int *ac, t_msh *ms)
 	free(av0_exp);
 }
 
-static char	*enforce_assgnm_wrap(char *value, t_expav *v)
-{
-	if (!(value[0] == '\'' || value[0] == '"'))
-	{
-		v->tmp_argv[v->i] = str3join("\"", value, "\"");
-		free(value);
-	}
-	else
-		v->tmp_argv[v->i] = value;
-	return (v->tmp_argv[v->i]);
-}
-
 char	**export_expn_argv(char **raw_argv, int ac, t_msh *ms)
 {
 	t_expav	v;
 	t_env	env;
-	char	*expnd_val;
 
 	stage_export_tmpav(&v, raw_argv, &ac, ms);
 	v.i = 1;
@@ -90,13 +77,12 @@ char	**export_expn_argv(char **raw_argv, int ac, t_msh *ms)
 			std_expn_outp(&v, ms);
 			continue ;
 		}
-		env.value = expand_str_envs(env.value, ms, 0);
 		free(v.tmp_argv[v.i]);
-		v.tmp_argv[v.i] = enforce_assgnm_wrap(env.value, &v);
-		strip_split_gmark_loop(&v);
-		expnd_val = v.output_argv[v.j - 1];
-		v.output_argv[v.j - 1] = str3join(env.key, "=", expnd_val);
-		if (free(env.key), free(expnd_val), free(v.tmp_argv[v.i++]), true)
+		env.value = expand_str_envs(env.value, ms, 0);
+		v.tmp_argv[v.i] = quote_strip(env.value);
+		free(env.value);
+		v.output_argv[v.j++] = str3join(env.key, "=", v.tmp_argv[v.i]);
+		if (free(env.key), free(v.tmp_argv[v.i++]), true)
 			continue ;
 	}
 	return (free(v.tmp_argv), v.output_argv[v.j] = NULL, v.output_argv);

@@ -266,6 +266,7 @@ t_redir		*new_redir_node(t_toktype type);
 void		append_redir(t_redir **start, t_redir *new);
 void		collect_hdoc(t_redir **hdoc_start, t_redir *new_hdoc);
 int			resolve_hdocs(t_redir *cur_hdoc, t_msh *ms);
+char		*quote_strip(char *raw_lim);
 int			heredoc_isatty(t_redir *r, t_msh *ms);
 int			heredoc_notatty(t_redir *r, t_msh *ms, int fd);
 

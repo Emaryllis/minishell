@@ -1,4 +1,3 @@
-.assets
 .idea
 libft/test*
 libft/.rsync_exclude
@@ -7,6 +6,7 @@ tester
 very_long*
 .gitmodules
 CMakeL*
+errors.txt
 new_subj*
 readline.supp
 README.html

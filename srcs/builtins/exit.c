@@ -87,29 +87,31 @@ static long long	ft_atoli(const char *s, bool *invalid)
  */
 static int	parse_args(t_msh *ms)
 {
+	char		*arg;
 	long long	code;
 	bool		invalid;
 
 	if (!ms->args || !ms->args[1])
 		return (INT_MIN);
 	invalid = false;
-	code = ft_atoli(ft_strtrim(ms->args[1], " "), &invalid);
+	arg = ft_strtrim(ms->args[1], " ");
+	code = ft_atoli(arg, &invalid);
 	if (invalid)
 	{
 		if (isatty(STDIN_FILENO))
 			ft_printfd(2, "exit\n");
 		ft_printfd(2, NAME": exit: %s: numeric argument required\n",
 			ms->args[1]);
-		return (INT_MIN + 1);
+		return (free(arg), INT_MIN + 1);
 	}
 	if (ms->args[2])
 	{
 		if (isatty(STDIN_FILENO))
 			ft_printfd(2, "exit\n");
 		ft_printfd(2, NAME": exit: too many arguments\n");
-		return (INT_MIN + 2);
+		return (free(arg), INT_MIN + 2);
 	}
-	return ((code % 256 + 256) % 256);
+	return (free(arg), (code % 256 + 256) % 256);
 }
 
 /**

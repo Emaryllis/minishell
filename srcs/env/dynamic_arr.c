@@ -132,7 +132,7 @@ static bool	xtra_env_settings(t_array *arr)
 	shlvl = get_env(arr, "SHLVL");
 	if (!shlvl)
 	{
-		item = (t_env){ft_strdup("SHLVL"), ft_strdup("1"), true};
+		item = (t_env){ft_strdup("SHLVL"), ft_strdup("1"), false};
 		if (!array_push(arr, item, false))
 			return (free(item.key), free(item.value), array_free(arr), false);
 	}

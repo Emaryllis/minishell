@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Ecole42Minishell.iml" filepath="$PROJECT_DIR$/.idea/Ecole42Minishell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/minishell.iml" filepath="$PROJECT_DIR$/.idea/minishell.iml" />
     </modules>
   </component>
 </project>
